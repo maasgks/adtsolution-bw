@@ -2127,3 +2127,29 @@ html body :is(#staticBackdrop, .modal) .multi-step-booking-form .booking-sla { d
   html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) { padding: 22px 18px 20px !important; }
   html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > h2 { font-size: 23px !important; }
 }
+
+/* ---------- 32. Header menus: dim the page while a menu is open ------------------------------- */
+/* The site only dimmed the page for the Solution menu (a faint layer from its own script) and
+   not for Resources. Now any open header menu (Solution, Resources, or the phone menu) fades the
+   page behind it to a soft, slightly blurred dark, in both header states; the header and the menu
+   stay bright on top. Clicking the dimmed area closes the menu (mono.js). */
+html body.menu-open::before { display: none !important; }
+html body::after {
+  content: ""; position: fixed; inset: 0; z-index: 998;
+  background: rgba(9, 9, 9, .4); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .35s var(--mono-ease), visibility 0s linear .35s;
+}
+html:has(.header .navbar-nav > li > .dropdown-menu.show) body::after,
+html:has(.header .navbar-collapse.show) body::after {
+  opacity: 1; visibility: visible; pointer-events: auto; cursor: pointer;
+  transition: opacity .35s var(--mono-ease), visibility 0s;
+}
+/* the certification strip sits in the header block, so it would stay lit: dim it with the page */
+html body .header_marquee .marquee_section2 { transition: height .5s var(--mono-ease-out), opacity .35s var(--mono-ease), filter .35s var(--mono-ease) !important; }
+html:has(.header .navbar-nav > li > .dropdown-menu.show) .header_marquee .marquee_section2,
+html:has(.header .navbar-collapse.show) .header_marquee .marquee_section2 { filter: brightness(.45); }
+@media (prefers-reduced-motion: reduce) { html body::after { transition: none; } }
+/* the glass capsule would let the dim show through: solid white while its menu is open */
+html.mono-scrolled:has(.header .navbar-nav > li > .dropdown-menu.show) body .header_marquee .header::before,
+html.mono-scrolled:has(.header .navbar-collapse.show) body .header_marquee .header::before { background: #fff; }

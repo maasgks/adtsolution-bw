@@ -730,6 +730,24 @@
     requestAnimationFrame(frame);
   })();
 
+  /* ---------- header menus: dimmed page ---------- */
+  // While a header menu is open the page behind is dimmed (mono.css §32, drawn as body::after, so a
+  // click on the dim lands on <body>). Bootstrap already closes dropdowns on an outside click; the
+  // phone menu (a collapse) does not, so close it here. Without smooth scrolling (touch), lock the
+  // page for every header dropdown, not just Solution as the site's own script did.
+  d.addEventListener('click', function (e) {
+    if (e.target !== d.body) return;
+    var open = d.querySelector('.header .navbar-collapse.show');
+    var toggler = open && d.querySelector('.header .navbar-toggler');
+    if (toggler) toggler.click();
+  });
+  d.addEventListener('show.bs.dropdown', function (e) {
+    if (!window.monoLenis && e.target.closest && e.target.closest('.header')) html.style.overflow = 'hidden';
+  });
+  d.addEventListener('hidden.bs.dropdown', function (e) {
+    if (!window.monoLenis && e.target.closest && e.target.closest('.header') && !d.querySelector('.header .dropdown-menu.show')) html.style.overflow = '';
+  });
+
   /* ---------- smooth scrolling ---------- */
   // Lenis eases mouse-wheel scrolling on every page. Touch screens keep native scrolling, and so do
   // visitors who ask for reduced motion. Dialogs, menus and dropdowns scroll natively inside, the
@@ -751,6 +769,11 @@
       window.monoLenis = lenis;
       d.addEventListener('show.bs.modal', function () { lenis.stop(); });
       d.addEventListener('hidden.bs.modal', function () { if (!d.querySelector('.modal.show')) lenis.start(); });
+      // header menus hold the page still too (mono.css §32 dims it)
+      d.addEventListener('show.bs.dropdown', function (e) { if (e.target.closest && e.target.closest('.header')) lenis.stop(); });
+      d.addEventListener('hidden.bs.dropdown', function (e) {
+        if (e.target.closest && e.target.closest('.header') && !d.querySelector('.header .dropdown-menu.show, .modal.show')) lenis.start();
+      });
     };
     d.head.appendChild(s);
   })();
