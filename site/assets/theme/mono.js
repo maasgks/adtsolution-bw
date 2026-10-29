@@ -3,6 +3,7 @@
 (function () {
   'use strict';
   var d = document, html = d.documentElement;
+  var SELF = d.currentScript && d.currentScript.src;          // locates lenis.min.js next to this file
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Containers whose children must never be hidden/animated: carousels move
@@ -16,13 +17,15 @@
   bar.id = 'mono-progress';
   bar.setAttribute('aria-hidden', 'true');
   d.body.appendChild(bar);
-  var ticking = false;
+  var ticking = false, scrolled = false;
   function onScroll() {
     if (ticking) return; ticking = true;
     requestAnimationFrame(function () {
       var max = html.scrollHeight - innerHeight;
       bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, scrollY / max) : 0) + ')';
-      html.classList.toggle('mono-scrolled', scrollY > 24);
+      // header capsule: on past 32px, off only back near the top, so it never flickers mid-scroll
+      var next = scrolled ? scrollY > 8 : scrollY > 32;
+      if (next !== scrolled) { scrolled = next; html.classList.toggle('mono-scrolled', scrolled); }
       ticking = false;
     });
   }
@@ -672,6 +675,31 @@
   ['shown.bs.modal', 'shown.bs.tab', 'shown.bs.collapse', 'shown.bs.dropdown'].forEach(function (ev) {
     d.addEventListener(ev, function () { setTimeout(buttons, 50); });
   });
+  /* ---------- smooth scrolling ---------- */
+  // Lenis eases mouse-wheel scrolling on every page. Touch screens keep native scrolling, and so do
+  // visitors who ask for reduced motion. Dialogs, menus and dropdowns scroll natively inside, the
+  // page stops behind an open modal, and in-page anchor links glide to their target below the header.
+  (function smoothScroll() {
+    if (reduce || !SELF || !window.matchMedia || !matchMedia('(pointer: fine)').matches) return;
+    var s = d.createElement('script');
+    s.src = SELF.replace(/mono\.js(\?.*)?$/, 'lenis.min.js');
+    s.async = true;
+    s.onload = function () {
+      if (typeof window.Lenis !== 'function') return;
+      var lenis = new window.Lenis({
+        lerp: 0.1, smoothWheel: true, syncTouch: false, autoRaf: true, allowNestedScroll: true,
+        anchors: { offset: -100 },
+        prevent: function (node) {
+          return !!(node && node.closest && node.closest('.modal, .klaro, .dropdown-menu, .navbar-collapse, .select2-container, .offcanvas, [data-lenis-prevent], textarea, iframe'));
+        }
+      });
+      window.monoLenis = lenis;
+      d.addEventListener('show.bs.modal', function () { lenis.stop(); });
+      d.addEventListener('hidden.bs.modal', function () { if (!d.querySelector('.modal.show')) lenis.start(); });
+    };
+    d.head.appendChild(s);
+  })();
+
   var clickT;
   d.addEventListener('click', function () { clearTimeout(clickT); clickT = setTimeout(buttons, 400); }, true);
 })();
