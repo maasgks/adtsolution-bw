@@ -2045,7 +2045,7 @@ html body img[src*="menu_icon_comparisons"] { filter: brightness(0); opacity: .9
    Phones and tablets keep one column, left-aligned, with the badges in a row above the form. */
 html body :is(#staticBackdrop, .modal):has(.multi-step-booking-form) .modal-dialog { max-width: 960px !important; width: calc(100% - 32px) !important; margin-left: auto !important; margin-right: auto !important; }
 html body :is(#staticBackdrop, .modal):has(.multi-step-booking-form) .modal-content {
-  border: 0 !important; border-radius: 24px !important; overflow: hidden;
+  border: 0 !important; border-radius: 24px !important; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
   box-shadow: 0 50px 100px -40px rgba(0, 0, 0, .6), 0 0 0 1px rgba(0, 0, 0, .04) !important;
 }
 html body .modal-backdrop.show:has(~ .modal .multi-step-booking-form), html body:has(.modal.show .multi-step-booking-form) .modal-backdrop.show { opacity: 1 !important; background: rgba(10, 10, 10, .55) !important; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
@@ -2161,4 +2161,52 @@ html.mono-scrolled:has(.header .navbar-collapse.show) body .header_marquee .head
     box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .35) !important;
   }
   html:not(.mono-scrolled) body .header_marquee .header .navbar-nav > li > .dropdown-menu .booking_close { border-radius: 0 0 20px 20px; }
+}
+
+/* ---------- 33. Phones: polish for the new pieces --------------------------------------------- */
+@media (max-width: 767.98px) {
+  /* menu at the top of the page: the card hangs from the bar with rounded bottom corners, and long
+     menus (Solution / Resources expanded) scroll inside it instead of running off the screen */
+  html:not(.mono-scrolled) body .header_marquee .header .navbar-collapse {
+    border-radius: 0 0 20px 20px !important; box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .4) !important;
+    max-height: calc(100vh - 96px); max-height: calc(100dvh - 96px); overflow-y: auto; overscroll-behavior: contain;
+  }
+  html.mono-scrolled body .header_marquee .header .navbar-collapse { max-height: calc(100dvh - 100px); overscroll-behavior: contain; }
+  /* expanded sub-menus inside the phone menu: flatter, no nested card */
+  html body .header .navbar-collapse .dropdown-menu { box-shadow: none !important; border: 0 !important; border-radius: 14px !important; background: #f7f7f8 !important; margin: 4px 0 10px !important; }
+  html body .header .navbar-collapse .menu_drop_column a { padding: 12px !important; }
+
+  /* cookie banner: compact card, both actions side by side */
+  html body .klaro .cookie-notice:not(.cookie-modal-notice) { padding: 16px !important; border-radius: 16px !important; }
+  html body .klaro .cookie-notice:not(.cookie-modal-notice) .cn-body h2 { font-size: 15px !important; }
+  html body .klaro .cookie-notice:not(.cookie-modal-notice) .cn-body p { font-size: 13.5px !important; line-height: 1.5 !important; }
+  html body .klaro .cookie-notice:not(.cookie-modal-notice) .cn-ok { flex-direction: row !important; align-items: stretch !important; gap: 8px !important; margin-top: 8px !important; }
+  html body .klaro .cookie-notice:not(.cookie-modal-notice) .cn-ok > *, html body .klaro .cookie-notice:not(.cookie-modal-notice) .cn-buttons .cm-btn { flex: 1 1 0 !important; width: auto !important; }
+  html body .klaro .cookie-notice .cn-learn-more, html body .klaro .cookie-notice .cm-btn { min-height: 42px !important; padding: 0 12px !important; font-size: 13.5px !important; }
+
+  /* cookie preferences: fits the screen with a margin, scrolls inside, full-width actions */
+  html body .klaro .cookie-modal .cm-modal.cm-klaro {
+    width: calc(100% - 20px) !important; max-width: none !important; margin: 0 auto !important;
+    left: 0 !important; right: 0 !important; max-height: calc(100dvh - 24px) !important; overflow-y: auto !important;
+    border-radius: 18px !important;
+  }
+  html body .klaro .cookie-modal .cm-modal .cm-header { padding: 20px 18px 14px !important; }
+  html body .klaro .cookie-modal .cm-modal .cm-header h1 { font-size: 18px !important; }
+  html body .klaro .cookie-modal .cm-modal .cm-header p { font-size: 13.5px !important; }
+  html body .klaro .cookie-modal .cm-modal .cm-body { padding: 4px 18px !important; }
+  html body .klaro .cookie-modal .cm-modal .cm-footer { padding: 14px 18px 18px !important; }
+  html body .klaro .cookie-modal .cm-modal .cm-footer-buttons { flex-direction: column !important; align-items: stretch !important; }
+  html body .klaro .cookie-modal .cm-modal .cm-footer-buttons .cm-btn { width: 100% !important; }
+  html body .klaro .cookie-modal .cm-modal .hide { top: 14px !important; right: 14px !important; }
+}
+/* wide tables (added by mono.js only where a table is wider than its column): scroll sideways */
+.mono-table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; margin: 0 0 1rem; border-radius: 12px; }
+.mono-table-scroll > table { margin-bottom: 0 !important; width: 520px !important; min-width: 100%; max-width: none !important; overflow: visible !important; }
+html body .mono-table-scroll > table th, html body .mono-table-scroll > table td { white-space: normal !important; min-width: 120px; }
+@media (max-width: 767.98px) {
+  /* bottom bar of an expanded menu inside the phone menu: one tidy row */
+  html body .header .navbar-collapse .booking_close .close_menu { display: flex !important; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px !important; }
+  html body .header .navbar-collapse .booking_close .close_menu p { display: flex !important; align-items: center; gap: 10px; margin: 0 !important; white-space: nowrap; font-size: 14px !important; }
+  html body .header .navbar-collapse .booking_close .close_menu p a { padding: 0 !important; border: 0 !important; }
+  html body .header .navbar-collapse .booking_close .close_menu p > span { color: #d4d4d8 !important; }
 }

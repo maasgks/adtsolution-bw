@@ -669,6 +669,21 @@
     });
   }
 
+  // Tables wider than their column (cookie policy, some country guides on phones) would be cut off:
+  // wrap just those in a sideways-scrolling box (mono.css §33). Tables that fit are left alone.
+  function wideTables() {
+    d.querySelectorAll('table').forEach(function (t) {
+      var p = t.parentElement;
+      if (!p || p.classList.contains('mono-table-scroll') || t.closest('.table-responsive, .modal, .klaro')) return;
+      // too wide for its column, or its cells spill past its own (clipped, rounded) edge
+      if (t.scrollWidth <= Math.min(p.clientWidth, t.clientWidth) + 1) return;
+      var w = d.createElement('div');
+      w.className = 'mono-table-scroll';
+      p.insertBefore(w, t);
+      w.appendChild(t);
+    });
+  }
+
   function boot() {
     try { demoPoints(); } catch (e) { }
     try { unshout(); } catch (e) { }
@@ -681,7 +696,7 @@
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', boot); else boot();
   addEventListener('load', function () {
     var idle = window.requestIdleCallback || function (f) { return setTimeout(f, 200); };
-    idle(function () { buttons(); try { guardContrast(); } catch (e) { } });
+    idle(function () { buttons(); try { guardContrast(); } catch (e) { } try { wideTables(); } catch (e) { } });
     setTimeout(buttons, 2500);                                   // late site CSS / lazy blocks
     d.querySelectorAll('img').forEach(markBroken);
     setTimeout(function () { showWow(typeof window.WOW === 'undefined'); }, 1500);
