@@ -2210,3 +2210,52 @@ html body .mono-table-scroll > table th, html body .mono-table-scroll > table td
   html body .header .navbar-collapse .booking_close .close_menu p a { padding: 0 !important; border: 0 !important; }
   html body .header .navbar-collapse .booking_close .close_menu p > span { color: #d4d4d8 !important; }
 }
+
+/* ==========================================================================
+   34. Home hero video: the box follows the video's 16:9 shape so the whole
+       frame is visible (it was cropped at the sides), and "Watch video"
+       sits above the video instead of underneath it.
+   ========================================================================== */
+html body .home_banner .banner_video {
+  height: auto !important;
+  aspect-ratio: 16 / 9 !important;
+  background: #f1ece6;
+  box-shadow: 0 24px 60px -28px rgba(17, 17, 17, .35);
+  isolation: isolate;
+}
+@media (min-width: 768px) {
+  html body .home_banner .banner_right { display: flex; align-items: center; justify-content: flex-end; }
+  html body .home_banner .banner_right > .banner_video { float: none !important; margin: 0 0 0 auto !important; }
+}
+html body .home_banner .banner_video > img,
+html body .home_banner .banner_video > video { object-fit: cover; object-position: center; }
+html body .home_banner .banner_video > a.common_btn_orange {
+  z-index: 2;
+  top: auto !important; left: auto !important;
+  bottom: 18px !important; right: 18px !important;
+  width: auto !important; max-width: none !important; min-width: 0 !important;
+  height: auto !important; min-height: 0 !important;
+  gap: 10px; padding: 9px 10px 9px 18px !important;
+  font-size: 15px !important; line-height: 1.2 !important;
+  background: rgba(17, 17, 17, .82) !important; border-color: transparent !important;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  box-shadow: 0 8px 24px -10px rgba(0, 0, 0, .5);
+  transition: transform .25s ease, background-color .25s ease;
+}
+html body .home_banner .banner_video > a.common_btn_orange:hover { transform: translateY(-1px); background: #111 !important; }
+html body .home_banner .banner_video > a.common_btn_orange img {
+  position: static !important; display: block !important;
+  width: 26px !important; max-width: 26px !important; height: 26px !important; margin: 0 !important;
+}
+@media (max-width: 767.98px) {
+  html body .home_banner .banner_video {
+    width: 100% !important; max-width: 520px !important; height: auto !important;
+    margin: 28px auto 0 !important; border-radius: 18px !important;
+  }
+  html body .banner.home_banner { padding-bottom: 28px !important; }
+  html body .home_banner .banner_video > a.common_btn_orange {
+    bottom: 10px !important; right: 10px !important;
+    padding: 6px 7px 6px 13px !important; font-size: 13px !important; gap: 8px;
+  }
+  html body .home_banner .banner_video > a.common_btn_orange img { width: 22px !important; max-width: 22px !important; height: 22px !important; }
+}
