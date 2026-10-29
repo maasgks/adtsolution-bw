@@ -1,0 +1,9 @@
+/* Custom overrides for form styling and marquee behavior. */
+
+.marquee2 ul {
+  animation: 30s linear infinite scroll;
+}
+
+.marquee2 .hide_marquee {
+  display: inline-flex;
+}

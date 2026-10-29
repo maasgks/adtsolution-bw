@@ -1,0 +1,443 @@
+/* css/exit-intent.css */
+.exit-intent-modal-content {
+    border-radius: 20px;
+    border: none;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    font-family: 'Inter',sans-serif;
+}
+
+.exit-intent-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 10;
+    opacity: 0.5;
+    background-size: 1em;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: none;
+    font-size: 17.8px;
+    cursor: pointer;
+    /* DAS-663 — Bootstrap's .btn-close is a ~24px target. Widened to 40px so the
+       first tap lands on it, on touch screens as well as with a mouse. */
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.exit-intent-close:hover {
+    opacity: 1;
+}
+
+/* ---------------------------------------------------------------------------
+   DAS-663 — Overlay layering: HubSpot chat vs. site pop-ups.
+
+   HubSpot injects #hubspot-messages-iframe-container as a direct child of <body>
+   with an inline z-index of 2147483647, i.e. above every Bootstrap modal (1055).
+   Its hit box extends past the visible bubble, so when the exit-intent / 15s
+   pop-up was showing, clicks aimed at the pop-up — the Close button above all —
+   were swallowed by the chat container. That is the reported dead click: the user
+   had to dismiss the chat bubble first and only then could close the pop-up.
+
+   While any modal is open we drop the chat launcher (and the #chat_icon fallback,
+   z-index 9999) below the modal backdrop, and make them inert. Two independent
+   guards, because HubSpot's own iframes may reassert pointer-events inline. The
+   backdrop then receives those clicks and dismisses the pop-up as expected.
+   Nothing is hidden or unmounted, so chat state, unread counts and tracking
+   survive untouched; body.modal-open goes away on close and the widget returns
+   to its normal layer with no JS involved.
+--------------------------------------------------------------------------- */
+body.modal-open #hubspot-messages-iframe-container,
+body.modal-open #chat_icon {
+    z-index: 1040 !important;
+    pointer-events: none !important;
+}
+
+/* ---------------------------------------------------------------------------
+   Chat panel vs. the fixed header — keep BOTH the whole panel and the header
+   visible at every viewport height (any screen size, any browser zoom).
+
+   Two facts drive this (measured, not guessed):
+   1. HubSpot sizes the panel itself: it sets an inline height on
+      #hubspot-messages-iframe-container (≈ viewport height − 32px, capped at
+      its own 804px max) and lays the chat UI out at exactly that height,
+      anchored to the bottom.
+   2. The interior does NOT reflow when CSS shrinks the box. The old
+      max-height caps here (100vh − 100px etc.) made the iframe's box shorter
+      than HubSpot's interior layout, and since the interior is bottom-anchored
+      the difference was clipped off the TOP — cutting the widget's own title
+      bar (and its close button). On tall monitors HubSpot's 804px max kept the
+      caps from binding, which is why this only showed on laptop-height
+      viewports and at higher page-zoom levels (zoom shrinks the CSS viewport).
+
+   So: never cap the height — the full panel must always be laid out. Keep it
+   from covering the fixed .header_marquee (z-index 2147483647 always wins)
+   with transform: scale() instead, which shrinks the whole panel visually
+   without touching HubSpot's layout. style.css sets the base scale(0.86)
+   (origin right-bottom); the steps below shrink it further as the viewport
+   gets shorter.
+
+   Geometry per step: visible top = (100vh − 30px bottom gap) − s·(100vh − 32px).
+   Each scale s holds visible-top ≥ 129px (117px header + 12px gap) down to the
+   next step's trigger height. ≤767px wide keeps responsive.css's scale(.8).
+--------------------------------------------------------------------------- */
+@media (min-width: 768px) and (max-height: 940px) {
+    #hubspot-messages-iframe-container iframe { transform: scale(0.82) !important; }
+}
+@media (min-width: 768px) and (max-height: 740px) {
+    #hubspot-messages-iframe-container iframe { transform: scale(0.76) !important; }
+}
+@media (min-width: 768px) and (max-height: 560px) {
+    #hubspot-messages-iframe-container iframe { transform: scale(0.68) !important; }
+}
+@media (min-width: 768px) and (max-height: 430px) {
+    #hubspot-messages-iframe-container iframe { transform: scale(0.58) !important; }
+}
+/* While the chat is open the back-to-top button moves beside the launcher (footer JS);
+   draw it above HubSpot's transparent iframe area there so it stays clickable. */
+/* The chat (HubSpot, z-index 2147483647) sits above the back-to-top button: when the chat
+   opens the button is simply behind it, and it is visible again once the chat closes. */
+body.modal-open #scroll { z-index: 1040 !important; }
+
+.exit-intent-title {
+    font-size: 21.4px;
+    font-weight: 700;
+    font-family: 'Inter',sans-serif;
+    color: #171717;
+    line-height: 1.3;
+    letter-spacing: -0.3px;
+}
+
+.exit-intent-desc {
+    color: #4a5565;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.text-orange {
+    color: #111111 !important;
+}
+
+.text-success {
+    color: #22c55e !important;
+}
+
+.exit-intent-btn {
+    padding: 12px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.exit-intent-btn.btn-primary {
+    background-color: #111111;
+    color: #fff;
+}
+
+.exit-intent-btn.btn-primary:hover {
+    background-color: #111111;
+}
+
+.exit-intent-btn.btn-dark {
+    background-color: #171717;
+    color: #fff;
+}
+
+.exit-intent-btn.btn-dark:hover {
+    background-color: #111111;
+}
+
+.exit-intent-badge {
+    background-color: #f2f2f2;
+    color: #111111;
+    font-weight: 700;
+    padding: 6px 14px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid #e3e3e3;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.exit-intent-badge .dot {
+    width: 6px;
+    height: 6px;
+    background-color: #111111;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.bg-light-gray {
+    background-color: #f8fafc;
+}
+
+.exit-intent-input {
+    padding: 14px 16px;
+    padding-right: 40px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    font-size: 16px;
+    width: 100%;
+}
+
+.exit-intent-input:focus {
+    outline: none;
+    border-color: #111111;
+    box-shadow: 0 0 0 0.25rem rgba(17,17,17,0.25);
+}
+
+.exit-intent-input.is-invalid {
+    border-color: #dc2626;
+}
+
+.exit-intent-input.is-invalid:focus {
+    box-shadow: 0 0 0 0.25rem rgba(220, 38, 38, 0.2);
+}
+
+.input-icon-wrapper {
+    position: relative;
+}
+
+.input-icon {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+}
+
+.success-icon-circle {
+    width: 64px;
+    height: 64px;
+    background-color: #dcfce7;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.success-icon-circle i {
+    font-size: 28.5px;
+}
+
+.whats-inside-box {
+    background-color: #f8fafc;
+    border-radius: 8px;
+    padding: 14px;
+    border-left: 4px solid #111111;
+}
+
+.whats-inside-box h6 {
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.whats-inside-box p {
+    font-size: 12px;
+    line-height: 1.5;
+    color: #4a5565;
+}
+
+/* Checklist Graphic CSS */
+.checklist-graphic-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 0;
+    perspective: 1000px;
+}
+
+.checklist-card {
+    width: 210px;
+    flex-shrink: 0;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: -20px 30px 60px -10px rgba(0, 0, 0, 0.2), 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+    transform: rotate(5deg);
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.graphic-green .checklist-card {
+    transform: rotate(-4deg);
+    box-shadow: 20px 30px 60px -10px rgba(0, 0, 0, 0.2), 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+}
+
+.checklist-header {
+    padding: 20px 18px 32px;
+    color: #fff;
+    transition: background-color 0.4s ease;
+}
+
+.graphic-orange .checklist-header {
+    background-color: #171717;
+}
+
+.graphic-green .checklist-header {
+    background-color: #22c55e;
+}
+
+.checklist-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: background-color 0.4s ease;
+}
+
+.graphic-orange .checklist-pill {
+    background-color: #111111;
+    color: #fff;
+}
+
+.graphic-green .checklist-pill {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.checklist-title {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.25;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.checklist-body {
+    padding: 18px 18px;
+    background-color: #fff;
+    border-radius: 16px;
+    margin-top: -16px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.checklist-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 14px;
+}
+
+.checklist-item:last-child {
+    margin-bottom: 0;
+}
+
+.check-box {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    transition: background-color 0.4s ease;
+}
+
+.graphic-orange .check-box.checked {
+    background-color: #111111;
+}
+
+.graphic-green .check-box.checked {
+    background-color: #22c55e;
+}
+
+.check-box.unchecked {
+    background-color: #f1f5f9;
+}
+
+.check-box i {
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.lines-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.line-placeholder {
+    height: 6px;
+    background-color: #e2e8f0;
+    border-radius: 3px;
+    width: 100%;
+}
+
+.line-placeholder.short {
+    width: 60%;
+}
+
+.line-placeholder.medium {
+    width: 80%;
+}
+
+@media (max-width: 767px) {
+    .checklist-graphic-wrapper {
+        padding: 16px 0;
+    }
+
+    .checklist-card {
+        width: 190px;
+    }
+
+    .exit-intent-title {
+        font-size: 17.8px;
+    }
+}
+/* Email icon: the inline Material-icon rule (.material-icons-outlined[data-mi]
+   {position:relative}) is more specific than .input-icon, so the icon dropped
+   out of the field and sat under it. Match that specificity and win. */
+.input-icon-wrapper .input-icon.material-icons-outlined { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); }
+
+/* "No spam" note: style.css forces every <p> to 20px !important on desktop, so
+   the note wrapped to two lines. Fixed size, one line at every width. */
+#exit-intent-state-2 p.text-success { font-size: 14px !important; line-height: 1.4 !important; white-space: nowrap; }
+@media (max-width: 400px) {
+  #exit-intent-state-2 p.text-success { font-size: 12.5px !important; }
+  #exit-intent-state-2 p.text-success .material-icons-outlined { margin-right: 6px !important; }
+}
+@media (max-width: 340px) {
+  #exit-intent-state-2 p.text-success { font-size: 11px !important; }
+}
+
+/* Side spacing up to 912px (880px dialog + 16px each side): the dialog sat
+   flush against the screen edge (0-8px). Give it an even 16px each side, like the blog's popup. */
+@media (max-width: 911.98px) {
+  #exitIntentModal .modal-dialog { margin: 16px auto !important; width: calc(100% - 32px); max-width: calc(100% - 32px) !important; }
+}
+@media (max-width: 360px) {
+  #exitIntentModal .modal-body .p-4 { padding: 16px !important; }
+}
+
+/* Back-to-top glides to its new spot when the chat opens/closes. */
+#scroll { transition: right .2s cubic-bezier(.22,.61,.36,1), bottom .2s cubic-bezier(.22,.61,.36,1), opacity .18s ease, transform .2s ease; }
+/* The chat iframe is drawn at 86%/80% from its bottom-right corner, but HubSpot's outer
+   container keeps the full-size box - an invisible area that swallowed clicks on the
+   back-to-top button above the launcher. Only the iframe itself takes clicks. */
+#hubspot-messages-iframe-container { pointer-events: none !important; }
+#hubspot-messages-iframe-container iframe { pointer-events: auto; }
+body.modal-open #hubspot-messages-iframe-container iframe { pointer-events: none !important; }

@@ -1,0 +1,446 @@
+/* ADT Solution - Klaro Custom Styling */
+/* v2.0 — Enterprise UX: full-width bottom banner + category-level modal */
+/* Reference: Deel.com cookie consent pattern */
+
+.klaro {
+    --green1: #111111;  /* ADT #111111 - primary action */
+    --green2: #111111;  /* ADT #111111 darker - hover */
+    --green3: #111111;  /* ADT #111111 lighter */
+    --blue1: #282828;   /* Dark text */
+    --dark1: #181818;
+    --dark2: #404040;
+    --light1: #ffffff;
+    --light2: #f9fafb;
+    --light3: #e5e7eb;
+    font-family: 'Inter',sans-serif;
+}
+
+/* ============================================
+   BANNER — Full-width bottom bar (Deel.com style)
+============================================ */
+.klaro .cookie-notice {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: auto !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    border-radius: 0 !important;
+    background: #ffffff !important;
+    box-shadow: 0 -4px 20px rgba(24,24,24,0.08) !important;
+    border: none !important;
+    border-top: 1px solid #e5e7eb !important;
+    padding: 16px 32px !important;
+    color: #181818 !important;
+    z-index: 99999 !important;
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    align-items: center !important;
+    gap: 24px !important;
+}
+
+/* Banner body — flex container for text */
+.klaro .cookie-notice .cn-body {
+    flex: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important;
+    color: #404040 !important;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0 !important;
+    padding: 0 !important;
+	justify-content: center;
+}
+
+.klaro .cookie-notice .cn-body p {
+    color: #404040 !important;
+    margin: 0 !important;
+	font-size: 17.8px !important;
+}
+
+/* Banner buttons — row layout, no wrapping */
+.klaro .cookie-notice .cn-buttons {
+    display: flex !important;
+    gap: 12px !important;
+    flex-shrink: 0 !important;
+    align-items: center !important;
+    white-space: nowrap !important;
+}
+
+/* Hide decline button in banner — only shown in modal */
+.klaro .cookie-notice .cm-btn-danger {
+    display: none !important;
+}
+
+/* ============================================
+   MODAL — Category-level toggles (no vendor names)
+============================================ */
+.klaro .cookie-modal .cm-modal {
+    border-radius: 14px !important;
+    box-shadow: 0 18px 50px rgba(24,24,24,0.18) !important;
+    max-width: 680px;
+    background: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+}
+
+.klaro .cookie-modal .cm-modal .cm-header {
+    background: #ffffff !important;
+    color: #181818 !important;
+    border-radius: 14px 14px 0 0 !important;
+    border-bottom: 1px solid #e5e7eb !important;
+    padding: 18px 24px !important;
+}
+
+.klaro .cookie-modal .cm-modal .cm-header h1 {
+    color: #181818 !important;
+    font-size: 19.6px !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.2px;
+    margin: 10px 0px !important;
+}
+
+.klaro .cookie-modal .cm-modal .cm-header p {
+    margin-top: 6px !important;
+    margin-bottom: 0 !important;
+    color: #4b5563 !important;
+    display: inline !important;
+}
+
+.klaro .cookie-modal .cm-modal .cm-header p a {
+    margin-left: 4px;
+    font-weight: 600 !important;
+}
+
+.klaro .cookie-modal .cm-modal .cm-body {
+    padding: 18px 24px !important;
+    color: #404040 !important;
+}
+
+.cm-body p {
+    color: #0b0b0b !important;
+    margin-bottom: 20px !important;
+}
+
+/* ============================================
+   BUTTONS — Enterprise styling
+============================================ */
+.klaro .cm-btn {
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    padding: 12px 18px !important;
+    font-family: 'Inter',sans-serif!important;
+    transition: all 0.2s ease !important;
+    font-size: 14px !important;
+    text-transform: none !important;
+    border: 1px solid transparent !important;
+    white-space: nowrap !important;
+    line-height: 1.2 !important;
+}
+
+.klaro .cm-btn:focus-visible {
+    outline: 3px solid rgba(17,17,17,0.35) !important;
+    outline-offset: 2px;
+}
+
+/* Primary button — "Allow all cookies" */
+.klaro .cm-btn-success {
+    background: #111111 !important;
+    color: #ffffff !important;
+    box-shadow: 0 8px 18px rgba(17,17,17,0.25) !important;
+}
+
+.klaro .cm-btn-success:hover {
+    background: #111111 !important;
+    color: #ffffff !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Secondary button — "Configure" / "Accept selected" */
+.klaro .cm-btn-info {
+    background: #ffffff !important;
+    color: #111111 !important;
+    border: 1px solid rgba(17,17,17,0.5) !important;
+    box-shadow: none !important;
+}
+
+.klaro .cm-btn-info:hover {
+    background: #f8f8f8 !important;
+    color: #111111 !important;
+    border-color: #111111 !important;
+}
+
+/* Tertiary button — "Decline optional" (modal only) */
+.klaro .cm-btn-danger {
+    background-color: transparent !important;
+    border: 1px solid #e5e7eb !important;
+    color: #6b7280 !important;
+    box-shadow: none !important;
+}
+
+.klaro .cm-btn-danger:hover {
+    background-color: #f9fafb !important;
+    color: #4b5563 !important;
+    border-color: #d1d5db !important;
+}
+
+/* Button order in modal footer */
+.klaro .cookie-modal .cm-modal .cm-footer-buttons {
+    display: flex !important;
+    gap: 10px !important;
+    justify-content: flex-end !important;
+}
+
+.klaro .cm-btn-success { order: 1; }
+.klaro .cm-btn-info { order: 2; }
+.klaro .cm-btn-danger { order: 3; }
+
+/* ============================================
+   CATEGORY TOGGLES — clean, enterprise feel
+============================================ */
+.klaro .cm-switch-container {
+    border-bottom-color: #e5e7eb !important;
+}
+
+.klaro .cm-list-title {
+    color: #181818 !important;
+    font-weight: 700 !important;
+    background-color: transparent !important;
+    border-radius: 4px !important;
+    display: inline-block !important;
+}
+
+.klaro .cm-purpose-title {
+    color: #181818 !important;
+}
+
+.klaro .cm-list-description {
+    color: #6b7280 !important;
+}
+
+/* Toggle switches */
+.klaro .cm-list-input + .cm-list-label .slider {
+    background-color: #e5e7eb !important;
+    border: 1px solid #d1d5db !important;
+    box-shadow: none !important;
+}
+
+.klaro .cm-list-label .slider:before {
+    background-color: #ffffff !important;
+    border: 1px solid #d1d5db !important;
+}
+
+.klaro .cm-list-input:checked + .cm-list-label .slider {
+    background-color: #111111 !important;
+    border-color: #111111 !important;
+}
+
+.klaro .cm-list-input:checked + .cm-list-label .slider:before {
+    border-color: #ffffff !important;
+}
+
+.klaro .cm-list-input:focus + .cm-list-label .slider {
+    box-shadow: 0 0 0 3px rgba(17,17,17,0.25) !important;
+}
+
+/* Required (Necessary category) — always on, greyed toggle */
+.klaro .cm-list-input.required:checked + .cm-list-label .slider,
+.klaro .cm-list-input.only-required + .cm-list-label .slider {
+    background-color: #d1d5db !important;
+    border-color: #cbd5f1 !important;
+    cursor: not-allowed !important;
+}
+
+.klaro .cm-list-input.required:checked + .cm-list-label .slider:before,
+.klaro .cm-list-input.only-required + .cm-list-label .slider:before {
+    background-color: #f9fafb !important;
+    border-color: #e5e7eb !important;
+}
+
+/* "Always On" badge for Necessary */
+#purpose-item-necessary .cm-list-title::after,
+.klaro .cm-services li[data-name="necessary"] .cm-list-title::after {
+    content: "Always On";
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #166534;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 999px;
+    vertical-align: middle;
+}
+
+/* ============================================
+   HIDE SERVICE-LEVEL UI — No vendor names exposed
+============================================ */
+
+/* Hide "Show services" / "Details" expansion links */
+.klaro .cm-services .cm-link {
+    display: none !important;
+}
+
+/* Hide service-level content (vendor descriptions) */
+.klaro .cm-services .cm-content {
+    display: none !important;
+}
+
+/* Hide individual service toggles within purpose groups */
+.klaro .cm-services ul {
+    display: none !important;
+}
+
+/* Hide "Toggle all services" (Advanced) */
+.klaro li.cm-toggle-all {
+    display: none !important;
+}
+
+/* Hide Klaro's internal purpose labels to prevent duplication */
+.klaro .cm-purpose {
+    display: none !important;
+}
+
+.klaro .cm-purpose-title {
+    display: none !important;
+}
+
+.klaro p.purposes {
+    display: none !important;
+}
+
+/* ============================================
+   LINKS
+============================================ */
+.klaro a {
+    color: #111111 !important;
+}
+
+.klaro a:hover {
+    color: #111111 !important;
+    text-decoration: underline !important;
+}
+
+.klaro .cn-learn-more,
+.klaro a.cm-link,
+.klaro .cookie-notice a {
+    color: #111111 !important;
+    text-decoration: underline !important;
+    font-weight: 600 !important;
+}
+
+.klaro .cn-learn-more:hover,
+.klaro a.cm-link:hover,
+.klaro .cookie-notice a:hover {
+    color: #111111 !important;
+}
+
+/* ============================================
+   HIDE "Powered by Klaro"
+============================================ */
+.klaro .cm-powered-by,
+.klaro .cookie-notice .cn-powered-by,
+.klaro .cookie-modal .cm-powered-by {
+    display: none !important;
+}
+
+/* ============================================
+   MISC — switch spacing, borders, text
+============================================ */
+.klaro .cookie-notice,
+.klaro .cookie-notice *:not(a):not(.cm-btn) {
+    color: #181818 !important;
+}
+.klaro .cm-list-description {
+    color: #6b7280 !important;
+    padding-left: 0px !important;
+    font-size: 12px !important;
+    margin-bottom: 0px !important;
+}
+.klaro .cookie-notice:not(.cookie-modal-notice) .cn-body p {
+    margin-bottom: .5em;
+    width: calc(100% - 20%) !important;
+}
+.klaro p.purposes {
+    font-size: 10px !important;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.klaro .cookie-modal .cm-switch,
+.klaro .context-notice .cm-switch,
+.klaro .cookie-notice .cm-switch {
+    margin-top: 10px;
+}
+
+.klaro .cookie-modal .cm-switch {
+    height: 30px !important;
+}
+
+.klaro .cookie-modal .cm-modal .cm-body ul.cm-purposes li.cm-purpose.cm-toggle-all,
+.klaro .cookie-modal .cm-modal .cm-footer {
+    border-top-color: #cbcbcb !important;
+}
+
+/* ============================================
+   MOBILE RESPONSIVE — stacked banner on small screens
+============================================ */
+@media (min-width: 768px) {
+	.klaro .cookie-notice:not(.cookie-modal-notice) .cn-body p {
+    margin-bottom: .5em;
+    width: calc(100% - 30%) !important;
+	}
+}
+@media (max-width: 768px) {
+    .klaro .cookie-notice {
+        flex-direction: column !important;
+        text-align: center !important;
+        padding: 16px !important;
+        gap: 12px !important;
+    }
+
+    .klaro .cookie-notice .cn-body {
+        flex-direction: column !important;
+        text-align: center !important;
+    }
+
+    .klaro .cookie-notice .cn-buttons {
+        flex-direction: column !important;
+        width: 100% !important;
+    }
+
+    .klaro .cookie-notice .cn-buttons .cm-btn {
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .klaro .cookie-modal .cm-modal {
+        margin: 10px;
+        max-height: calc(100vh - 20px);
+        overflow-y: auto;
+    }
+
+    .klaro .cm-btn {
+        padding: 12px 16px;
+        min-height: 44px; /* Touch-friendly */
+    }
+
+    .klaro .cookie-modal .cm-modal .cm-footer-buttons {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+}
+
+/* ============================================
+   COOKIE SETTINGS FOOTER LINK
+============================================ */
+.cookie-settings-link {
+    cursor: pointer;
+    color: inherit;
+    text-decoration: none;
+}
+
+/* WCAG large text: white on #111111 is 3.07:1, which passes only at >= 18.66px bold. */

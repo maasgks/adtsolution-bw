@@ -1,0 +1,223 @@
+/* Book a Demo landing page + Thank You page — self-contained, namespaced under .bad
+   so nothing leaks into (or is overridden by) Bootstrap / style.css. */
+
+.bad {
+  --bad-orange: #111111;
+  --bad-orange-hover: #111111;
+  --bad-orange-soft: #f4f4f4;
+  --bad-ink: #1f1f1f;
+  --bad-body: #4e5a6f;
+  --bad-muted: #6a7382;
+  --bad-border: #e8edf3;
+  --bad-shadow: 0 20px 60px rgba(31,31,31,0.1);
+  display: block;
+  color: var(--bad-body);
+}
+.bad *, .bad *::before, .bad *::after { box-sizing: border-box; }
+
+.bad-container { width: 100%; max-width: 760px; margin: 0 auto; padding: 0 20px; }
+
+.bad-section {
+  background: linear-gradient(180deg, #f9f9f9 0%, #fff 220px, #fff 100%);
+  padding: 56px 0 84px;
+  position: relative;
+  overflow: hidden;
+}
+.bad-section::before {
+  content: ''; position: absolute; right: -90px; top: -90px;
+  width: 440px; height: 440px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(242, 138, 26, .12) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.bad-head { text-align: center; max-width: 600px; margin: 0 auto 34px; position: relative; }
+.bad-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px; border-radius: 999px; border: 1px solid #e7e7e7;
+  background: var(--bad-orange-soft); color: var(--bad-orange);
+  font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.bad-head h1 {
+  font-size: clamp(24.9px, 4.2vw, 39.2px); font-weight: 800; color: var(--bad-ink);
+  line-height: 1.1; letter-spacing: -.03em; margin: 0 0 14px;
+}
+.bad-head p { font-size: 16px; color: var(--bad-body); line-height: 1.65; margin: 0; }
+
+.bad-card {
+  max-width: 640px; margin: 0 auto; background: #fff;
+  border: 1px solid var(--bad-border); border-radius: 20px;
+  box-shadow: var(--bad-shadow); padding: 38px 40px 40px; position: relative;
+}
+
+.bad-form { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 22px; }
+.bad-message {
+  grid-column: 1 / -1; background: #fdecec; border: 1px solid #f5b5b5;
+  color: #b42318; border-radius: 10px; padding: 10px 14px; font-size: 14px; font-weight: 600;
+}
+.bad-field { display: flex; flex-direction: column; gap: 8px; }
+.bad-field.bad-full { grid-column: 1 / -1; }
+.bad-field label { font-size: 13.5px; font-weight: 700; color: var(--bad-ink); letter-spacing: -.01em; }
+.bad-field label .bad-req { color: var(--bad-orange); margin-left: 2px; }
+.bad-ctrl { position: relative; }
+
+.bad-field input, .bad-field select {
+  width: 100%; height: 54px; border: 1px solid var(--bad-border); border-radius: 14px;
+  background: #fff; padding: 0 18px; font-family: inherit; font-size: 15.5px;
+  color: var(--bad-ink); outline: none; transition: border-color .15s, box-shadow .15s;
+  appearance: none; -webkit-appearance: none;
+}
+.bad-field input::placeholder { color: var(--bad-muted); }
+.bad-field input:focus, .bad-field select:focus {
+  border-color: var(--bad-orange); box-shadow: 0 0 0 4px rgba(242, 138, 26, .12);
+}
+.bad-field select { cursor: pointer; padding-right: 44px; }
+.bad-ctrl.bad-select::after {
+  content: ''; position: absolute; right: 20px; top: 50%;
+  width: 8px; height: 8px; border-right: 2px solid var(--bad-muted);
+  border-bottom: 2px solid var(--bad-muted); transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+.bad-field.bad-err input, .bad-field.bad-err select {
+  border-color: #e04b4b; box-shadow: 0 0 0 4px rgba(224, 75, 75, .10);
+}
+.bad-field-msg { font-size: 12.5px; color: #e04b4b; font-weight: 600; display: none; }
+.bad-field.bad-err .bad-field-msg { display: block; }
+
+/* Phone: dial-code select + number in one control */
+.bad-ctrl.bad-phone {
+  display: flex; align-items: stretch; height: 54px; border: 1px solid var(--bad-border);
+  border-radius: 14px; background: #fff; transition: border-color .15s, box-shadow .15s;
+}
+.bad-ctrl.bad-phone:focus-within { border-color: var(--bad-orange); box-shadow: 0 0 0 4px rgba(242, 138, 26, .12); }
+.bad-ctrl.bad-phone select.bad-phone-code {
+  flex: none; width: 92px; height: auto; border: none; border-radius: 14px 0 0 14px;
+  padding: 0 8px 0 14px; font-size: 14.5px; background: transparent;
+  appearance: auto; -webkit-appearance: menulist;
+}
+.bad-ctrl.bad-phone select.bad-phone-code:focus { box-shadow: none; }
+/* Chosen code: shortened country name + full code, drawn over the native select. */
+.bad-ctrl.bad-phone .bad-phone-code-wrap { position: relative; flex: 0 0 clamp(110px, 40%, 170px); display: flex; }
+.bad-ctrl.bad-phone .bad-phone-code-wrap select.bad-phone-code {
+  width: 100%; color: transparent; -webkit-appearance: none; appearance: none; padding-right: 26px;
+  /* the native arrow is drawn in the text colour, which is transparent here - draw our own */
+  background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%231f2937' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 10px center / 10px 6px;
+}
+.bad-ctrl.bad-phone .bad-phone-code-wrap select.bad-phone-code option { color: #282828; }
+.bad-ctrl.bad-phone .bad-dial-display {
+  position: absolute; top: 0; bottom: 0; left: 14px; right: 26px; display: flex; align-items: center; gap: 4px;
+  font-size: 14.5px; color: #282828; pointer-events: none; white-space: nowrap; overflow: hidden;
+}
+.bad-ctrl.bad-phone .bad-dial-display.is-placeholder { color: #9aa1ab; }
+.bad-ctrl.bad-phone .bad-dial-display .dial-sel-name { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.bad-ctrl.bad-phone .bad-dial-display .dial-sel-code { flex: 0 0 auto; }
+.bad-ctrl.bad-phone .bad-phone-divider { flex: none; width: 1px; margin: 11px 0; background: var(--bad-border); }
+.bad-ctrl.bad-phone input { flex: 1; min-width: 0; height: auto; border: none; border-radius: 0 14px 14px 0; padding: 0 18px 0 12px; }
+.bad-ctrl.bad-phone input:focus { box-shadow: none; }
+.bad-field.bad-err .bad-ctrl.bad-phone { border-color: #e04b4b; box-shadow: 0 0 0 4px rgba(224, 75, 75, .10); }
+
+/* Country Hiring In — select2 multi-select (chips), consistent with the
+   site-wide hiring-country picker used in the booking modal / inline forms. */
+/* Before select2 enhances it, keep the raw <select multiple> clipped to the
+   same 54px single-line box as every other field — otherwise the browser's
+   native multi-row listbox (all countries, ~4 rows tall) flashes on load.
+   Native multi-selects have no real placeholder support — Chromium shows its
+   own "N selected" summary text instead — so the text is hidden (color:
+   transparent) and a static "Select country(s)" label is drawn over it via
+   ::before. Once select2 attaches (.bad-select2-active), it owns the visible
+   UI and this label/arrow are no longer shown. */
+.bad-field select[multiple] { height: 54px; overflow-y: hidden; color: transparent; }
+.bad-country-ctrl:not(.bad-select2-active)::before {
+  content: 'Select country(s)'; position: absolute; left: 19px; top: 50%;
+  transform: translateY(-50%); color: var(--bad-muted); font-size: 15.5px;
+  pointer-events: none;
+}
+.bad-country-ctrl.bad-select2-active::after { display: none; }
+.bad .select2-container { width: 100% !important; }
+.bad .select2-container--default .select2-selection--multiple {
+  min-height: 54px; border: 1px solid var(--bad-border); border-radius: 14px;
+  background: #fff; padding: 7px 40px 7px 14px; box-shadow: none;
+}
+.bad .select2-container--default.select2-container--open .select2-selection--multiple,
+.bad .select2-selection--multiple:focus-within {
+  border-color: var(--bad-orange); box-shadow: 0 0 0 4px rgba(242, 138, 26, .12);
+}
+.bad .select2-container--default .select2-selection--multiple .select2-selection__rendered {
+  display: flex; flex-wrap: wrap; gap: 6px; padding: 0; margin: 0;
+}
+.bad .select2-container--default .select2-selection--multiple .select2-selection__choice {
+  margin: 0; background: var(--bad-orange-soft); border: 1px solid #e7e7e7; color: var(--bad-ink);
+  border-radius: 999px; padding: 3px 10px; font-size: 12.5px; font-weight: 600;
+}
+.bad .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+  margin-right: 6px; color: var(--bad-orange); border: none;
+}
+.bad .select2-container--default .select2-search--inline .select2-search__field {
+  font-family: inherit; font-size: 14.5px; margin-top: 4px; color: var(--bad-ink);
+}
+.bad .select2-selection--multiple {
+  position: relative;
+}
+.bad .select2-selection--multiple::after {
+  content: ''; position: absolute; right: 18px; top: 24px;
+  width: 8px; height: 8px; border-right: 2px solid var(--bad-muted);
+  border-bottom: 2px solid var(--bad-muted); transform: rotate(45deg); pointer-events: none;
+}
+.bad-field.bad-err .select2-container--default .select2-selection--multiple {
+  border-color: #e04b4b; box-shadow: 0 0 0 4px rgba(224, 75, 75, .10);
+}
+.bad .select2-dropdown { border-radius: 12px; border-color: var(--bad-border); font-family: inherit; overflow: hidden; }
+.bad .select2-results__option--highlighted[aria-selected] { background: var(--bad-orange) !important; }
+
+.bad-submit { grid-column: 1 / -1; margin-top: 6px; }
+.bad-btn {
+  width: 100%; height: 54px; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 999px; border: 1.5px solid var(--bad-orange); background: var(--bad-orange);
+  color: #fff; font-family: inherit; font-size: 16px; font-weight: 700; cursor: pointer;
+  transition: background .2s, transform .2s;
+}
+.bad-btn:hover { background: var(--bad-orange-hover); border-color: var(--bad-orange-hover); transform: translateY(-2px); }
+.bad-btn:disabled { opacity: .7; cursor: default; transform: none; }
+.bad-legal { grid-column: 1 / -1; text-align: center; font-size: 12.5px; color: var(--bad-muted); line-height: 1.6; margin: 2px 0 0; }
+.bad-legal a { color: var(--bad-orange); font-weight: 600; }
+.bad-sla {
+  grid-column: 1 / -1; display: inline-flex; align-items: center; justify-content: center;
+  justify-self: center; gap: 6px; margin: 2px 0 0; padding: 8px 12px; border-radius: 999px;
+  background: #f9f9f9; border: 1px solid #e6e6e6; color: #6b5d51; font-size: 12.5px;
+}
+.bad-sla::before { content: ''; width: 7px; height: 7px; flex-shrink: 0; border-radius: 999px; background: var(--bad-orange); }
+.bad-sla strong { color: var(--bad-ink); }
+
+/* ===== Thank You ===== */
+.bad-ty-card {
+  max-width: 760px; margin: 0 auto; text-align: center;
+  background: linear-gradient(160deg, #171717 0%, #151515 100%);
+  border: 1px solid #2c2c2c; border-radius: 22px; box-shadow: var(--bad-shadow);
+  padding: 76px 44px 72px; position: relative; overflow: hidden;
+}
+.bad-ty-card::before {
+  content: ''; position: absolute; left: 50%; top: -140px; transform: translateX(-50%);
+  width: 520px; height: 520px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(242, 138, 26, .16) 0%, transparent 62%); pointer-events: none;
+}
+.bad-ty-ring {
+  position: relative; width: 74px; height: 74px; border-radius: 50%;
+  background: rgba(242, 138, 26, .14); border: 1px solid rgba(17,17,17,0.4);
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 26px;
+}
+.bad-ty-ring .material-icons-outlined { font-size: 33.8px; color: var(--bad-orange); }
+.bad-ty-card h1 {
+  position: relative; color: #fff; font-size: clamp(33.8px, 6vw, 51.6px);
+  font-weight: 800; letter-spacing: -.04em; line-height: 1; margin: 0 0 22px;
+}
+.bad-ty-sub { position: relative; font-size: 16px; color: rgba(255, 255, 255, .72); line-height: 1.6; max-width: 500px; margin: 0 auto 14px; }
+.bad-ty-email { position: relative; display: block; font-size: 18.7px; font-weight: 800; color: var(--bad-orange); letter-spacing: -.01em; word-break: break-word; margin-top: 2px; }
+.bad-ty-back { position: relative; display: inline-flex; margin-top: 32px; }
+.bad-ty-back .bad-btn { width: auto; padding: 0 28px; }
+
+@media (max-width: 620px) {
+  .bad-card { padding: 30px 20px 32px; border-radius: 16px; }
+  .bad-form { grid-template-columns: 1fr; gap: 18px; }
+  .bad-ty-card { padding: 52px 24px 48px; border-radius: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { .bad-btn { transition: none; } }

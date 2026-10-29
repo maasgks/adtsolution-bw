@@ -1,0 +1,2122 @@
+{
+ "/": {
+  "status": 200,
+  "final": "/"
+ },
+ "/employer-of-record-services": {
+  "status": 200,
+  "final": "/employer-of-record-services"
+ },
+ "/case-studies": {
+  "status": 200,
+  "final": "/case-studies"
+ },
+ "/pricing": {
+  "status": 200,
+  "final": "/pricing"
+ },
+ "/talent-mobility-services": {
+  "status": 200,
+  "final": "/talent-mobility-services"
+ },
+ "/country-guide": {
+  "status": 200,
+  "final": "/country-guide"
+ },
+ "/global-payroll-services": {
+  "status": 200,
+  "final": "/global-payroll-services"
+ },
+ "/comparisons": {
+  "status": 200,
+  "final": "/comparisons"
+ },
+ "/resources": {
+  "status": 200,
+  "final": "/resources"
+ },
+ "/immigration-visa-sponsorship": {
+  "status": 200,
+  "final": "/immigration-visa-sponsorship"
+ },
+ "/blogs": {
+  "status": 200,
+  "final": "/blogs"
+ },
+ "/contact-us": {
+  "status": 200,
+  "final": "/contact-us"
+ },
+ "/book-a-demo": {
+  "status": 200,
+  "final": "/book-a-demo"
+ },
+ "/about-us": {
+  "status": 200,
+  "final": "/about-us"
+ },
+ "/country-guide-usa": {
+  "status": 200,
+  "final": "/country-guide/usa"
+ },
+ "/immigration": {
+  "status": 200,
+  "final": "/immigration-visa-and-work-permits"
+ },
+ "/payroll": {
+  "status": 200,
+  "final": "/global-payroll-services"
+ },
+ "/eor": {
+  "status": 200,
+  "final": "/employer-of-record-services"
+ },
+ "/country-guide-india": {
+  "status": 200,
+  "final": "/country-guide/india"
+ },
+ "/country-guide-canada": {
+  "status": 200,
+  "final": "/country-guide/canada"
+ },
+ "/country-guide-china": {
+  "status": 200,
+  "final": "/country-guide/china"
+ },
+ "/terms-conditions": {
+  "status": 200,
+  "final": "/terms-conditions"
+ },
+ "/glossary": {
+  "status": 200,
+  "final": "/glossary"
+ },
+ "/employer-of-record/united-kingdom": {
+  "status": 200,
+  "final": "/employer-of-record/united-kingdom"
+ },
+ "/employer-of-record/netherlands": {
+  "status": 200,
+  "final": "/employer-of-record/netherlands"
+ },
+ "/blogs/faqs": {
+  "status": 404,
+  "final": "/blogs/faqs"
+ },
+ "/legal-hub": {
+  "status": 200,
+  "final": "/legal-hub"
+ },
+ "/privacy-policy": {
+  "status": 200,
+  "final": "/privacy-policy"
+ },
+ "/employer-of-record/germany": {
+  "status": 200,
+  "final": "/employer-of-record/germany"
+ },
+ "/country-guide-belgium": {
+  "status": 200,
+  "final": "/country-guide/belgium"
+ },
+ "/country-guide-uk": {
+  "status": 200,
+  "final": "/country-guide/the-uk"
+ },
+ "/employer-of-record/ireland": {
+  "status": 200,
+  "final": "/employer-of-record/ireland"
+ },
+ "/employer-of-record/belgium": {
+  "status": 200,
+  "final": "/employer-of-record/belgium"
+ },
+ "/employer-of-record/spain": {
+  "status": 200,
+  "final": "/employer-of-record/spain"
+ },
+ "/employer-of-record/italy": {
+  "status": 200,
+  "final": "/employer-of-record/italy"
+ },
+ "/employer-of-record/poland": {
+  "status": 200,
+  "final": "/employer-of-record/poland"
+ },
+ "/employer-of-record/switzerland": {
+  "status": 200,
+  "final": "/employer-of-record/switzerland"
+ },
+ "/country-guide-sweden": {
+  "status": 200,
+  "final": "/country-guide/sweden"
+ },
+ "/employer-of-record/france": {
+  "status": 200,
+  "final": "/employer-of-record/france"
+ },
+ "/country-guide-portugal": {
+  "status": 200,
+  "final": "/country-guide/portugal"
+ },
+ "/country-guide-denmark": {
+  "status": 200,
+  "final": "/country-guide/denmark"
+ },
+ "/employer-of-record/luxembourg": {
+  "status": 200,
+  "final": "/employer-of-record/luxembourg"
+ },
+ "/country-guide-czech-republic": {
+  "status": 200,
+  "final": "/country-guide/czech-republic"
+ },
+ "/country-guide-cyprus": {
+  "status": 200,
+  "final": "/country-guide/cyprus"
+ },
+ "/country-guide-norway": {
+  "status": 200,
+  "final": "/country-guide/norway"
+ },
+ "/country-guide-austria": {
+  "status": 200,
+  "final": "/country-guide/austria"
+ },
+ "/country-guide-bulgaria": {
+  "status": 200,
+  "final": "/country-guide/bulgaria"
+ },
+ "/country-guide-slovakia": {
+  "status": 200,
+  "final": "/country-guide/slovakia"
+ },
+ "/country-guide-romania": {
+  "status": 200,
+  "final": "/country-guide/romania"
+ },
+ "/country-guide-greece": {
+  "status": 200,
+  "final": "/country-guide/greece"
+ },
+ "/country-guide-georgia": {
+  "status": 200,
+  "final": "/country-guide/georgia"
+ },
+ "/employer-of-record/finland": {
+  "status": 200,
+  "final": "/employer-of-record/finland"
+ },
+ "/country-guide-south-korea": {
+  "status": 200,
+  "final": "/country-guide/south-korea"
+ },
+ "/country-guide-turkey": {
+  "status": 200,
+  "final": "/country-guide/turkey"
+ },
+ "/country-guide-hong-kong": {
+  "status": 200,
+  "final": "/country-guide/hong-kong"
+ },
+ "/country-guide-malaysia": {
+  "status": 200,
+  "final": "/country-guide/malaysia"
+ },
+ "/country-guide-indonesia": {
+  "status": 200,
+  "final": "/country-guide/indonesia"
+ },
+ "/country-guide-hungary": {
+  "status": 200,
+  "final": "/country-guide/hungary"
+ },
+ "/country-guide-philippines": {
+  "status": 200,
+  "final": "/country-guide/philippines"
+ },
+ "/country-guide-bangladesh": {
+  "status": 200,
+  "final": "/country-guide/bangladesh"
+ },
+ "/country-guide-japan": {
+  "status": 200,
+  "final": "/country-guide/japan"
+ },
+ "/country-guide-oman": {
+  "status": 200,
+  "final": "/country-guide/oman"
+ },
+ "/country-guide-uae": {
+  "status": 200,
+  "final": "/country-guide/uae"
+ },
+ "/country-guide-taiwan": {
+  "status": 200,
+  "final": "/country-guide/taiwan"
+ },
+ "/country-guide-argentina": {
+  "status": 200,
+  "final": "/country-guide/argentina"
+ },
+ "/country-guide-brazil": {
+  "status": 200,
+  "final": "/country-guide/brazil"
+ },
+ "/country-guide-peru": {
+  "status": 200,
+  "final": "/country-guide/peru"
+ },
+ "/country-guide-kuwait": {
+  "status": 200,
+  "final": "/country-guide/kuwait"
+ },
+ "/country-guide-singapore": {
+  "status": 200,
+  "final": "/country-guide/singapore"
+ },
+ "/country-guide-chile": {
+  "status": 200,
+  "final": "/country-guide/chile"
+ },
+ "/country-guide-saudi": {
+  "status": 200,
+  "final": "/country-guide/saudi-arabia"
+ },
+ "/netherlands/what-is-the-30-percent-ruling-netherlands": {
+  "status": 200,
+  "final": "/netherlands/what-is-the-30-percent-ruling-netherlands"
+ },
+ "/netherlands/can-i-hire-a-dutch-employee-without-a-bv": {
+  "status": 200,
+  "final": "/netherlands/can-i-hire-a-dutch-employee-without-a-bv"
+ },
+ "/country-guide-qatar": {
+  "status": 200,
+  "final": "/country-guide/qatar"
+ },
+ "/country-guide-south-africa": {
+  "status": 200,
+  "final": "/country-guide/south-africa"
+ },
+ "/country-guide-australia": {
+  "status": 200,
+  "final": "/country-guide/australia"
+ },
+ "/country-guide-ghana": {
+  "status": 200,
+  "final": "/country-guide/ghana"
+ },
+ "/country-guide-newzealand": {
+  "status": 200,
+  "final": "/country-guide/newzealand"
+ },
+ "/country-guide-kenya": {
+  "status": 200,
+  "final": "/country-guide/kenya"
+ },
+ "/country-guide-senegal": {
+  "status": 200,
+  "final": "/country-guide/senegal"
+ },
+ "/country-guide-nigeria": {
+  "status": 200,
+  "final": "/country-guide/nigeria"
+ },
+ "/germany/employment-laws-for-hiring-in-germany": {
+  "status": 200,
+  "final": "/germany/employment-laws-for-hiring-in-germany"
+ },
+ "/germany/can-i-hire-employees-in-germany-without-a-local-entity": {
+  "status": 200,
+  "final": "/germany/can-i-hire-employees-in-germany-without-a-local-entity"
+ },
+ "/germany/how-long-does-it-take-to-hire-an-employee-in-germany": {
+  "status": 200,
+  "final": "/germany/how-long-does-it-take-to-hire-an-employee-in-germany"
+ },
+ "/france/how-much-does-it-cost-to-hire-an-employee-in-france": {
+  "status": 200,
+  "final": "/france/how-much-does-it-cost-to-hire-an-employee-in-france"
+ },
+ "/netherlands/how-much-does-it-cost-to-hire-an-employee-in-the-netherlands": {
+  "status": 200,
+  "final": "/netherlands/how-much-does-it-cost-to-hire-an-employee-in-the-netherlands"
+ },
+ "/germany/how-much-does-an-eor-cost-in-germany": {
+  "status": 200,
+  "final": "/germany/how-much-does-an-eor-cost-in-germany"
+ },
+ "/netherlands/what-are-employer-payroll-taxes-netherlands": {
+  "status": 200,
+  "final": "/netherlands/what-are-employer-payroll-taxes-netherlands"
+ },
+ "/france/can-i-hire-employees-in-france-without-opening-a-company": {
+  "status": 200,
+  "final": "/france/can-i-hire-employees-in-france-without-opening-a-company"
+ },
+ "/germany/employer-social-security-contributions-germany": {
+  "status": 200,
+  "final": "/germany/employer-social-security-contributions-germany"
+ },
+ "/netherlands/how-does-employer-of-record-work-netherlands": {
+  "status": 200,
+  "final": "/netherlands/how-does-employer-of-record-work-netherlands"
+ },
+ "/spain/can-i-hire-employees-in-spain-without-a-legal-entity": {
+  "status": 200,
+  "final": "/spain/can-i-hire-employees-in-spain-without-a-legal-entity"
+ },
+ "/spain/how-does-payroll-work-in-spain": {
+  "status": 200,
+  "final": "/spain/how-does-payroll-work-in-spain"
+ },
+ "/france/what-are-employer-taxes-in-france": {
+  "status": 200,
+  "final": "/france/what-are-employer-taxes-in-france"
+ },
+ "/ireland/can-a-us-company-hire-employees-in-ireland-without-an-entity": {
+  "status": 200,
+  "final": "/ireland/can-a-us-company-hire-employees-in-ireland-without-an-entity"
+ },
+ "/spain/how-much-does-an-employer-of-record-cost-in-spain": {
+  "status": 200,
+  "final": "/spain/how-much-does-an-employer-of-record-cost-in-spain"
+ },
+ "/spain/how-long-does-it-take-to-hire-employees-in-spain": {
+  "status": 200,
+  "final": "/spain/how-long-does-it-take-to-hire-employees-in-spain"
+ },
+ "/france/what-employment-contracts-are-required-in-france": {
+  "status": 200,
+  "final": "/france/what-employment-contracts-are-required-in-france"
+ },
+ "/spain/employer-social-security-costs-spain": {
+  "status": 200,
+  "final": "/spain/employer-social-security-costs-spain"
+ },
+ "/france/how-does-an-employer-of-record-work-in-france": {
+  "status": 200,
+  "final": "/france/how-does-an-employer-of-record-work-in-france"
+ },
+ "/ireland/how-much-does-it-cost-to-hire-employees-in-ireland": {
+  "status": 200,
+  "final": "/ireland/how-much-does-it-cost-to-hire-employees-in-ireland"
+ },
+ "/difference-between-employer-of-record-and-peo": {
+  "status": 200,
+  "final": "/difference-between-employer-of-record-and-peo"
+ },
+ "/ireland/how-eor-works-ireland": {
+  "status": 200,
+  "final": "/ireland/how-eor-works-ireland"
+ },
+ "/best-employer-of-record-for-hiring-in-europe": {
+  "status": 200,
+  "final": "/best-employer-of-record-for-hiring-in-europe"
+ },
+ "/global-hiring-cost-compared-to-opening-an-entity": {
+  "status": 200,
+  "final": "/global-hiring-cost-compared-to-opening-an-entity"
+ },
+ "/when-should-a-company-use-employer-of-record-instead-of-subsidiary": {
+  "status": 200,
+  "final": "/when-should-a-company-use-employer-of-record-instead-of-subsidiary"
+ },
+ "/can-i-hire-employees-internationally-without-setting-up-an-entity": {
+  "status": 200,
+  "final": "/can-i-hire-employees-internationally-without-setting-up-an-entity"
+ },
+ "/ireland/how-long-does-it-take-to-hire-employees-in-ireland": {
+  "status": 200,
+  "final": "/ireland/how-long-does-it-take-to-hire-employees-in-ireland"
+ },
+ "/ireland/employer-payroll-taxes-ireland": {
+  "status": 200,
+  "final": "/ireland/employer-payroll-taxes-ireland"
+ },
+ "/post/employer-on-costs-europe-2026": {
+  "status": 200,
+  "final": "/post/employer-on-costs-europe-2026"
+ },
+ "/post/eor-vs-entity-in-the-netherlands-the-real-break-even-guide": {
+  "status": 200,
+  "final": "/post/eor-vs-entity-in-the-netherlands-the-real-break-even-guide"
+ },
+ "/case-studies/techhr": {
+  "status": 200,
+  "final": "/case-studies/techhr"
+ },
+ "/case-studies/cdp-group": {
+  "status": 200,
+  "final": "/case-studies/cdp-group"
+ },
+ "/post/outgrowing-employer-of-record-uk": {
+  "status": 200,
+  "final": "/post/outgrowing-employer-of-record-uk"
+ },
+ "/post/netherlands-kennismigrant-visa-guide": {
+  "status": 200,
+  "final": "/post/netherlands-kennismigrant-visa-guide"
+ },
+ "/post/belgium-eor-compliance-tea-model-guide": {
+  "status": 200,
+  "final": "/post/belgium-eor-compliance-tea-model-guide"
+ },
+ "/post/eor-vs-legal-entity-europe": {
+  "status": 200,
+  "final": "/post/eor-vs-legal-entity-europe"
+ },
+ "/post/netherlands-30-percent-ruling-guide": {
+  "status": 200,
+  "final": "/post/netherlands-30-percent-ruling-guide"
+ },
+ "/post/eor-vs-ind-recognized-sponsor-netherlands": {
+  "status": 200,
+  "final": "/post/eor-vs-ind-recognized-sponsor-netherlands"
+ },
+ "/post/wet-dba-netherlands-contractor-compliance-2026": {
+  "status": 200,
+  "final": "/post/wet-dba-netherlands-contractor-compliance-2026"
+ },
+ "/post/eu-pay-transparency-directive-employer-guide": {
+  "status": 200,
+  "final": "/post/eu-pay-transparency-directive-employer-guide"
+ },
+ "/country-guide/germany": {
+  "status": 200,
+  "final": "/country-guide/germany"
+ },
+ "/country-guide/italy": {
+  "status": 200,
+  "final": "/country-guide/italy"
+ },
+ "/country-guide/portugal": {
+  "status": 200,
+  "final": "/country-guide/portugal"
+ },
+ "/country-guide/france": {
+  "status": 200,
+  "final": "/country-guide/france"
+ },
+ "/case-studies/indigo": {
+  "status": 200,
+  "final": "/case-studies/indigo"
+ },
+ "/country-guide/spain": {
+  "status": 200,
+  "final": "/country-guide/spain"
+ },
+ "/country-guide/uk": {
+  "status": 200,
+  "final": "/country-guide/the-uk"
+ },
+ "/case-studies/global-recruitment": {
+  "status": 200,
+  "final": "/case-studies/global-recruitment"
+ },
+ "/country-guide/belgium": {
+  "status": 200,
+  "final": "/country-guide/belgium"
+ },
+ "/country-guide/netherlands": {
+  "status": 200,
+  "final": "/country-guide/the-netherlands"
+ },
+ "/country-guide/austria": {
+  "status": 200,
+  "final": "/country-guide/austria"
+ },
+ "/country-guide/norway": {
+  "status": 200,
+  "final": "/country-guide/norway"
+ },
+ "/country-guide/bulgaria": {
+  "status": 200,
+  "final": "/country-guide/bulgaria"
+ },
+ "/country-guide/switzerland": {
+  "status": 200,
+  "final": "/country-guide/switzerland"
+ },
+ "/country-guide/czech-republic": {
+  "status": 200,
+  "final": "/country-guide/czech-republic"
+ },
+ "/country-guide/denmark": {
+  "status": 200,
+  "final": "/country-guide/denmark"
+ },
+ "/country-guide/ireland": {
+  "status": 200,
+  "final": "/country-guide/ireland"
+ },
+ "/country-guide/sweden": {
+  "status": 200,
+  "final": "/country-guide/sweden"
+ },
+ "/country-guide/poland": {
+  "status": 200,
+  "final": "/country-guide/poland"
+ },
+ "/country-guide/cyprus": {
+  "status": 200,
+  "final": "/country-guide/cyprus"
+ },
+ "/country-guide/finland": {
+  "status": 200,
+  "final": "/country-guide/finland"
+ },
+ "/country-guide/china": {
+  "status": 200,
+  "final": "/country-guide/china"
+ },
+ "/country-guide/greece": {
+  "status": 200,
+  "final": "/country-guide/greece"
+ },
+ "/country-guide/georgia": {
+  "status": 200,
+  "final": "/country-guide/georgia"
+ },
+ "/country-guide/romania": {
+  "status": 200,
+  "final": "/country-guide/romania"
+ },
+ "/country-guide/luxembourg": {
+  "status": 200,
+  "final": "/country-guide/luxembourg"
+ },
+ "/country-guide/hungary": {
+  "status": 200,
+  "final": "/country-guide/hungary"
+ },
+ "/country-guide/turkey": {
+  "status": 200,
+  "final": "/country-guide/turkey"
+ },
+ "/country-guide/india": {
+  "status": 200,
+  "final": "/country-guide/india"
+ },
+ "/country-guide/slovakia": {
+  "status": 200,
+  "final": "/country-guide/slovakia"
+ },
+ "/country-guide/taiwan": {
+  "status": 200,
+  "final": "/country-guide/taiwan"
+ },
+ "/country-guide/bangladesh": {
+  "status": 200,
+  "final": "/country-guide/bangladesh"
+ },
+ "/country-guide/philippines": {
+  "status": 200,
+  "final": "/country-guide/philippines"
+ },
+ "/country-guide/singapore": {
+  "status": 200,
+  "final": "/country-guide/singapore"
+ },
+ "/country-guide/indonesia": {
+  "status": 200,
+  "final": "/country-guide/indonesia"
+ },
+ "/country-guide/malaysia": {
+  "status": 200,
+  "final": "/country-guide/malaysia"
+ },
+ "/country-guide/south-korea": {
+  "status": 200,
+  "final": "/country-guide/south-korea"
+ },
+ "/country-guide/hong-kong": {
+  "status": 200,
+  "final": "/country-guide/hong-kong"
+ },
+ "/country-guide/japan": {
+  "status": 200,
+  "final": "/country-guide/japan"
+ },
+ "/country-guide/uae": {
+  "status": 200,
+  "final": "/country-guide/uae"
+ },
+ "/country-guide/saudi-arabia": {
+  "status": 200,
+  "final": "/country-guide/saudi-arabia"
+ },
+ "/country-guide/peru": {
+  "status": 200,
+  "final": "/country-guide/peru"
+ },
+ "/country-guide/usa": {
+  "status": 200,
+  "final": "/country-guide/usa"
+ },
+ "/country-guide/kuwait": {
+  "status": 200,
+  "final": "/country-guide/kuwait"
+ },
+ "/country-guide/brazil": {
+  "status": 200,
+  "final": "/country-guide/brazil"
+ },
+ "/country-guide/argentina": {
+  "status": 200,
+  "final": "/country-guide/argentina"
+ },
+ "/country-guide/canada": {
+  "status": 200,
+  "final": "/country-guide/canada"
+ },
+ "/country-guide/qatar": {
+  "status": 200,
+  "final": "/country-guide/qatar"
+ },
+ "/country-guide/chile": {
+  "status": 200,
+  "final": "/country-guide/chile"
+ },
+ "/country-guide/oman": {
+  "status": 200,
+  "final": "/country-guide/oman"
+ },
+ "/country-guide/ghana": {
+  "status": 200,
+  "final": "/country-guide/ghana"
+ },
+ "/country-guide/newzealand": {
+  "status": 200,
+  "final": "/country-guide/newzealand"
+ },
+ "/country-guide/nigeria": {
+  "status": 200,
+  "final": "/country-guide/nigeria"
+ },
+ "/country-guide/south-africa": {
+  "status": 200,
+  "final": "/country-guide/south-africa"
+ },
+ "/country-guide/kenya": {
+  "status": 200,
+  "final": "/country-guide/kenya"
+ },
+ "/country-guide/australia": {
+  "status": 200,
+  "final": "/country-guide/australia"
+ },
+ "/dhi-adt-vs-multiplier": {
+  "status": 200,
+  "final": "/dhi-adt-vs-multiplier"
+ },
+ "/country-guide/senegal": {
+  "status": 200,
+  "final": "/country-guide/senegal"
+ },
+ "/adt-vs-remote": {
+  "status": 200,
+  "final": "/adt-vs-remote"
+ },
+ "/adt-vs-deel": {
+  "status": 200,
+  "final": "/adt-vs-deel"
+ },
+ "/dhi-adt-vs-oyster": {
+  "status": 200,
+  "final": "/dhi-adt-vs-oyster"
+ },
+ "/post/netherlands-vs-germany-relocation": {
+  "status": 200,
+  "final": "/post/netherlands-vs-germany-relocation"
+ },
+ "/post/france-cse-threshold-platform-work-rules-2026": {
+  "status": 200,
+  "final": "/post/france-cse-threshold-platform-work-rules-2026"
+ },
+ "/post/europe-work-visa-salary-requirements": {
+  "status": 200,
+  "final": "/post/europe-work-visa-salary-requirements"
+ },
+ "/post/questions-before-accepting-european-job-offer": {
+  "status": 200,
+  "final": "/post/questions-before-accepting-european-job-offer"
+ },
+ "/post/works-council-requirements-germany": {
+  "status": 200,
+  "final": "/post/works-council-requirements-germany"
+ },
+ "/post/cost-of-moving-to-europe-for-work": {
+  "status": 200,
+  "final": "/post/cost-of-moving-to-europe-for-work"
+ },
+ "/post/finland-eor-vs-entity-real-cost-of-hiring": {
+  "status": 200,
+  "final": "/post/finland-eor-vs-entity-real-cost-of-hiring"
+ },
+ "/post/eu-platform-work-directive-transposition": {
+  "status": 200,
+  "final": "/post/eu-platform-work-directive-transposition"
+ },
+ "/post/wet-dba-enforcement-netherlands-2026": {
+  "status": 200,
+  "final": "/post/wet-dba-enforcement-netherlands-2026"
+ },
+ "/post/germany-eu-blue-card-indian-it-professionals-2026": {
+  "status": 200,
+  "final": "/post/germany-eu-blue-card-indian-it-professionals-2026"
+ },
+ "/post/france-employer-costs-2026": {
+  "status": 200,
+  "final": "/post/france-employer-costs-2026"
+ },
+ "/post/europe-relocation-timeline-after-accepting-a-job": {
+  "status": 200,
+  "final": "/post/europe-relocation-timeline-after-accepting-a-job"
+ },
+ "/post/platform-work-directive-transposition-eu-country-scorecard-2026": {
+  "status": 200,
+  "final": "/post/platform-work-directive-transposition-eu-country-scorecard-2026"
+ },
+ "/post/platform-work-directive-account-suspensions-2026": {
+  "status": 200,
+  "final": "/post/platform-work-directive-account-suspensions-2026"
+ },
+ "/post/luxembourg-eor-vs-entity": {
+  "status": 200,
+  "final": "/post/luxembourg-eor-vs-entity"
+ },
+ "/post/hiring-in-finland": {
+  "status": 200,
+  "final": "/post/hiring-in-finland"
+ },
+ "/post/platform-work-directive-ready-december-2026": {
+  "status": 200,
+  "final": "/post/platform-work-directive-ready-december-2026"
+ },
+ "/post/italy-notice-period-termination-costs": {
+  "status": 200,
+  "final": "/post/italy-notice-period-termination-costs"
+ },
+ "/post/france-cse-threshold-platform-work-rules": {
+  "status": 200,
+  "final": "/post/france-cse-threshold-platform-work-rules"
+ },
+ "/post/germany-employment-law-payroll-compliance-2026": {
+  "status": 200,
+  "final": "/post/germany-employment-law-payroll-compliance-2026"
+ },
+ "/post/dutch-job-offer-address-bsn-30-percent-ruling": {
+  "status": 200,
+  "final": "/post/dutch-job-offer-address-bsn-30-percent-ruling"
+ },
+ "/post/hiring-employees-france-employment-law-payroll-compliance-guide": {
+  "status": 200,
+  "final": "/post/hiring-employees-france-employment-law-payroll-compliance-guide"
+ },
+ "/post/hiring-employees-luxembourg": {
+  "status": 200,
+  "final": "/post/hiring-employees-luxembourg"
+ },
+ "/post/hiring-employees-europe-employment-law-payroll-compliance-guide": {
+  "status": 200,
+  "final": "/post/hiring-employees-europe-employment-law-payroll-compliance-guide"
+ },
+ "/post/kennismigrant-visa-vs-30-percent-ruling-netherlands": {
+  "status": 200,
+  "final": "/post/kennismigrant-visa-vs-30-percent-ruling-netherlands"
+ },
+ "/post/europe-employment-compliance-2026-mid-year-update": {
+  "status": 200,
+  "final": "/post/europe-employment-compliance-2026-mid-year-update"
+ },
+ "/post/employer-of-record-vs-legal-entity-germany": {
+  "status": 200,
+  "final": "/post/employer-of-record-vs-legal-entity-germany"
+ },
+ "/post/eor-vs-entity-italy": {
+  "status": 200,
+  "final": "/post/eor-vs-entity-italy"
+ },
+ "/post/belgium-tea-model-eor-platform-work-compliance-2026": {
+  "status": 200,
+  "final": "/post/belgium-tea-model-eor-platform-work-compliance-2026"
+ },
+ "/post/dutch-employment-law-mistakes-us-uk-employers": {
+  "status": 200,
+  "final": "/post/dutch-employment-law-mistakes-us-uk-employers"
+ },
+ "/post/hiring-employees-in-italy": {
+  "status": 200,
+  "final": "/post/hiring-employees-in-italy"
+ },
+ "/post/global-payroll-or-employer-of-record": {
+  "status": 200,
+  "final": "/post/global-payroll-or-employer-of-record"
+ },
+ "/post/wet-dba-vbar-dutch-contractor-compliance-guide": {
+  "status": 200,
+  "final": "/post/wet-dba-vbar-dutch-contractor-compliance-guide"
+ },
+ "/post/hiring-employees-in-germany": {
+  "status": 200,
+  "final": "/post/hiring-employees-in-germany"
+ },
+ "/post/germany-hr-payroll-guide": {
+  "status": 200,
+  "final": "/post/germany-hr-payroll-guide"
+ },
+ "/post/hiring-across-europe-operational-challenges": {
+  "status": 200,
+  "final": "/post/hiring-across-europe-operational-challenges"
+ },
+ "/post/eor-vs-entity-europe": {
+  "status": 200,
+  "final": "/post/eor-vs-entity-europe"
+ },
+ "/post/eu-pay-transparency-salary-ranges": {
+  "status": 200,
+  "final": "/post/eu-pay-transparency-salary-ranges"
+ },
+ "/post/hiring-in-the-netherlands-2026-guide": {
+  "status": 200,
+  "final": "/post/hiring-in-the-netherlands-2026-guide"
+ },
+ "/post/multi-country-payroll-structure": {
+  "status": 200,
+  "final": "/post/multi-country-payroll-structure"
+ },
+ "/post/when-to-switch-from-eor-to-entity": {
+  "status": 200,
+  "final": "/post/when-to-switch-from-eor-to-entity"
+ },
+ "/post/contractor-vs-employee-eu-compliance": {
+  "status": 200,
+  "final": "/post/contractor-vs-employee-eu-compliance"
+ },
+ "/post/global-team-maturity-and-workforce-structure": {
+  "status": 200,
+  "final": "/post/global-team-maturity-and-workforce-structure"
+ },
+ "/post/payroll-audit-triggers-netherlands-uk-belgium": {
+  "status": 200,
+  "final": "/post/payroll-audit-triggers-netherlands-uk-belgium"
+ },
+ "/post/hiring-netherlands-uk-belgium-operational-differences": {
+  "status": 200,
+  "final": "/post/hiring-netherlands-uk-belgium-operational-differences"
+ },
+ "/post/contractor-misclassification-belgium-costs": {
+  "status": 200,
+  "final": "/post/contractor-misclassification-belgium-costs"
+ },
+ "/post/netherlands-vs-uk-vs-belgium-payroll-cost-comparison": {
+  "status": 200,
+  "final": "/post/netherlands-vs-uk-vs-belgium-payroll-cost-comparison"
+ },
+ "/post/why-global-payroll-breaks-after-international-hiring": {
+  "status": 200,
+  "final": "/post/why-global-payroll-breaks-after-international-hiring"
+ },
+ "/post/how-to-choose-eor-vs-entity-global-hiring": {
+  "status": 200,
+  "final": "/post/how-to-choose-eor-vs-entity-global-hiring"
+ },
+ "/post/first-hire-belgium-hr-compliance-checklist": {
+  "status": 200,
+  "final": "/post/first-hire-belgium-hr-compliance-checklist"
+ },
+ "/post/payroll-compliance-netherlands-requirements-before-hiring": {
+  "status": 200,
+  "final": "/post/payroll-compliance-netherlands-requirements-before-hiring"
+ },
+ "/post/uk-payroll-setup-guide": {
+  "status": 200,
+  "final": "/post/uk-payroll-setup-guide"
+ },
+ "/post/eor-vs-entity-how-to-decide-global-hiring-structure": {
+  "status": 200,
+  "final": "/post/eor-vs-entity-how-to-decide-global-hiring-structure"
+ },
+ "/post/uk-hiring-payroll-compliance-guide": {
+  "status": 200,
+  "final": "/post/uk-hiring-payroll-compliance-guide"
+ },
+ "/post/payroll-ownership-in-the-netherlands": {
+  "status": 200,
+  "final": "/post/payroll-ownership-in-the-netherlands"
+ },
+ "/post/top-5-signs-not-ready-to-set-up-a-local-entity": {
+  "status": 200,
+  "final": "/post/top-5-signs-not-ready-to-set-up-a-local-entity"
+ },
+ "/post/top-5-belgium-payroll-compliance-mistakes": {
+  "status": 200,
+  "final": "/post/top-5-belgium-payroll-compliance-mistakes"
+ },
+ "/post/netherlands-expansion-eor-vs-entity-case-study": {
+  "status": 200,
+  "final": "/post/netherlands-expansion-eor-vs-entity-case-study"
+ },
+ "/post/netherlands-payroll-compliance-checklist": {
+  "status": 200,
+  "final": "/post/netherlands-payroll-compliance-checklist"
+ },
+ "/post/hiring-in-the-netherlands-mistakes": {
+  "status": 200,
+  "final": "/post/hiring-in-the-netherlands-mistakes"
+ },
+ "/post/eor-vs-local-entity-france": {
+  "status": 200,
+  "final": "/post/eor-vs-local-entity-france"
+ },
+ "/post/eor-vs-entity-netherlands": {
+  "status": 200,
+  "final": "/post/eor-vs-entity-netherlands"
+ },
+ "/post/saas-only-eor-models-break-at-scale": {
+  "status": 200,
+  "final": "/post/saas-only-eor-models-break-at-scale"
+ },
+ "/post/india-payroll-and-labor-compliance-for-global-companies": {
+  "status": 200,
+  "final": "/post/india-payroll-and-labor-compliance-for-global-companies"
+ },
+ "/post/why-use-eor-in-france": {
+  "status": 200,
+  "final": "/post/why-use-eor-in-france"
+ },
+ "/post/how-to-use-employer-of-record-in-sweden": {
+  "status": 200,
+  "final": "/post/how-to-use-employer-of-record-in-sweden"
+ },
+ "/post/employer-of-record-india-guide-2026": {
+  "status": 200,
+  "final": "/post/employer-of-record-india-guide-2026"
+ },
+ "/post/global-eor-onboarding-checklist": {
+  "status": 200,
+  "final": "/post/global-eor-onboarding-checklist"
+ },
+ "/post/how-global-peos-help-tech-companies-hire-globally": {
+  "status": 200,
+  "final": "/post/how-global-peos-help-tech-companies-hire-globally"
+ },
+ "/post/why-use-an-employer-of-record-in-france-for-your-global-expansion": {
+  "status": 200,
+  "final": "/post/why-use-an-employer-of-record-in-france-for-your-global-expansion"
+ },
+ "/post/trusted-uk-employer-of-record-services": {
+  "status": 200,
+  "final": "/post/trusted-uk-employer-of-record-services"
+ },
+ "/post/what-is-payroll": {
+  "status": 200,
+  "final": "/post/what-is-payroll"
+ },
+ "/post/why-choose-an-employer-of-record-in-belgium": {
+  "status": 200,
+  "final": "/post/why-choose-an-employer-of-record-in-belgium"
+ },
+ "/post/how-to-use-an-employer-of-record-in-italy": {
+  "status": 200,
+  "final": "/post/how-to-use-an-employer-of-record-in-italy"
+ },
+ "/post/top-eor-providers-in-india-2026": {
+  "status": 200,
+  "final": "/post/top-eor-providers-in-india-2026"
+ },
+ "/post/top-employer-of-record-companies-2026": {
+  "status": 200,
+  "final": "/post/top-employer-of-record-companies-2026"
+ },
+ "/post/eor-in-the-netherlands": {
+  "status": 200,
+  "final": "/post/eor-in-the-netherlands"
+ },
+ "/post/employer-of-record-norway-hire-employees-without-local-entity": {
+  "status": 200,
+  "final": "/post/employer-of-record-norway-hire-employees-without-local-entity"
+ },
+ "/post/hiring-internationally-key-questions-for-hr-leaders": {
+  "status": 200,
+  "final": "/post/hiring-internationally-key-questions-for-hr-leaders"
+ },
+ "/post/simplify-global-payroll-management-with-adt-saas-platform": {
+  "status": 200,
+  "final": "/post/simplify-global-payroll-management-with-adt-saas-platform"
+ },
+ "/post/top-employer-of-record-service-in-india": {
+  "status": 200,
+  "final": "/post/top-employer-of-record-service-in-india"
+ },
+ "/post/simplify-hr-compliance-global-hiring-eor-partner": {
+  "status": 200,
+  "final": "/post/simplify-hr-compliance-global-hiring-eor-partner"
+ },
+ "/post/top-benefits-employer-of-record-2025": {
+  "status": 200,
+  "final": "/post/top-benefits-employer-of-record-2025"
+ },
+ "/post/best-employer-of-record-services-in-india-2025": {
+  "status": 200,
+  "final": "/post/best-employer-of-record-services-in-india-2025"
+ },
+ "/post/top-benefits-of-peo-services-for-international-expansion": {
+  "status": 200,
+  "final": "/post/top-benefits-of-peo-services-for-international-expansion"
+ },
+ "/post/guide-to-work-permits-for-remote-employees-2025": {
+  "status": 200,
+  "final": "/post/guide-to-work-permits-for-remote-employees-2025"
+ },
+ "/post/eor-services-india-2025": {
+  "status": 200,
+  "final": "/post/eor-services-india-2025"
+ },
+ "/post/top-10-eor-providers-netherlands-2025": {
+  "status": 200,
+  "final": "/post/top-10-eor-providers-netherlands-2025"
+ },
+ "/post/top-10-employer-of-record-eor-service-providers-belgium": {
+  "status": 200,
+  "final": "/post/top-10-employer-of-record-eor-service-providers-belgium"
+ },
+ "/post/how-global-employer-of-record-services-work": {
+  "status": 200,
+  "final": "/post/how-global-employer-of-record-services-work"
+ },
+ "/post/global-payroll-services-business-growth": {
+  "status": 200,
+  "final": "/post/global-payroll-services-business-growth"
+ },
+ "/post/employer-of-record-in-india": {
+  "status": 200,
+  "final": "/post/employer-of-record-in-india"
+ },
+ "/post/how-peo-services-help-business": {
+  "status": 200,
+  "final": "/post/how-peo-services-help-business"
+ },
+ "/post/employer-of-record-united-kingdom-dhi-adt": {
+  "status": 200,
+  "final": "/post/employer-of-record-united-kingdom-dhi-adt"
+ },
+ "/post/employer-of-record-romania": {
+  "status": 200,
+  "final": "/post/employer-of-record-romania"
+ },
+ "/post/employer-of-record-in-france": {
+  "status": 200,
+  "final": "/post/employer-of-record-in-france"
+ },
+ "/post/employer-of-record-in-austria": {
+  "status": 200,
+  "final": "/post/employer-of-record-in-austria"
+ },
+ "/post/payroll-services-brazil-employer-of-record-solutions": {
+  "status": 200,
+  "final": "/post/payroll-services-brazil-employer-of-record-solutions"
+ },
+ "/post/understanding-payroll-uk-2025": {
+  "status": 200,
+  "final": "/post/understanding-payroll-uk-2025"
+ },
+ "/post/payroll-in-the-netherlands": {
+  "status": 200,
+  "final": "/post/payroll-in-the-netherlands"
+ },
+ "/post/global-payroll": {
+  "status": 200,
+  "final": "/post/global-payroll"
+ },
+ "/post/employer-of-record-in-italy": {
+  "status": 200,
+  "final": "/post/employer-of-record-in-italy"
+ },
+ "/post/global-employer-of-record-services": {
+  "status": 200,
+  "final": "/post/global-employer-of-record-services"
+ },
+ "/post/employer-of-record-service-in-austria": {
+  "status": 200,
+  "final": "/post/employer-of-record-service-in-austria"
+ },
+ "/post/employer-of-record-poland": {
+  "status": 200,
+  "final": "/post/employer-of-record-poland"
+ },
+ "/post/self-employment": {
+  "status": 200,
+  "final": "/post/self-employment"
+ },
+ "/post/blue-collar-payroll-with-dhi-adt": {
+  "status": 200,
+  "final": "/post/blue-collar-payroll-with-dhi-adt"
+ },
+ "/post/what-is-an-international-peo": {
+  "status": 200,
+  "final": "/post/what-is-an-international-peo"
+ },
+ "/post/outsourcing-payroll-for-small-business-success": {
+  "status": 200,
+  "final": "/post/outsourcing-payroll-for-small-business-success"
+ },
+ "/post/global-employment-solutions": {
+  "status": 200,
+  "final": "/post/global-employment-solutions"
+ },
+ "/post/global-payroll-services": {
+  "status": 200,
+  "final": "/post/global-payroll-services"
+ },
+ "/post/outsource-eor-services-partner-with-dhi-adt": {
+  "status": 200,
+  "final": "/post/outsource-eor-services-partner-with-dhi-adt"
+ },
+ "/post/outsource-payroll-in-2024": {
+  "status": 200,
+  "final": "/post/outsource-payroll-in-2024"
+ },
+ "/post/streamline-your-business-with-payroll-services": {
+  "status": 200,
+  "final": "/post/streamline-your-business-with-payroll-services"
+ },
+ "/post/payroll-netherlands": {
+  "status": 200,
+  "final": "/post/payroll-netherlands"
+ },
+ "/post/peo-in-europe": {
+  "status": 200,
+  "final": "/post/peo-in-europe"
+ },
+ "/post/global-payroll-services-in-europe": {
+  "status": 200,
+  "final": "/post/global-payroll-services-in-europe"
+ },
+ "/post/international-payroll-services": {
+  "status": 200,
+  "final": "/post/international-payroll-services"
+ },
+ "/post/8-common-challenges-of-payroll-processing": {
+  "status": 200,
+  "final": "/post/8-common-challenges-of-payroll-processing"
+ },
+ "/post/employer-of-record-in-ireland": {
+  "status": 200,
+  "final": "/post/employer-of-record-in-ireland"
+ },
+ "/post/payroll-service-provider-in-europe": {
+  "status": 200,
+  "final": "/post/payroll-service-provider-in-europe"
+ },
+ "/post/employer-of-record-services": {
+  "status": 200,
+  "final": "/post/employer-of-record-services"
+ },
+ "/post/the-perfect-payroll-solution-for-your-small-business-with-dhi-adt": {
+  "status": 200,
+  "final": "/post/the-perfect-payroll-solution-for-your-small-business-with-dhi-adt"
+ },
+ "/post/choosing-the-right-eor-partner": {
+  "status": 200,
+  "final": "/post/choosing-the-right-eor-partner"
+ },
+ "/post/outsourced-payroll-services-with-dhi-adt": {
+  "status": 200,
+  "final": "/post/outsourced-payroll-services-with-dhi-adt"
+ },
+ "/post/what-is-a-peo-what-are-its-advantages-and-disadvantages": {
+  "status": 200,
+  "final": "/post/what-is-a-peo-what-are-its-advantages-and-disadvantages"
+ },
+ "/post/7-benefits-of-using-an-employer-of-record-service": {
+  "status": 200,
+  "final": "/post/7-benefits-of-using-an-employer-of-record-service"
+ },
+ "/post/30-percent-ruling-in-the-netherlands-work": {
+  "status": 200,
+  "final": "/post/30-percent-ruling-in-the-netherlands-work"
+ },
+ "/post/top-5-benefits-of-using-a-peo-for-your-business": {
+  "status": 200,
+  "final": "/post/top-5-benefits-of-using-a-peo-for-your-business"
+ },
+ "/post/best-payroll-services-provider": {
+  "status": 200,
+  "final": "/post/best-payroll-services-provider"
+ },
+ "/post/international-peo-services": {
+  "status": 200,
+  "final": "/post/international-peo-services"
+ },
+ "/post/why-do-businesses-choose-to-outsource-uk-payroll": {
+  "status": 200,
+  "final": "/post/why-do-businesses-choose-to-outsource-uk-payroll"
+ },
+ "/post/6-simple-ways-to-make-your-global-payroll-system": {
+  "status": 200,
+  "final": "/post/6-simple-ways-to-make-your-global-payroll-system"
+ },
+ "/post/types-of-international-payroll-service-management": {
+  "status": 200,
+  "final": "/post/types-of-international-payroll-service-management"
+ },
+ "/post/employer-of-record-in-belgium": {
+  "status": 200,
+  "final": "/post/employer-of-record-in-belgium"
+ },
+ "/post/the-benefits-of-global-payroll-services": {
+  "status": 200,
+  "final": "/post/the-benefits-of-global-payroll-services"
+ },
+ "/post/role-of-international-payroll-services-in-expanding-your-global-reach": {
+  "status": 200,
+  "final": "/post/role-of-international-payroll-services-in-expanding-your-global-reach"
+ },
+ "/post/employer-of-record-services-in-italy": {
+  "status": 200,
+  "final": "/post/employer-of-record-services-in-italy"
+ },
+ "/post/international-eor-services": {
+  "status": 200,
+  "final": "/post/international-eor-services"
+ },
+ "/post/international-peo-and-payroll-solution-to-avoid-compliance-risks-globally": {
+  "status": 200,
+  "final": "/post/international-peo-and-payroll-solution-to-avoid-compliance-risks-globally"
+ },
+ "/post/7-ways-peo-services-help-grow-your-business": {
+  "status": 200,
+  "final": "/post/7-ways-peo-services-help-grow-your-business"
+ },
+ "/post/payroll-services-in-belgium": {
+  "status": 200,
+  "final": "/post/payroll-services-in-belgium"
+ },
+ "/post/5-steps-for-the-payroll-process-in-a-small-business": {
+  "status": 200,
+  "final": "/post/5-steps-for-the-payroll-process-in-a-small-business"
+ },
+ "/post/employer-of-record-in-germany": {
+  "status": 200,
+  "final": "/post/employer-of-record-in-germany"
+ },
+ "/post/benefits-of-outsourcing-payroll": {
+  "status": 200,
+  "final": "/post/benefits-of-outsourcing-payroll"
+ },
+ "/post/9-things-to-consider-before-choosing-the-right-eor-partner": {
+  "status": 200,
+  "final": "/post/9-things-to-consider-before-choosing-the-right-eor-partner"
+ },
+ "/post/how-to-use-an-employer-of-record-in-france": {
+  "status": 200,
+  "final": "/post/how-to-use-an-employer-of-record-in-france"
+ },
+ "/post/employer-of-record-in-the-netherlands": {
+  "status": 200,
+  "final": "/post/employer-of-record-in-the-netherlands"
+ },
+ "/post/everything-you-need-to-know-about-global-payroll-outsourcing": {
+  "status": 200,
+  "final": "/post/everything-you-need-to-know-about-global-payroll-outsourcing"
+ },
+ "/post/what-is-an-employer-of-record": {
+  "status": 200,
+  "final": "/post/what-is-an-employer-of-record"
+ },
+ "/post/choosing-the-right-payroll-provider-for-your-business": {
+  "status": 200,
+  "final": "/post/choosing-the-right-payroll-provider-for-your-business"
+ },
+ "/post/6-reasons-why-you-should-outsource-payroll-in-2024": {
+  "status": 200,
+  "final": "/post/6-reasons-why-you-should-outsource-payroll-in-2024"
+ },
+ "/post/how-to-expand-and-grow-your-business-globally-with-an-eor": {
+  "status": 200,
+  "final": "/post/how-to-expand-and-grow-your-business-globally-with-an-eor"
+ },
+ "/post/the-benefits-of-outsourced-international-payroll-services": {
+  "status": 200,
+  "final": "/post/the-benefits-of-outsourced-international-payroll-services"
+ },
+ "/post/international-payroll-outsourcing": {
+  "status": 200,
+  "final": "/post/international-payroll-outsourcing"
+ },
+ "/post/what-is-a-global-peo-and-how-does-it-work": {
+  "status": 200,
+  "final": "/post/what-is-a-global-peo-and-how-does-it-work"
+ },
+ "/post/top-7-benefits-of-using-an-international-peo": {
+  "status": 200,
+  "final": "/post/top-7-benefits-of-using-an-international-peo"
+ },
+ "/post/streamline-your-business-with-global-payroll-services": {
+  "status": 200,
+  "final": "/post/streamline-your-business-with-global-payroll-services"
+ },
+ "/post/peo-and-eor-differences": {
+  "status": 200,
+  "final": "/post/peo-and-eor-differences"
+ },
+ "/post/your-ultimate-2-part-series-to-peo": {
+  "status": 200,
+  "final": "/post/your-ultimate-2-part-series-to-peo"
+ },
+ "/post/expand-your-business-to-europe-and-step-into-the-golden-age-of-technology": {
+  "status": 200,
+  "final": "/post/expand-your-business-to-europe-and-step-into-the-golden-age-of-technology"
+ },
+ "/post/3-ways-adt-empowers-the-tech-companies-to-grow-global": {
+  "status": 200,
+  "final": "/post/3-ways-adt-empowers-the-tech-companies-to-grow-global"
+ },
+ "/post/international-peo": {
+  "status": 200,
+  "final": "/post/international-peo"
+ },
+ "/post/things-to-consider-when-choosing-payroll-management-software": {
+  "status": 200,
+  "final": "/post/things-to-consider-when-choosing-payroll-management-software"
+ },
+ "/post/the-netherlands-legislative-changes-in-2023": {
+  "status": 200,
+  "final": "/post/the-netherlands-legislative-changes-in-2023"
+ },
+ "/post/unemployment-benefits-in-the-netherlands-all-you-need-to-know": {
+  "status": 200,
+  "final": "/post/unemployment-benefits-in-the-netherlands-all-you-need-to-know"
+ },
+ "/post/types-of-employee-leave-in-the-netherlands": {
+  "status": 200,
+  "final": "/post/types-of-employee-leave-in-the-netherlands"
+ },
+ "/post/how-to-read-your-payslip-from-the-dutch-employer-english-version": {
+  "status": 200,
+  "final": "/post/how-to-read-your-payslip-from-the-dutch-employer-english-version"
+ },
+ "/post/the-pension-system-in-the-netherlands": {
+  "status": 200,
+  "final": "/post/the-pension-system-in-the-netherlands"
+ },
+ "/post/netherlands-payroll-services": {
+  "status": 200,
+  "final": "/post/netherlands-payroll-services"
+ },
+ "/post/all-you-need-to-know-about-peo--professional-employer-organization": {
+  "status": 200,
+  "final": "/post/all-you-need-to-know-about-peo--professional-employer-organization"
+ },
+ "/post/3-alarming-signs-to-predict-that-your-business-needs-peo-services": {
+  "status": 200,
+  "final": "/post/3-alarming-signs-to-predict-that-your-business-needs-peo-services"
+ },
+ "/post/reimagining-workforce-strategies-in-2022-with-global-hr-solutions-from-adt": {
+  "status": 200,
+  "final": "/post/reimagining-workforce-strategies-in-2022-with-global-hr-solutions-from-adt"
+ },
+ "/post/best-qualities-of-global-hr-&-payroll-services-you-should-know": {
+  "status": 200,
+  "final": "/post/best-qualities-of-global-hr-&-payroll-services-you-should-know"
+ },
+ "/post/how-hiring-global-hr-service-providers-helps-to-reduce-payroll-complexities": {
+  "status": 200,
+  "final": "/post/how-hiring-global-hr-service-providers-helps-to-reduce-payroll-complexities"
+ },
+ "/post/how-a-good-payroll-service-provider-can-help-in-consistent-business-growth": {
+  "status": 200,
+  "final": "/post/how-a-good-payroll-service-provider-can-help-in-consistent-business-growth"
+ },
+ "/post/5-things-to-know-before-applying-for-a-french-work-permit:-highly-skilled-migrant-requirements": {
+  "status": 200,
+  "final": "/post/5-things-to-know-before-applying-for-a-french-work-permit:-highly-skilled-migrant-requirements"
+ },
+ "/post/significant-advantages-of-relying-on-a-global-hr-&-payroll-service-provider": {
+  "status": 200,
+  "final": "/post/significant-advantages-of-relying-on-a-global-hr-&-payroll-service-provider"
+ },
+ "/post/international-peo-services-how-it-helps-you-scale-up-your-business": {
+  "status": 200,
+  "final": "/post/international-peo-services-how-it-helps-you-scale-up-your-business"
+ },
+ "/post/living-on-the-intersection-of-india-and-the-netherlands-learning-from-erin-meyer-the-culture-map": {
+  "status": 200,
+  "final": "/post/living-on-the-intersection-of-india-and-the-netherlands-learning-from-erin-meyer-the-culture-map"
+ },
+ "/post/immigration-visa-and-work-permits": {
+  "status": 200,
+  "final": "/post/immigration-visa-and-work-permits"
+ },
+ "/post/global-mobility-checklist": {
+  "status": 200,
+  "final": "/post/global-mobility-checklist"
+ },
+ "/post/maas-helps-to-bring-life-to-business": {
+  "status": 200,
+  "final": "/post/maas-helps-to-bring-life-to-business"
+ },
+ "/post/payroll-and-salary-administration": {
+  "status": 200,
+  "final": "/post/payroll-and-salary-administration"
+ },
+ "/post/recognized-sponsorship-services": {
+  "status": 200,
+  "final": "/post/recognized-sponsorship-services"
+ },
+ "/post/hire-payroll-experts-to-make-your-global-expansion-more-fruitful": {
+  "status": 200,
+  "final": "/post/hire-payroll-experts-to-make-your-global-expansion-more-fruitful"
+ },
+ "/post/tax-advisory-and-optimization": {
+  "status": 200,
+  "final": "/post/tax-advisory-and-optimization"
+ },
+ "/post/labour-law-consultancy": {
+  "status": 200,
+  "final": "/post/labour-law-consultancy"
+ },
+ "/post/employee-onboarding-process": {
+  "status": 200,
+  "final": "/post/employee-onboarding-process"
+ },
+ "/glossary/employer-of-record-eor": {
+  "status": 200,
+  "final": "/glossary/employer-of-record-eor"
+ },
+ "/country-guide/the-uk": {
+  "status": 200,
+  "final": "/country-guide/the-uk"
+ },
+ "/country-guide/the-netherlands": {
+  "status": 200,
+  "final": "/country-guide/the-netherlands"
+ },
+ "/glossary/foreign-employer": {
+  "status": 200,
+  "final": "/glossary/foreign-employer"
+ },
+ "/glossary/professional-employer-organization-peo": {
+  "status": 200,
+  "final": "/glossary/professional-employer-organization-peo"
+ },
+ "/post/peo-services-helps-removing-the-complexities-of-hiring-the-expatriates": {
+  "status": 200,
+  "final": "/post/peo-services-helps-removing-the-complexities-of-hiring-the-expatriates"
+ },
+ "/post/strictly-dutch": {
+  "status": 200,
+  "final": "/post/strictly-dutch"
+ },
+ "/post/adt-solution-shows-the-way-to-achieve-global-success": {
+  "status": 200,
+  "final": "/post/adt-solution-shows-the-way-to-achieve-global-success"
+ },
+ "/post/global-hr-solutions-taking-away-the-payroll-pains": {
+  "status": 200,
+  "final": "/post/global-hr-solutions-taking-away-the-payroll-pains"
+ },
+ "/post/reasons-for-choosing-the-best-sap-consulting-service-in-2021": {
+  "status": 200,
+  "final": "/post/reasons-for-choosing-the-best-sap-consulting-service-in-2021"
+ },
+ "/glossary/contingent-workforce": {
+  "status": 200,
+  "final": "/glossary/contingent-workforce"
+ },
+ "/glossary/workforce-mobility": {
+  "status": 200,
+  "final": "/glossary/workforce-mobility"
+ },
+ "/glossary/worker-misclassification": {
+  "status": 200,
+  "final": "/glossary/worker-misclassification"
+ },
+ "/glossary/independent-contractor": {
+  "status": 200,
+  "final": "/glossary/independent-contractor"
+ },
+ "/glossary/employer-entity": {
+  "status": 200,
+  "final": "/glossary/employer-entity"
+ },
+ "/glossary/employer-of-record-vs-peo": {
+  "status": 200,
+  "final": "/glossary/employer-of-record-vs-peo"
+ },
+ "/glossary/subsidiary": {
+  "status": 200,
+  "final": "/glossary/subsidiary"
+ },
+ "/glossary/legal-entity": {
+  "status": 200,
+  "final": "/glossary/legal-entity"
+ },
+ "/glossary/global-payroll": {
+  "status": 200,
+  "final": "/glossary/global-payroll"
+ },
+ "/glossary/direct-employment": {
+  "status": 200,
+  "final": "/glossary/direct-employment"
+ },
+ "/glossary/belgian-holiday-pay": {
+  "status": 200,
+  "final": "/glossary/belgian-holiday-pay"
+ },
+ "/glossary/dimona": {
+  "status": 200,
+  "final": "/glossary/dimona"
+ },
+ "/glossary/national-social-security-office-nsso": {
+  "status": 200,
+  "final": "/glossary/national-social-security-office-nsso"
+ },
+ "/glossary/belgian-employment-law": {
+  "status": 200,
+  "final": "/glossary/belgian-employment-law"
+ },
+ "/glossary/data-processing-agreement-dpa": {
+  "status": 200,
+  "final": "/glossary/data-processing-agreement-dpa"
+ },
+ "/glossary/staff-augmentation": {
+  "status": 200,
+  "final": "/glossary/staff-augmentation"
+ },
+ "/glossary/standard-contractual-clauses-sccs": {
+  "status": 200,
+  "final": "/glossary/standard-contractual-clauses-sccs"
+ },
+ "/glossary/joint-committee": {
+  "status": 200,
+  "final": "/glossary/joint-committee"
+ },
+ "/glossary/belgian-payroll-tax": {
+  "status": 200,
+  "final": "/glossary/belgian-payroll-tax"
+ },
+ "/glossary/branch-office": {
+  "status": 200,
+  "final": "/glossary/branch-office"
+ },
+ "/glossary/whistleblower-directive": {
+  "status": 200,
+  "final": "/glossary/whistleblower-directive"
+ },
+ "/glossary/sub-processor": {
+  "status": 200,
+  "final": "/glossary/sub-processor"
+ },
+ "/glossary/gdpr": {
+  "status": 200,
+  "final": "/glossary/gdpr"
+ },
+ "/glossary/german-gmbh": {
+  "status": 200,
+  "final": "/glossary/german-gmbh"
+ },
+ "/glossary/permanent-establishment": {
+  "status": 200,
+  "final": "/glossary/permanent-establishment"
+ },
+ "/glossary/eu-pay-transparency-directive": {
+  "status": 200,
+  "final": "/glossary/eu-pay-transparency-directive"
+ },
+ "/glossary/arbeitnehmerueberlassung": {
+  "status": 200,
+  "final": "/glossary/arbeitnehmerueberlassung"
+ },
+ "/glossary/posted-workers-directive": {
+  "status": 200,
+  "final": "/glossary/posted-workers-directive"
+ },
+ "/glossary/cross-border-payroll": {
+  "status": 200,
+  "final": "/glossary/cross-border-payroll"
+ },
+ "/glossary/eu-blue-card": {
+  "status": 200,
+  "final": "/glossary/eu-blue-card"
+ },
+ "/glossary/dutch-bv": {
+  "status": 200,
+  "final": "/glossary/dutch-bv"
+ },
+ "/glossary/kuendigungsschutz": {
+  "status": 200,
+  "final": "/glossary/kuendigungsschutz"
+ },
+ "/glossary/cao": {
+  "status": 200,
+  "final": "/glossary/cao"
+ },
+ "/glossary/ind-recognised-sponsor": {
+  "status": 200,
+  "final": "/glossary/ind-recognised-sponsor"
+ },
+ "/glossary/sozialversicherung": {
+  "status": 200,
+  "final": "/glossary/sozialversicherung"
+ },
+ "/glossary/german-payroll-tax": {
+  "status": 200,
+  "final": "/glossary/german-payroll-tax"
+ },
+ "/glossary/belastingdienst": {
+  "status": 200,
+  "final": "/glossary/belastingdienst"
+ },
+ "/glossary/aug": {
+  "status": 200,
+  "final": "/glossary/aug"
+ },
+ "/glossary/betriebsrat": {
+  "status": 200,
+  "final": "/glossary/betriebsrat"
+ },
+ "/glossary/lohnsteuer": {
+  "status": 200,
+  "final": "/glossary/lohnsteuer"
+ },
+ "/glossary/ondernemingsraad": {
+  "status": 200,
+  "final": "/glossary/ondernemingsraad"
+ },
+ "/glossary/transitievergoeding": {
+  "status": 200,
+  "final": "/glossary/transitievergoeding"
+ },
+ "/glossary/dutch-payroll-tax": {
+  "status": 200,
+  "final": "/glossary/dutch-payroll-tax"
+ },
+ "/glossary/holiday-allowance": {
+  "status": 200,
+  "final": "/glossary/holiday-allowance"
+ },
+ "/glossary/30-percent-ruling": {
+  "status": 200,
+  "final": "/glossary/30-percent-ruling"
+ },
+ "/glossary/highly-skilled-migrant-programme": {
+  "status": 200,
+  "final": "/glossary/highly-skilled-migrant-programme"
+ },
+ "/glossary/waadi": {
+  "status": 200,
+  "final": "/glossary/waadi"
+ },
+ "/glossary/dutch-social-security": {
+  "status": 200,
+  "final": "/glossary/dutch-social-security"
+ },
+ "/glossary/uwv": {
+  "status": 200,
+  "final": "/glossary/uwv"
+ },
+ "/glossary/dutch-employment-law": {
+  "status": 200,
+  "final": "/glossary/dutch-employment-law"
+ },
+ "/glossary/annual-leave": {
+  "status": 200,
+  "final": "/glossary/annual-leave"
+ },
+ "/glossary/statutory-benefits": {
+  "status": 200,
+  "final": "/glossary/statutory-benefits"
+ },
+ "/glossary/wet-dba": {
+  "status": 200,
+  "final": "/glossary/wet-dba"
+ },
+ "/glossary/pension-contribution": {
+  "status": 200,
+  "final": "/glossary/pension-contribution"
+ },
+ "/glossary/net-salary": {
+  "status": 200,
+  "final": "/glossary/net-salary"
+ },
+ "/glossary/payroll-tax": {
+  "status": 200,
+  "final": "/glossary/payroll-tax"
+ },
+ "/glossary/gross-salary": {
+  "status": 200,
+  "final": "/glossary/gross-salary"
+ },
+ "/glossary/employer-contributions": {
+  "status": 200,
+  "final": "/glossary/employer-contributions"
+ },
+ "/glossary/notice-period": {
+  "status": 200,
+  "final": "/glossary/notice-period"
+ },
+ "/glossary/probation-period": {
+  "status": 200,
+  "final": "/glossary/probation-period"
+ },
+ "/glossary/statutory-sick-pay": {
+  "status": 200,
+  "final": "/glossary/statutory-sick-pay"
+ },
+ "/glossary/right-to-work": {
+  "status": 200,
+  "final": "/glossary/right-to-work"
+ },
+ "/glossary/paye": {
+  "status": 200,
+  "final": "/glossary/paye"
+ },
+ "/glossary/ir35": {
+  "status": 200,
+  "final": "/glossary/ir35"
+ },
+ "/immigration-visa-sponsorship/netherlands": {
+  "status": 200,
+  "final": "/immigration-visa-sponsorship/netherlands"
+ },
+ "/glossary/national-insurance": {
+  "status": 200,
+  "final": "/glossary/national-insurance"
+ },
+ "/glossary/tupe": {
+  "status": 200,
+  "final": "/glossary/tupe"
+ },
+ "/immigration-visa-and-work-permits": {
+  "status": 200,
+  "final": "/immigration-visa-and-work-permits"
+ },
+ "/glossary/social-security": {
+  "status": 200,
+  "final": "/glossary/social-security"
+ },
+ "/post/category/blog": {
+  "status": 200,
+  "final": "/post/category/blog"
+ },
+ "/post/tag/EOR": {
+  "status": 200,
+  "final": "/post/tag/EOR"
+ },
+ "/post/category/talent-mobility-services": {
+  "status": 200,
+  "final": "/post/category/talent-mobility-services"
+ },
+ "/post/category/global-hiring": {
+  "status": 200,
+  "final": "/post/category/global-hiring"
+ },
+ "/post/category/compliance-and-employment-law": {
+  "status": 200,
+  "final": "/post/category/compliance-and-employment-law"
+ },
+ "/post/category/global-hr": {
+  "status": 200,
+  "final": "/post/category/global-hr"
+ },
+ "/post/category/global-payroll": {
+  "status": 200,
+  "final": "/post/category/global-payroll"
+ },
+ "/post/tag/Payroll Compliance": {
+  "status": 200,
+  "final": "/post/tag/Payroll%20Compliance"
+ },
+ "/post/category/employer-of-record": {
+  "status": 200,
+  "final": "/post/category/employer-of-record"
+ },
+ "/post/tag/Global Payroll": {
+  "status": 200,
+  "final": "/post/tag/Global%20Payroll"
+ },
+ "/post/category/visa-and-lmmigration": {
+  "status": 200,
+  "final": "/post/category/visa-and-lmmigration"
+ },
+ "/services/tax-advisory-and-optimization": {
+  "status": 410,
+  "final": "/tax-advisory-and-optimization"
+ },
+ "/post/tag/Multi-Country Payroll": {
+  "status": 200,
+  "final": "/post/tag/Multi-Country%20Payroll"
+ },
+ "/services/employee-onboarding-process": {
+  "status": 404,
+  "final": "/employee-onboarding-process"
+ },
+ "/services/labour-law-consultancy": {
+  "status": 404,
+  "final": "/labour-law-consultancy"
+ },
+ "/services/immigration-visa-and-work-permits": {
+  "status": 200,
+  "final": "/immigration-visa-and-work-permits"
+ },
+ "/post/tag/Employer of Record (EOR)": {
+  "status": 200,
+  "final": "/post/tag/Employer%20of%20Record%20(EOR)"
+ },
+ "/services/international-eor-services": {
+  "status": 404,
+  "final": "/international-eor-services"
+ },
+ "/services/recognized-sponsorship-services": {
+  "status": 200,
+  "final": "/immigration-visa-and-work-permits"
+ },
+ "/services/payroll-and-salary-administration": {
+  "status": 200,
+  "final": "/global-payroll-services"
+ },
+ "/services/international-peo-services": {
+  "status": 200,
+  "final": "/employer-of-record-services"
+ },
+ "/webinar": {
+  "status": 404,
+  "final": "/webinar"
+ },
+ "/sub-processors": {
+  "status": 200,
+  "final": "/sub-processors"
+ },
+ "/services/self-employment": {
+  "status": 404,
+  "final": "/self-employment"
+ },
+ "/services/global-team-maturity-and-workforce-structure": {
+  "status": 404,
+  "final": "/global-team-maturity-and-workforce-structure"
+ },
+ "/hrpedia": {
+  "status": 200,
+  "final": "/country-guide"
+ },
+ "/contact": {
+  "status": 200,
+  "final": "/contact-us"
+ },
+ "/country-guide-france": {
+  "status": 200,
+  "final": "/country-guide/france"
+ },
+ "/services/employer-of-record-services": {
+  "status": 200,
+  "final": "/employer-of-record-services"
+ },
+ "/terms-and-conditons": {
+  "status": 200,
+  "final": "/terms-conditions"
+ },
+ "/faqs": {
+  "status": 200,
+  "final": "/blogs"
+ },
+ "/hrpedia/employer-of-record-the-netherlands": {
+  "status": 200,
+  "final": "/country-guide/the-netherlands"
+ },
+ "/hrpedia/employer-of-record-spain": {
+  "status": 200,
+  "final": "/country-guide/spain"
+ },
+ "/services/global-peo-services": {
+  "status": 200,
+  "final": "/employer-of-record-services"
+ },
+ "/hrpedia/employer-of-record-france": {
+  "status": 200,
+  "final": "/country-guide/france"
+ },
+ "/hrpedia/employer-of-record-italy": {
+  "status": 200,
+  "final": "/country-guide/italy"
+ },
+ "/hrpedia/employer-of-record-belgium": {
+  "status": 200,
+  "final": "/country-guide/belgium"
+ },
+ "/hrpedia/employer-of-record-norway": {
+  "status": 200,
+  "final": "/country-guide/norway"
+ },
+ "/hrpedia/employer-of-record-sweden": {
+  "status": 200,
+  "final": "/country-guide/sweden"
+ },
+ "/hrpedia/employer-of-record-germany": {
+  "status": 200,
+  "final": "/country-guide/germany"
+ },
+ "/services/global-payroll-services": {
+  "status": 200,
+  "final": "/global-payroll-services"
+ },
+ "/hrpedia/employer-of-record-finland": {
+  "status": 200,
+  "final": "/country-guide/finland"
+ },
+ "/hrpedia/employer-of-record-Italy": {
+  "status": 200,
+  "final": "/country-guide/italy"
+ },
+ "/hrpedia/employer-of-record-romania": {
+  "status": 200,
+  "final": "/country-guide/romania"
+ },
+ "/hrpedia/employer-of-record-austria": {
+  "status": 200,
+  "final": "/country-guide/austria"
+ },
+ "/hrpedia/employer-of-record-poland": {
+  "status": 200,
+  "final": "/country-guide/poland"
+ },
+ "/hrpedia/employer-of-record-portugal": {
+  "status": 200,
+  "final": "/country-guide/portugal"
+ },
+ "/hrpedia/employer-of-record-india": {
+  "status": 200,
+  "final": "/country-guide/india"
+ },
+ "/hrpedia/employer-of-record-the-Netherlands": {
+  "status": 200,
+  "final": "/country-guide/the-netherlands"
+ },
+ "/hrpedia/employer-of-record-the-United-Kingdom": {
+  "status": 200,
+  "final": "/country-guide/the-uk"
+ },
+ "/hrpedia/employer-of-record-the-united-kingdom": {
+  "status": 200,
+  "final": "/country-guide/the-uk"
+ },
+ "/hrpedia/employer-of-record-Denmark": {
+  "status": 200,
+  "final": "/country-guide/denmark"
+ },
+ "/hrpedia/poland": {
+  "status": 200,
+  "final": "/country-guide/poland"
+ },
+ "/hrpedia/india": {
+  "status": 200,
+  "final": "/country-guide/india"
+ },
+ "/hrpedia/employer-of-record-united-arab-emirates": {
+  "status": 200,
+  "final": "/country-guide/uae"
+ },
+ "/hrpedia/france": {
+  "status": 200,
+  "final": "/country-guide/france"
+ },
+ "/hrpedia/austria": {
+  "status": 200,
+  "final": "/country-guide/austria"
+ },
+ "/hrpedia/the-netherlands": {
+  "status": 200,
+  "final": "/country-guide/the-netherlands"
+ },
+ "/hrpedia/romania": {
+  "status": 200,
+  "final": "/country-guide/romania"
+ },
+ "/hrpedia/Brazil": {
+  "status": 200,
+  "final": "/country-guide/brazil"
+ },
+ "/hrpedia/brazil": {
+  "status": 200,
+  "final": "/country-guide/brazil"
+ },
+ "/hrpedia/italy": {
+  "status": 200,
+  "final": "/country-guide/italy"
+ },
+ "/hrpedia/spain": {
+  "status": 200,
+  "final": "/country-guide/spain"
+ },
+ "/hrpedia/belgium": {
+  "status": 200,
+  "final": "/country-guide/belgium"
+ },
+ "/hrpedia/ireland": {
+  "status": 200,
+  "final": "/country-guide/ireland"
+ },
+ "/hrpedia/the-united-kingdom": {
+  "status": 200,
+  "final": "/country-guide/the-uk"
+ },
+ "/hrpedia/norway": {
+  "status": 200,
+  "final": "/country-guide/norway"
+ },
+ "/hrpedia/united-arab-emirates": {
+  "status": 200,
+  "final": "/country-guide/uae"
+ },
+ "/hrpedia/Germany": {
+  "status": 200,
+  "final": "/country-guide/germany"
+ },
+ "/hrpedia/germany": {
+  "status": 200,
+  "final": "/country-guide/germany"
+ },
+ "/hrpedia/sweden": {
+  "status": 200,
+  "final": "/country-guide/sweden"
+ },
+ "/post/tag/Employer%20of%20Record%20(EOR)": {
+  "status": 404,
+  "final": "/post/tag/Employer%2520of%2520Record%2520(EOR)"
+ },
+ "/post/tag/Multi-Country%20Payroll": {
+  "status": 404,
+  "final": "/post/tag/Multi-Country%2520Payroll"
+ },
+ "/services/international-eor-and-peo-services": {
+  "status": 200,
+  "final": "/employer-of-record-services"
+ },
+ "/hrpedia/denmark": {
+  "status": 200,
+  "final": "/country-guide/denmark"
+ },
+ "/post/tag/Payroll%20Compliance": {
+  "status": 404,
+  "final": "/post/tag/Payroll%2520Compliance"
+ },
+ "/post/tag/Global%20Payroll": {
+  "status": 404,
+  "final": "/post/tag/Global%2520Payroll"
+ },
+ "/hrpedia/portugal": {
+  "status": 200,
+  "final": "/country-guide/portugal"
+ },
+ "/international-eor-and-peo-services": {
+  "status": 200,
+  "final": "/employer-of-record-services"
+ },
+ "/hrpedia/finland": {
+  "status": 200,
+  "final": "/country-guide/finland"
+ }
+}
