@@ -1846,3 +1846,69 @@ html body .klaro .cookie-modal .cm-modal .hide svg { width: 14px; height: 14px; 
 html body .klaro .cookie-modal .cm-modal .cm-header h1 { padding-right: 48px !important; }
 /* the category title already says "(Always Active)" */
 html body .klaro .cookie-modal .cm-required { display: none !important; }
+
+/* ---------- 27. Header: floating glass pill --------------------------------------------------- */
+/* The fixed header block (.header_marquee) keeps its place and height, but its parts swap roles:
+   the certification strip moves to the very top, and the nav bar becomes a rounded glass capsule
+   floating 8px below it. Once the page scrolls the strip folds away (section 10) and the capsule
+   floats 10px from the top edge with the page visible around it. The block itself is transparent
+   and lets clicks through, so only the strip and the capsule catch the pointer. */
+html body .header_marquee, html body .header_marquee.header_marquee_fixed {
+  display: flex !important; flex-direction: column !important;
+  background: transparent !important; box-shadow: none !important; pointer-events: none;
+}
+html body .header_marquee > * { pointer-events: auto; }
+html body .header_marquee .marquee_section2 { order: -1; }
+html body .header_marquee .header {
+  width: calc(100% - 32px) !important; max-width: calc(var(--mono-content) + 48px) !important;
+  margin: 8px auto 0 !important; padding: 6px 8px 6px 22px !important;
+  border: 1px solid rgba(17, 17, 17, .08) !important; border-radius: 999px !important;
+  background: rgba(255, 255, 255, .8) !important;
+  -webkit-backdrop-filter: saturate(160%) blur(16px); backdrop-filter: saturate(160%) blur(16px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .04), 0 14px 34px -20px rgba(0, 0, 0, .3) !important;
+  transition: margin .4s var(--mono-ease-out), background-color .3s var(--mono-ease), box-shadow .3s var(--mono-ease) !important;
+}
+html body .header_marquee.header_marquee_fixed .header, html.mono-scrolled body .header_marquee .header {
+  margin-top: 10px !important; background: rgba(255, 255, 255, .86) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .05), 0 18px 40px -20px rgba(0, 0, 0, .38) !important;
+}
+html body .header_marquee .header > .container { max-width: none !important; width: 100% !important; padding: 0 !important; }
+html body .header_marquee .header > .container > .row { margin: 0 !important; }
+html body .header_marquee .header > .container > .row > [class*="col-"] { padding: 0 !important; }
+html body .header_marquee .header .navbar { min-height: 48px; }
+html body .header_marquee .header .navbar .navbar-brand img { max-width: 100px !important; height: auto !important; }
+html body .header_marquee .header .right_header .common_btn { padding: 11px 22px !important; font-size: 15px !important; }
+
+/* current page: the hover pill stays on (replaces the orange dot) */
+html body .header .navbar-nav > li > a.nav-link.active:not(.dropdown-toggle)::after { content: none !important; }
+html body .header .navbar-nav > li > a.active::before, html body .header .navbar-nav > .nav-item > .nav-link.active::before { opacity: 1; scale: 1; background: #ececee; }
+
+@media (min-width: 768px) {
+  /* mega menus hang just below the capsule as a detached rounded panel of the same width */
+  html body .header_marquee .header .navbar-nav > li > .dropdown-menu {
+    top: calc(100% + 10px) !important; margin-top: 0 !important;
+    border: 1px solid rgba(17, 17, 17, .08) !important; border-radius: 24px !important; overflow: hidden;
+    box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .35) !important; overflow: visible !important;
+  }
+  html body .header_marquee .header .navbar-nav > li > .dropdown-menu .booking_close { border-radius: 0 0 23px 23px; }
+  /* invisible bridge over the gap, so moving the pointer from the item to the panel keeps it open */
+  html body .header_marquee .header .navbar-nav > li > .dropdown-menu::before { content: ""; position: absolute; left: 0; right: 0; top: -22px; height: 22px; }
+}
+@media (max-width: 767.98px) {
+  html body .header_marquee .header {
+    width: calc(100% - 20px) !important; margin-top: 10px !important; padding: 6px 8px 6px 16px !important; border-radius: 24px !important;
+  }
+  html body .header_marquee .header .navbar .navbar-brand img { max-width: 88px !important; }
+  /* phone menu: a rounded card dropping out of the capsule, edge to edge with it */
+  html body .header_marquee .header .navbar-collapse {
+    top: calc(100% + 14px) !important; left: -16px !important; right: -8px !important; width: auto !important;
+    max-height: calc(100vh - 150px); overflow-y: auto; padding: 6px 18px !important;
+    border: 1px solid rgba(17, 17, 17, .08) !important; border-radius: 22px !important; background: #fff !important;
+    box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .35) !important;
+  }
+  html body .header_marquee .header .navbar-collapse .navbar-nav { background: transparent !important; box-shadow: none !important; margin: 0 !important; padding: 0 !important; }
+  html body .header_marquee .header .navbar-collapse .navbar-nav > li:last-child > a { border-bottom: 0 !important; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  html body .header_marquee .header { background: #fff !important; -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
