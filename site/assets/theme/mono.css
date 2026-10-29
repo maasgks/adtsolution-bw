@@ -2153,3 +2153,12 @@ html:has(.header .navbar-collapse.show) .header_marquee .marquee_section2 { filt
 /* the glass capsule would let the dim show through: solid white while its menu is open */
 html.mono-scrolled:has(.header .navbar-nav > li > .dropdown-menu.show) body .header_marquee .header::before,
 html.mono-scrolled:has(.header .navbar-collapse.show) body .header_marquee .header::before { background: #fff; }
+
+/* full header (top of page): the mega menu hangs from the bar, so round only its bottom corners */
+@media (min-width: 768px) {
+  html:not(.mono-scrolled) body .header_marquee .header .navbar-nav > li > .dropdown-menu {
+    border-radius: 0 0 20px 20px !important; overflow: hidden;
+    box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .35) !important;
+  }
+  html:not(.mono-scrolled) body .header_marquee .header .navbar-nav > li > .dropdown-menu .booking_close { border-radius: 0 0 20px 20px; }
+}
