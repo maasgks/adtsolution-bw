@@ -23,6 +23,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      - name: Version theme file URLs (cache-busting)
+        run: node tools/stamp-theme.mjs site
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
