@@ -692,6 +692,44 @@
   ['shown.bs.modal', 'shown.bs.tab', 'shown.bs.collapse', 'shown.bs.dropdown'].forEach(function (ev) {
     d.addEventListener(ev, function () { setTimeout(buttons, 50); });
   });
+  /* ---------- certification strip: spotlight ---------- */
+  // Each frame, every item gets --f = how close it is to the middle of the strip (1 = centre,
+  // 0 = a third of the width away or more), eased; mono.css §28 turns that into brightness and size.
+  // Moving items only change transforms, so measuring them costs no layout. Idle while the strip
+  // is folded away (page scrolled) or the tab is hidden.
+  (function trustSpotlight() {
+    var strip = d.querySelector('.marquee_section2 .marquee2');
+    if (!strip) return;
+    // The badges are dark logos on solid white tiles. These filters paint them pure white and turn
+    // the tile transparent (alpha = k * (1 - luminance)), so they sit on the dark bar with no box.
+    // A blend mode cannot do this here: the moving, fading items isolate their contents.
+    var NS = 'http://www.w3.org/2000/svg', svg = d.createElementNS(NS, 'svg');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('style', 'position:absolute;width:0;height:0;overflow:hidden');
+    svg.innerHTML = [['mono-logo-white', 2.6], ['mono-logo-white-strong', 4.5]].map(function (f) {
+      var k = f[1];
+      return '<filter id="' + f[0] + '" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="' +
+        '0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  ' + (-.2126 * k).toFixed(3) + ' ' + (-.7152 * k).toFixed(3) + ' ' +
+        (-.0722 * k).toFixed(3) + ' 0 ' + k + '"/></filter>';
+    }).join('');
+    d.body.appendChild(svg);
+    html.classList.add('mono-logo-filters');
+    var items = [].slice.call(strip.querySelectorAll('li'));
+    if (!items.length) return;
+    function frame() {
+      if (!scrolled && !d.hidden) {
+        var r = strip.getBoundingClientRect(), cx = r.left + r.width / 2, reach = Math.max(260, r.width * .34);
+        for (var i = 0; i < items.length; i++) {
+          var b = items[i].getBoundingClientRect();
+          var f = Math.max(0, 1 - Math.abs(b.left + b.width / 2 - cx) / reach);
+          items[i].style.setProperty('--f', (f * f * (3 - 2 * f)).toFixed(3));
+        }
+      }
+      if (!reduce) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  })();
+
   /* ---------- smooth scrolling ---------- */
   // Lenis eases mouse-wheel scrolling on every page. Touch screens keep native scrolling, and so do
   // visitors who ask for reduced motion. Dialogs, menus and dropdowns scroll natively inside, the
