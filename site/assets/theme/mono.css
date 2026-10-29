@@ -1949,19 +1949,19 @@ html body .marquee_section2 .marquee2 {
 }
 /* the spotlight: a warm glow that breathes, and a hairline along the bottom that is brightest under it */
 html body .marquee_section2 .marquee2::before {
-  content: ""; position: absolute; z-index: 0; left: 50%; top: 50%; width: 560px; height: 150px; margin: -75px 0 0 -280px;
-  background: radial-gradient(closest-side, rgba(222, 121, 9, .26), rgba(222, 121, 9, .08) 55%, rgba(222, 121, 9, 0));
+  content: ""; position: absolute; z-index: 0; left: 50%; top: 50%; width: min(1100px, 80%); height: 170px; margin: -85px 0 0 0; translate: -50% 0;
+  background: radial-gradient(closest-side, rgba(222, 121, 9, .24), rgba(222, 121, 9, .09) 60%, rgba(222, 121, 9, 0));
   pointer-events: none; animation: mono-spot 7s ease-in-out infinite;
 }
 html body .marquee_section2 .marquee2::after {
   content: ""; position: absolute; z-index: 0; left: 0; right: 0; bottom: 0; height: 1px; pointer-events: none;
-  background: linear-gradient(90deg, rgba(222, 121, 9, 0) 20%, rgba(222, 121, 9, .75) 50%, rgba(222, 121, 9, 0) 80%);
+  background: linear-gradient(90deg, rgba(222, 121, 9, 0) 8%, rgba(222, 121, 9, .7) 50%, rgba(222, 121, 9, 0) 92%);
 }
 @keyframes mono-spot { 0%, 100% { opacity: .75; scale: .92 1; } 50% { opacity: 1; scale: 1.06 1; } }
 /* edge fades drawn as overlays (a CSS mask would isolate the logos and break their `screen` blend) */
 html body .marquee_section2::before, html body .marquee_section2::after {
-  content: ""; position: absolute; z-index: 3; top: 0; bottom: 0; width: 14%; max-width: 200px; pointer-events: none;
-  background: linear-gradient(90deg, #090909 15%, rgba(9, 9, 9, 0));
+  content: ""; position: absolute; z-index: 3; top: 0; bottom: 0; width: 7%; max-width: 110px; pointer-events: none;
+  background: linear-gradient(90deg, #090909 10%, rgba(9, 9, 9, 0));
 }
 html body .marquee_section2::before { left: 0; }
 html body .marquee_section2::after { right: 0; transform: scaleX(-1); }
@@ -1977,7 +1977,7 @@ html body .marquee_section2 .marquee2 ul li, html body .marquee_section2 .marque
   --f: .5;
   display: flex !important; align-items: center; position: relative; margin: 0 !important; padding: 0 34px !important;
   font: 500 13px/1 Inter-Medium, Inter, sans-serif !important; letter-spacing: .01em; color: #fff !important;
-  opacity: calc(.28 + .72 * var(--f));
+  opacity: calc(.5 + .5 * var(--f));
 }
 html body .marquee_section2 .marquee2 ul li > div {
   display: flex !important; align-items: center; gap: 10px; color: #fff !important;
@@ -2008,7 +2008,7 @@ html body .marquee_section2 .marquee2 ul li a { display: inline-flex; align-item
 html body .marquee_section2 .marquee2 ul li a::after { content: "4.9 on G2"; font: inherit; color: #fff; }
 
 @media (max-width: 767.98px) {
-  html body .marquee_section2 .marquee2::before { width: 320px; margin-left: -160px; }
+  html body .marquee_section2 .marquee2::before { width: 92%; }
   html body .marquee_section2 .marquee2 ul { animation-duration: 42s !important; }
   html body .marquee_section2 .marquee2 ul li { padding: 0 24px !important; font-size: 12px !important; }
 }

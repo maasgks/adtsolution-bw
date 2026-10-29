@@ -693,8 +693,8 @@
     d.addEventListener(ev, function () { setTimeout(buttons, 50); });
   });
   /* ---------- certification strip: spotlight ---------- */
-  // Each frame, every item gets --f = how close it is to the middle of the strip (1 = centre,
-  // 0 = a third of the width away or more), eased; mono.css §28 turns that into brightness and size.
+  // Each frame, every item gets --f = how close it is to the middle of the strip (1 across the
+  // middle third, easing to 0 near the edges); mono.css §28 turns that into brightness and size.
   // Moving items only change transforms, so measuring them costs no layout. Idle while the strip
   // is folded away (page scrolled) or the tab is hidden.
   (function trustSpotlight() {
@@ -718,10 +718,10 @@
     if (!items.length) return;
     function frame() {
       if (!scrolled && !d.hidden) {
-        var r = strip.getBoundingClientRect(), cx = r.left + r.width / 2, reach = Math.max(260, r.width * .34);
+        var r = strip.getBoundingClientRect(), cx = r.left + r.width / 2, plateau = r.width * .16, reach = Math.max(220, r.width * .34);
         for (var i = 0; i < items.length; i++) {
           var b = items[i].getBoundingClientRect();
-          var f = Math.max(0, 1 - Math.abs(b.left + b.width / 2 - cx) / reach);
+          var f = Math.max(0, 1 - Math.max(0, Math.abs(b.left + b.width / 2 - cx) - plateau) / reach);
           items[i].style.setProperty('--f', (f * f * (3 - 2 * f)).toFixed(3));
         }
       }
