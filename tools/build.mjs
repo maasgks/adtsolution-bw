@@ -211,6 +211,11 @@ async function buildPage(rel) {
     (m, a, q, v) => a + q + v.replace(/(^|,\s*)(\/[^\s,]+)/g, (mm, s, u) => s + (u.startsWith('//') ? 'https:' + u : ORIGIN + u)) + q);
   html = html.replace(/url\((['"]?)(\/(?!\/)[^'")]+)\1\)/g, (m, q, u) => `url(${q}${ORIGIN}${u}${q})`);
 
+  // cookie consent: local Klaro copy + host-independent config (the live config pins the consent
+  // cookie to the parent domain, which fails on other hosts, so the banner would never go away)
+  html = html.replace(/https:\/\/www\.adtsolution\.com\/js\/(?:klaro\/)?klaro-config\.min\.js(?:\?[^'"]*)?/g, `${pre}assets/theme/klaro-config.js`);
+  html = html.replace(/https:\/\/www\.adtsolution\.com\/js\/(?:klaro\/)?klaro(?:\.min)?\.js/g, `${pre}assets/theme/klaro.min.js`);
+
   html = typeHtml(recolorHtml(html, { accentBlue: /user__css__main\.css/.test(html) }));
 
   // theme layer

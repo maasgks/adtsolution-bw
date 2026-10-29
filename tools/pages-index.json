@@ -2118,5 +2118,9 @@
  "/hrpedia/finland": {
   "status": 200,
   "final": "/country-guide/finland"
+ },
+ "/cookie-policy": {
+  "status": 200,
+  "final": "/cookie-policy"
  }
 }

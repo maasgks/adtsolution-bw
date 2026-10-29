@@ -1816,10 +1816,10 @@ klaroLoaded = true;
 addStylesheet('../assets/css/css__klaro.min.css');
 addStylesheet('../assets/css/css__klaro-custom.css');
 var configScript = document.createElement('script');
-configScript.src = 'https://www.adtsolution.com/js/klaro-config.min.js?v=1791959941-20261014';
+configScript.src = '../assets/theme/klaro-config.js';
 configScript.onload = function() {
 var klaroScript = document.createElement('script');
-klaroScript.src = 'https://www.adtsolution.com/js/klaro.min.js';
+klaroScript.src = '../assets/theme/klaro.min.js';
 klaroScript.defer = true;
 document.head.appendChild(klaroScript);
 };
