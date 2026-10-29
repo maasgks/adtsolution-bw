@@ -653,7 +653,24 @@
   }
 
   function buttons() { try { styleButtons(); arrows(); measure(); } catch (e) { } }
+  // "Book a demo" modal: three key points for the black panel (mono.css §31). Wording restates
+  // claims the site already makes (50+ countries, no entity, services menu, a named CSM).
+  function demoPoints() {
+    var POINTS = ['Hire in 50+ countries, no local entity needed',
+      'Contracts, payroll, visas and compliance in one place',
+      'A named Customer Success Manager from day one'];
+    d.querySelectorAll('.modal .booking_right_wrapper').forEach(function (w) {
+      if (!w.querySelector(':scope > form.multi-step-booking-form') || w.querySelector(':scope > .mono-demo-points')) return;
+      var ul = d.createElement('ul');
+      ul.className = 'mono-demo-points';
+      POINTS.forEach(function (t) { var li = d.createElement('li'); li.textContent = t; ul.appendChild(li); });
+      var p = w.querySelector(':scope > p');
+      p ? p.after(ul) : w.prepend(ul);
+    });
+  }
+
   function boot() {
+    try { demoPoints(); } catch (e) { }
     try { unshout(); } catch (e) { }
     try { testimonials(); } catch (e) { }
     try { journey(); aboutHero(); values(); team(); diff(); contactPage(); } catch (e) { }
