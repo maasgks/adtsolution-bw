@@ -468,40 +468,85 @@ img.mono-img-missing { visibility: hidden; }
 }
 
 /* ---------- 9. Home "Why Dhi" feature cards ----------------------------- */
-/* dark titles, compact body copy, even rhythm, soft elevation and a calm hover */
+/* Numbered cards (01-04) of equal height. Each has a soft icon tile, a title and calm body copy.
+   On hover the card lifts, a warm spotlight follows the pointer (mono.js sets --mx / --my), the icon
+   tile turns ink with a white icon, and an accent line grows along the bottom edge. */
+/* room for the hover lift and shadow: the slider box clips (overflow: hidden in the page CSS), so the list
+   gets padding inside it */
+.why_slider { overflow: visible !important; }
+.why_slider .slick-list { padding: 12px 0 24px !important; margin: -12px 0 -24px; }
+.why_slider .slick-track { display: flex !important; }
+.why_slider .slick-slide { height: auto !important; display: flex !important; }
+.why_slider .slick-slide > div, .why_slider .slick-slide > div > [class*="col-"] { display: flex !important; width: 100%; }
+/* before the slider starts (or where it never does) the four columns are plain blocks: same equal heights */
+.why_slider:not(.slick-initialized) { display: flex; flex-wrap: wrap; }
+.why_slider:not(.slick-initialized) > [class*="col-"] { display: flex; }
 .why_slider .why_slider_column {
-  height: 100%;
+  --mx: 50%; --my: 0%;
+  position: relative; isolation: isolate; overflow: hidden;
+  height: 100%; width: 100%;
   min-height: 0 !important;
   display: flex; flex-direction: column; align-items: flex-start;
-  padding: 28px 24px 30px !important;
-  background: #fff !important;
+  padding: 26px 24px 30px !important;
+  background: linear-gradient(180deg, #fff 0%, #fcfcfc 100%) !important;
   border: 1px solid #ececee !important;
-  border-radius: 18px !important;
+  border-radius: 20px !important;
   box-shadow: 0 1px 2px rgba(17, 17, 17, .04), 0 12px 28px -22px rgba(17, 17, 17, .28) !important;
-  transition: border-color .3s var(--mono-ease), box-shadow .4s var(--mono-ease), translate .4s var(--mono-ease-out);
+  transition: border-color .3s var(--mono-ease), box-shadow .45s var(--mono-ease), translate .45s var(--mono-ease-out) !important;
+}
+/* pointer spotlight */
+.why_slider .why_slider_column::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(260px circle at var(--mx) var(--my), rgba(222, 121, 9, .09), transparent 70%);
+  opacity: 0; transition: opacity .4s var(--mono-ease);
+}
+/* accent line along the bottom */
+.why_slider .why_slider_column::after {
+  content: ""; position: absolute; left: 24px; right: 24px; bottom: 0; height: 2px; border-radius: 2px;
+  background: linear-gradient(90deg, var(--mono-accent), rgba(222, 121, 9, 0));
+  transform: scaleX(0); transform-origin: left; transition: transform .55s var(--mono-ease-out);
 }
 .why_slider .why_slider_column:hover {
-  border-color: #d4d4d8 !important;
-  box-shadow: 0 1px 2px rgba(17, 17, 17, .05), 0 22px 40px -26px rgba(17, 17, 17, .38) !important;
+  translate: 0 -4px; transform: none !important;   /* the site's own hover adds a 10px transform lift on top */
+  border-color: #e0e0e3 !important;
+  box-shadow: 0 1px 2px rgba(17, 17, 17, .05), 0 28px 48px -28px rgba(17, 17, 17, .4) !important;
 }
+.why_slider .why_slider_column:hover::before { opacity: 1; }
+.why_slider .why_slider_column:hover::after { transform: scaleX(1); }
+/* number in the top-right corner, from the card's own icon (01-04) */
+.why_slider .why_slider_column > span::after {
+  position: absolute; top: 26px; right: 24px;
+  font: 500 13px/1 Inter-Medium, Inter, sans-serif; letter-spacing: .04em; color: #c4c4c9;
+  transition: color .3s var(--mono-ease);
+}
+.why_slider .why_slider_column:has(img[src*="why_Icon1"]) > span::after { content: "01"; }
+.why_slider .why_slider_column:has(img[src*="why_Icon2"]) > span::after { content: "02"; }
+.why_slider .why_slider_column:has(img[src*="why_Icon3"]) > span::after { content: "03"; }
+.why_slider .why_slider_column:has(img[src*="why_Icon4"]) > span::after { content: "04"; }
+.why_slider .why_slider_column:hover > span::after { color: var(--mono-accent); }
 .why_slider .why_slider_column > span {
-  width: 52px !important; height: 52px !important;
+  width: 54px !important; height: 54px !important;
   display: inline-flex !important; align-items: center; justify-content: center;
-  background: #f4f4f5 !important;
+  background: linear-gradient(180deg, #fafafa, #f1f1f3) !important;
   border: 1px solid #ececee;
-  border-radius: 14px !important;
+  border-radius: 16px !important;
+  box-shadow: inset 0 1px 0 #fff, 0 6px 14px -10px rgba(17, 17, 17, .3);
   margin: 0 !important;
-  transition: background-color .3s var(--mono-ease);
+  transition: background .35s var(--mono-ease), border-color .35s var(--mono-ease), box-shadow .35s var(--mono-ease);
 }
-.why_slider .why_slider_column:hover > span { background: #fff4e8 !important; border-color: rgba(222, 121, 9, .18); }
-.why_slider .why_slider_column > span img { width: 28px !important; height: 28px !important; object-fit: contain; }
+.why_slider .why_slider_column:hover > span {
+  background: #111 !important; border-color: #111;
+  box-shadow: 0 10px 22px -10px rgba(17, 17, 17, .55);
+}
+.why_slider .why_slider_column > span img { width: 28px !important; height: 28px !important; object-fit: contain; transition: filter .35s var(--mono-ease), scale .5s var(--mono-ease-out); }
+.why_slider .why_slider_column:hover > span img { filter: brightness(0) invert(1); scale: 1.08; }
 .why_slider .why_slider_column .why-head {
   min-height: 0 !important;
-  margin: 22px 0 8px !important;
+  margin: 24px 0 8px !important;
   color: var(--mono-ink) !important;
   font-family: Inter-SemiBold, Inter, sans-serif !important;
-  font-size: 18px !important; line-height: 1.35 !important;
-  letter-spacing: -.01em;
+  font-size: 18px !important; line-height: 1.3 !important;
+  letter-spacing: -.015em;
 }
 .why_slider .why_slider_column p:not(.why-head) {
   min-height: 0 !important;
@@ -509,7 +554,18 @@ img.mono-img-missing { visibility: hidden; }
   color: #5b6170 !important;
   font-size: 15px !important; line-height: 1.6 !important;
 }
+/* the section: a faint dot grid fading out from the heading */
+html body .why_adt_section.bg_grey { position: relative; isolation: isolate; }
+html body .why_adt_section.bg_grey::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background-image: radial-gradient(rgba(17, 17, 17, .07) 1px, transparent 1.2px);
+  background-size: 22px 22px;
+  -webkit-mask-image: radial-gradient(70% 60% at 50% 0%, #000 0%, transparent 75%);
+  mask-image: radial-gradient(70% 60% at 50% 0%, #000 0%, transparent 75%);
+}
+.why_slider_wrapper { margin-top: 48px !important; }
 @media (max-width: 991px) { .why_slider .why_slider_column { margin-bottom: 16px; } }
+@media (hover: none) { .why_slider .why_slider_column::after { transform: scaleX(.35); } }
 
 /* home testimonial CTA stretched across the whole container: size it to its label */
 .testimonial_cta_section .common_btn {
@@ -2051,7 +2107,7 @@ html body :is(#staticBackdrop, .modal):has(.multi-step-booking-form) .modal-dial
   align-items: center !important; margin-top: 12px !important; margin-bottom: 12px !important; min-height: calc(100% - 24px) !important;
 }
 html body :is(#staticBackdrop, .modal):has(.multi-step-booking-form) .modal-content {
-  border: 0 !important; border-radius: 24px !important; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
+  border: 0 !important; border-radius: 24px !important; overflow: visible !important;
   box-shadow: 0 50px 100px -40px rgba(0, 0, 0, .6), 0 0 0 1px rgba(0, 0, 0, .04) !important;
 }
 /* the card is sized to fit the screen; if a very short window still needs scrolling, it scrolls without a visible bar */
@@ -2059,6 +2115,10 @@ html body :is(#staticBackdrop, .modal):has(.multi-step-booking-form),
 html body :is(#staticBackdrop, .modal):has(.multi-step-booking-form) .modal-content { scrollbar-width: none; -ms-overflow-style: none; }
 html body :is(#staticBackdrop, .modal):has(.multi-step-booking-form)::-webkit-scrollbar,
 html body :is(#staticBackdrop, .modal):has(.multi-step-booking-form) .modal-content::-webkit-scrollbar { display: none; }
+/* dropdown lists: select2 places them inside the card, which therefore must not clip (overflow: visible above);
+   long options wrap onto a second line instead of ending in "…" */
+html body .modal:has(.multi-step-booking-form) .select2-container--open .select2-dropdown { z-index: 1061; }
+html body .modal:has(.multi-step-booking-form) .select2-results__option { white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.4 !important; }
 /* denser fields inside the modal: 40px instead of the band's 44px */
 html body .modal .multi-step-booking-form.multi-step-booking-form .row { row-gap: 12px; }
 html body .modal .multi-step-booking-form.multi-step-booking-form .form-floating { gap: 5px; }
@@ -2097,17 +2157,17 @@ html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-bo
 }
 html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .popup_image_div > div { margin: 0 !important; padding: 0 !important; display: flex; align-items: center; }
 html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .popup_image_div img { height: 18px !important; width: auto !important; max-width: none !important; }
-html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .mono-demo-points { display: none; }
+html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > :is(.mono-demo-points, .mono-demo-eyebrow, .mono-demo-trust) { display: none; }
 html body :is(#staticBackdrop, .modal) .multi-step-booking-form .booking-sla { display: inline-block; margin-top: 12px; font-size: 13px; color: #71717a; }
 
 @media (min-width: 992px) {
   html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) {
     position: relative; display: grid !important; padding: 0 !important;
-    grid-template-columns: 340px minmax(0, 1fr); grid-template-rows: auto auto auto 1fr auto;
+    grid-template-columns: 340px minmax(0, 1fr); grid-template-rows: auto auto auto auto 1fr auto;
   }
   /* the black brand panel behind the left column */
   html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form)::before {
-    content: ""; position: absolute; z-index: 0; left: 0; top: 0; bottom: 0; width: 340px;
+    content: ""; position: absolute; z-index: 0; left: 0; top: 0; bottom: 0; width: 340px; border-radius: 24px 0 0 24px;
     background:
       radial-gradient(120% 70% at 0% 0%, rgba(222, 121, 9, .28), rgba(222, 121, 9, 0) 60%),
       radial-gradient(90% 50% at 100% 100%, rgba(222, 121, 9, .12), rgba(222, 121, 9, 0) 70%),
@@ -2115,14 +2175,14 @@ html body :is(#staticBackdrop, .modal) .multi-step-booking-form .booking-sla { d
   }
   html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > * { position: relative; z-index: 1; }
   html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > h2 {
-    grid-column: 1; grid-row: 1; margin: 36px 32px 10px !important;
+    grid-column: 1; grid-row: 2; margin: 0 32px 10px !important;
     font-size: 30px !important; line-height: 1.1 !important; color: #fff !important;
   }
   html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > p {
-    grid-column: 1; grid-row: 2; margin: 0 32px 22px !important; font-size: 14.5px !important; line-height: 1.5 !important; color: rgba(255, 255, 255, .68) !important;
+    grid-column: 1; grid-row: 3; margin: 0 32px 22px !important; font-size: 14.5px !important; line-height: 1.5 !important; color: rgba(255, 255, 255, .68) !important;
   }
   html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .mono-demo-points {
-    grid-column: 1; grid-row: 3; display: grid; gap: 11px; margin: 0 32px !important; padding: 0 !important; list-style: none;
+    grid-column: 1; grid-row: 4; display: grid; gap: 11px; margin: 0 32px !important; padding: 0 !important; list-style: none;
   }
   html body :is(#staticBackdrop, .modal) .mono-demo-points li {
     position: relative; padding-left: 30px; margin: 0; list-style: none;
@@ -2136,12 +2196,40 @@ html body :is(#staticBackdrop, .modal) .multi-step-booking-form .booking-sla { d
     content: ""; position: absolute; left: 7px; top: 5.5px; width: 5px; height: 9px;
     border-right: 1.75px solid var(--mono-accent); border-bottom: 1.75px solid var(--mono-accent); transform: rotate(45deg);
   }
-  html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .popup_image_div {
-    grid-column: 1; grid-row: 5; flex-direction: column; align-items: flex-start !important; gap: 10px;
-    margin: 24px 32px 30px !important; padding-top: 18px !important; border-top: 1px solid rgba(255, 255, 255, .1);
+  /* the image badges are replaced on this panel by the trust card below (phones still show them) */
+  html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .popup_image_div { display: none !important; }
+  html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .mono-demo-eyebrow {
+    grid-column: 1; grid-row: 1; justify-self: start; display: inline-flex; align-items: center; gap: 8px;
+    margin: 32px 32px 16px; padding: 6px 12px 6px 10px; border-radius: 999px;
+    background: rgba(255, 255, 255, .07); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .12);
+    font: 500 12.5px/1.2 Inter-Medium, Inter, sans-serif; color: rgba(255, 255, 255, .88); letter-spacing: .01em;
   }
-  /* trust badges are dark artwork: show them in white on the black panel (G2 stars keep their colour) */
-  html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .popup_image_div img:not(.g_stars) { filter: brightness(0) invert(1); opacity: .85; }
+  html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .mono-demo-eyebrow::before {
+    content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--mono-accent);
+    box-shadow: 0 0 0 0 rgba(222, 121, 9, .55); animation: mono-demo-pulse 2.2s ease-out infinite;
+  }
+  @keyframes mono-demo-pulse { 0% { box-shadow: 0 0 0 0 rgba(222, 121, 9, .55); } 70%, 100% { box-shadow: 0 0 0 7px rgba(222, 121, 9, 0); } }
+  html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .mono-demo-trust {
+    grid-column: 1; grid-row: 6; display: block; margin: 24px 24px 24px; padding: 14px 16px; border-radius: 16px;
+    background: rgba(255, 255, 255, .05); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .09);
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  }
+  html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .mono-demo-trust .mono-demo-g2 {
+    display: flex; align-items: center; gap: 10px; padding-bottom: 12px; margin-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, .08); text-decoration: none;
+    font: 400 13px/1.3 Inter, sans-serif; color: rgba(255, 255, 255, .7);
+  }
+  html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .mono-demo-trust .mono-demo-g2 > * { margin: 0 !important; }
+  html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .mono-demo-trust .mono-demo-g2 img { height: 17px !important; width: auto !important; max-width: none !important; }
+  html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .mono-demo-trust .mono-demo-g2 span { display: inline-flex; align-items: baseline; gap: 4px; line-height: 17px; }
+  html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .mono-demo-trust .mono-demo-g2 b { font: 700 15px/1 Inter-Bold, Inter, sans-serif; color: #fff; margin-right: 2px; }
+  html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .mono-demo-trust .mono-demo-g2:hover span { color: #fff; }
+  html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .mono-demo-trust ul { display: grid; gap: 9px; margin: 0; padding: 0; list-style: none; }
+  html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .mono-demo-trust li {
+    display: flex; align-items: center; gap: 10px; margin: 0; list-style: none;
+    font: 500 13px/1.35 Inter-Medium, Inter, sans-serif; color: rgba(255, 255, 255, .78);
+  }
+  html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .mono-demo-trust svg { flex: 0 0 16px; width: 16px; height: 16px; color: var(--mono-accent); }
   html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > form.multi-step-booking-form {
     grid-column: 2; grid-row: 1 / -1; margin: 0 !important; padding: 30px 36px 24px !important; align-self: center;
   }
@@ -2149,11 +2237,13 @@ html body :is(#staticBackdrop, .modal) .multi-step-booking-form .booking-sla { d
 }
 @media (min-width: 992px) and (max-height: 600px) {
   html body :is(#staticBackdrop, .modal):has(.multi-step-booking-form) .modal-dialog.modal-dialog-centered { margin-top: 8px !important; margin-bottom: 8px !important; min-height: calc(100% - 16px) !important; }
-  html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > h2 { margin-top: 28px !important; font-size: 27px !important; }
+  html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .mono-demo-eyebrow { margin-top: 24px; margin-bottom: 12px; }
+  html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > h2 { font-size: 27px !important; }
   html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > p { margin-bottom: 16px !important; }
   html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .mono-demo-points { gap: 8px; }
-  html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .popup_image_div { margin: 18px 32px 24px !important; padding-top: 14px !important; gap: 8px; }
-  html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .popup_image_div img { height: 16px !important; }
+  html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .mono-demo-trust { margin: 16px 24px 18px; padding: 12px 14px; }
+  html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .mono-demo-trust .mono-demo-g2 { padding-bottom: 10px; margin-bottom: 10px; }
+  html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .mono-demo-trust ul { gap: 7px; }
   html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > form.multi-step-booking-form { padding: 24px 36px 18px !important; }
   html body .modal .multi-step-booking-form.multi-step-booking-form .row { row-gap: 10px; }
   html body .modal .multi-step-booking-form.multi-step-booking-form .form-floating > .form-control,

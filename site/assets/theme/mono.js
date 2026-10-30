@@ -666,6 +666,27 @@
       POINTS.forEach(function (t) { var li = d.createElement('li'); li.textContent = t; ul.appendChild(li); });
       var p = w.querySelector(':scope > p');
       p ? p.after(ul) : w.prepend(ul);
+      // a label above the title (the booking step is a 30-minute Calendly slot) and a trust card at the
+      // bottom that replaces the image badges on the black panel: G2 rating as the marquee states it,
+      // and the badges' own claims as text
+      var tag = d.createElement('span');
+      tag.className = 'mono-demo-eyebrow';
+      tag.textContent = 'Free 30-minute call';
+      w.prepend(tag);
+      var g2 = w.querySelector(':scope > .popup_image_div a[href*="g2.com"]');
+      var stars = g2 && g2.querySelector('img');
+      var ICON = {
+        lock: '<rect x="4" y="10.5" width="16" height="10.5" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/>',
+        users: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.2a6.5 6.5 0 0 1 3.5 5.8"/>'
+      };
+      var svg = function (k) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICON[k] + '</svg>'; };
+      var card = d.createElement('div');
+      card.className = 'mono-demo-trust';
+      card.innerHTML = (g2 ? '<a class="mono-demo-g2" href="' + g2.href + '" target="_blank" rel="noopener">' +
+          (stars ? '<img src="' + stars.src + '" alt="G2 rating" width="81" height="17">' : '') +
+          '<span><b>4.9</b> rating on G2</span></a>' : '') +
+        '<ul><li>' + svg('users') + 'Trusted by 100+ companies</li><li>' + svg('lock') + 'Advanced data security</li></ul>';
+      w.appendChild(card);
     });
   }
 
@@ -792,6 +813,17 @@
     };
     d.head.appendChild(s);
   })();
+
+  /* ---------- "Why Dhi ADT" cards: the hover spotlight follows the pointer (mono.css §9) ---------- */
+  if (window.matchMedia && matchMedia('(hover: hover)').matches) {
+    d.addEventListener('pointermove', function (e) {
+      var c = e.target.closest && e.target.closest('.why_slider .why_slider_column');
+      if (!c) return;
+      var r = c.getBoundingClientRect();
+      c.style.setProperty('--mx', (e.clientX - r.left).toFixed(0) + 'px');
+      c.style.setProperty('--my', (e.clientY - r.top).toFixed(0) + 'px');
+    }, { passive: true });
+  }
 
   /* ---------- video modal: grows out of the "Watch video" button (mono.css §35) ---------- */
   (function videoModal() {
