@@ -2044,6 +2044,12 @@ html body img[src*="menu_icon_comparisons"] { filter: brightness(0); opacity: .9
    badges in white at the bottom) and the form on the right, compact enough to fit without scrolling.
    Phones and tablets keep one column, left-aligned, with the badges in a row above the form. */
 html body :is(#staticBackdrop, .modal):has(.multi-step-booking-form) .modal-dialog { max-width: 960px !important; width: calc(100% - 32px) !important; margin-left: auto !important; margin-right: auto !important; }
+/* centred on the screen: the page's own inline style pins the dialog to the top (align-items: flex-start), a leftover
+   from when the form was one long column; the card now fits, so it sits in the middle, and a taller card (phones)
+   still grows downwards from the top margin */
+html body :is(#staticBackdrop, .modal):has(.multi-step-booking-form) .modal-dialog.modal-dialog-centered {
+  align-items: center !important; margin-top: 12px !important; margin-bottom: 12px !important; min-height: calc(100% - 24px) !important;
+}
 html body :is(#staticBackdrop, .modal):has(.multi-step-booking-form) .modal-content {
   border: 0 !important; border-radius: 24px !important; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
   box-shadow: 0 50px 100px -40px rgba(0, 0, 0, .6), 0 0 0 1px rgba(0, 0, 0, .04) !important;
@@ -2142,7 +2148,7 @@ html body :is(#staticBackdrop, .modal) .multi-step-booking-form .booking-sla { d
   html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > style { display: none; }
 }
 @media (min-width: 992px) and (max-height: 600px) {
-  html body :is(#staticBackdrop, .modal):has(.multi-step-booking-form) .modal-dialog { margin-top: 8px !important; margin-bottom: 8px !important; min-height: calc(100% - 16px) !important; }
+  html body :is(#staticBackdrop, .modal):has(.multi-step-booking-form) .modal-dialog.modal-dialog-centered { margin-top: 8px !important; margin-bottom: 8px !important; min-height: calc(100% - 16px) !important; }
   html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > h2 { margin-top: 28px !important; font-size: 27px !important; }
   html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > p { margin-bottom: 16px !important; }
   html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > .mono-demo-points { gap: 8px; }
@@ -2159,7 +2165,7 @@ html body :is(#staticBackdrop, .modal) .multi-step-booking-form .booking-sla { d
   html body .modal .multi-step-booking-form.multi-step-booking-form .hiring-country-wrap .select2-selection--multiple::after { top: 14px !important; }
 }
 @media (max-width: 575.98px) {
-  html body :is(#staticBackdrop, .modal):has(.multi-step-booking-form) .modal-dialog { width: calc(100% - 16px) !important; margin-top: 8px !important; }
+  html body :is(#staticBackdrop, .modal):has(.multi-step-booking-form) .modal-dialog.modal-dialog-centered { width: calc(100% - 16px) !important; margin-top: 8px !important; margin-bottom: 8px !important; min-height: calc(100% - 16px) !important; }
   html body :is(#staticBackdrop, .modal):has(.multi-step-booking-form) .modal-content { border-radius: 20px !important; }
   html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) { padding: 22px 18px 20px !important; }
   html body :is(#staticBackdrop, .modal) .booking_right_wrapper:has(.multi-step-booking-form) > h2 { font-size: 23px !important; }
