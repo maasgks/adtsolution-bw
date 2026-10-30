@@ -793,6 +793,35 @@
     d.head.appendChild(s);
   })();
 
+  /* ---------- video modal: grows out of the "Watch video" button (mono.css §35) ---------- */
+  (function videoModal() {
+    var m = d.getElementById('video_modal');
+    if (!m) return;
+    var v = m.querySelector('video'), wrap = m.querySelector('.video-wrapper');
+    // a video can be closed with Esc or a click beside it (the attributes are read when Bootstrap first opens it)
+    m.setAttribute('data-bs-backdrop', 'true');
+    m.setAttribute('data-bs-keyboard', 'true');
+    // touch screens never fire the hover that shows the controls, so keep them on there
+    if (v && window.matchMedia && !matchMedia('(hover: hover)').matches) v.setAttribute('controls', 'controls');
+    m.addEventListener('show.bs.modal', function (e) {
+      d.body.classList.add('mono-vm-open');
+      var b = e.relatedTarget && e.relatedTarget.getBoundingClientRect && e.relatedTarget.getBoundingClientRect();
+      if (!b || !b.width) { m.style.removeProperty('--vm-x'); m.style.removeProperty('--vm-y'); m.style.removeProperty('--vm-s'); return; }
+      // the frame is centred in the viewport; its width is the one mono.css gives the dialog
+      var w = innerWidth < 768 ? innerWidth - 20 : Math.min(1080, innerWidth * .92, (innerHeight - 120) * 16 / 9);
+      m.style.setProperty('--vm-x', (b.left + b.width / 2 - innerWidth / 2).toFixed(1) + 'px');
+      m.style.setProperty('--vm-y', (b.top + b.height / 2 - innerHeight / 2).toFixed(1) + 'px');
+      m.style.setProperty('--vm-s', Math.max(.08, Math.min(.6, b.width / w)).toFixed(3));
+    });
+    m.addEventListener('hidden.bs.modal', function () { d.body.classList.remove('mono-vm-open'); });
+    if (!v || !wrap) return;
+    var loading = function (on) { wrap.classList.toggle('mono-vm-loading', on); };
+    m.addEventListener('shown.bs.modal', function () { if (v.readyState < 3) loading(true); });
+    v.addEventListener('waiting', function () { loading(true); });
+    v.addEventListener('playing', function () { loading(false); });
+    m.addEventListener('hide.bs.modal', function () { loading(false); });
+  })();
+
   var clickT;
   d.addEventListener('click', function () { clearTimeout(clickT); clickT = setTimeout(buttons, 400); }, true);
 })();
