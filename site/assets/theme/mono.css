@@ -2844,3 +2844,27 @@ html body:has(.country_guide_section) .hiring_benefits_section .country_note p s
   html body .hiring_benefits_section .mono-cg-pager { flex-direction: column; }
   .mono-cg-prev:only-child, .mono-cg-next:only-child { max-width: none; }
 }
+
+/* ---------- 38. Country guide cost widget (mono.js costWidget) ------------------------------------- */
+html body .expand_section .booking_right_wrapper input.is-invalid { border-color: #dc2626 !important; box-shadow: 0 0 0 3px rgba(220, 38, 38, .12) !important; }
+html body .expand_section .booking_right_wrapper .mono-cost-err { display: block; min-height: 0; margin: 6px 2px 0; font-size: 12.5px; line-height: 1.3; color: #dc2626; }
+html body .expand_section .booking_right_wrapper .mono-cost-err:empty { display: none; }
+/* the site laid a transparent click-blocker over this form (it was a picture of a calculator); the
+   form works now, so the blocker goes */
+html body .expand_image_wrappper .booking_right_wrapper::before { content: none !important; display: none !important; }
+
+/* ---------- 39. Country guide tab switching (mono.js countryGuide) ---------------------------------- */
+/* The outgoing tab fades quickly, the incoming one fades in and rises 10px while the card eases to its
+   height. Clipping during the switch keeps a taller incoming tab from spilling over the next section. */
+html body .hiring_benefits_section .tab-content > .tab-pane.fade {
+  opacity: 0; translate: 0 10px;
+  transition: opacity .15s ease, translate .15s ease !important;
+}
+html body .hiring_benefits_section .tab-content > .tab-pane.fade.show {
+  opacity: 1; translate: 0 0;
+  transition: opacity .32s ease-out .03s, translate .5s cubic-bezier(.22, 1, .36, 1) !important;
+}
+html body .hiring_benefits_section .tab-content.mono-cg-switching { overflow: clip; overflow-clip-margin: 24px; }
+@media (prefers-reduced-motion: reduce) {
+  html body .hiring_benefits_section .tab-content > .tab-pane.fade { translate: none; transition: opacity .12s linear !important; }
+}

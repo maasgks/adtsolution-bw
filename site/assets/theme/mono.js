@@ -803,17 +803,130 @@
       var b = btns[+a.getAttribute('data-cg-go')];
       if (!b) return;
       b.click();
-      var top = sec.querySelector('.mono-cg-layout').getBoundingClientRect().top;
-      if (top < 0) scrollTo({ top: scrollY + top - 110, behavior: reduce ? 'auto' : 'smooth' });
     });
+    // Switching tabs: the card eases to the new tab's height while the page holds still. Without this
+    // the content box snaps between heights and the browser's scroll anchoring jumps the page. Only
+    // when the reader has scrolled past the top of the guide does the page glide back up to it, so
+    // the new tab starts at its heading.
+    var tc = sec.querySelector('.tab-content'), root = d.documentElement, layout = sec.querySelector('.mono-cg-layout'), settle;
+    if (tc) {
+      ul.addEventListener('show.bs.tab', function () {
+        clearTimeout(settle);
+        var top = layout ? layout.getBoundingClientRect().top : 0;
+        if (top < 0) {
+          var y = Math.max(0, scrollY + top - 104), L = window.monoLenis;
+          if (L && !reduce) L.scrollTo(y, { duration: .7, easing: function (t) { return 1 - Math.pow(1 - t, 4); } });
+          else scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+        }
+        root.style.overflowAnchor = 'none';
+        tc.style.transition = 'none';
+        tc.style.height = tc.offsetHeight + 'px';
+        tc.classList.add('mono-cg-switching');
+      });
+      ul.addEventListener('shown.bs.tab', function (e) {
+        var pane = d.querySelector(e.target.getAttribute('data-bs-target'));
+        var done = function () {
+          tc.style.height = tc.style.transition = '';
+          tc.classList.remove('mono-cg-switching');
+          root.style.overflowAnchor = '';
+        };
+        if (!pane || reduce) return done();
+        void tc.offsetHeight;
+        tc.style.transition = 'height .45s cubic-bezier(.22, 1, .36, 1)';
+        tc.style.height = pane.offsetHeight + 'px';
+        settle = setTimeout(done, 480);
+      });
+    }
     // the active tab scrolls into view in the mobile tab bar
     ul.addEventListener('shown.bs.tab', function (e) {
       if (ul.scrollWidth > ul.clientWidth) ul.scrollTo({ left: e.target.offsetLeft - 16, behavior: reduce ? 'auto' : 'smooth' });
     });
   }
 
+  // Country guide "Expand into …" cost widget. The crawled form is a mockup (selects hold "Country *"
+  // and "1", Calculate reloads the page) and there is no calculator backend, so it becomes a working
+  // lead-in: the country is fixed to the guide's, the salary is checked, and Calculate opens the
+  // "Book a demo" form with that country already chosen.
+  function costWidget() {
+    var form = d.querySelector('.expand_section .booking_right_wrapper > form.row');
+    if (!form || form.dataset.mono) return;
+    form.dataset.mono = '1';
+    var h1 = d.querySelector('.country_guide_section h1'), parts = h1 ? h1.textContent.split(':') : [];
+    var name = parts.length > 1 ? parts.pop().trim() : '';
+    if (!name) {
+      var m = /into\s+(.+?)\s+without/i.exec((d.querySelector('.expand_section h2') || {}).textContent || '');
+      name = m ? m[1] : '';
+    }
+    var $ = window.jQuery, sels = form.querySelectorAll('select');
+    var country = sels[0], state = sels[1];
+    if (country && name) {
+      country.innerHTML = '';
+      country.add(new Option(name, name, true, true));
+      if ($ && $(country).data('select2')) $(country).trigger('change.select2');
+    }
+    // states only matter for a few countries and the mockup has no list for any of them
+    if (state) {
+      var sc = state.closest('[class*="col-"]'), cc = country && country.closest('[class*="col-"]');
+      if (sc) sc.remove();
+      if (cc) cc.className = 'col-12';
+    }
+    var input = form.querySelector('input[type="text"]'), btn = form.querySelector('button');
+    if (input) {
+      input.setAttribute('inputmode', 'decimal');
+      input.setAttribute('autocomplete', 'off');
+      input.placeholder = 'e.g. 60,000';
+      input.addEventListener('input', function () {
+        var raw = input.value.replace(/[^\d.]/g, '').replace(/(\..*)\./g, '$1');
+        var p = raw.split('.'), int = p[0] ? Number(p[0]).toLocaleString('en-US') : '';
+        input.value = int + (p.length > 1 ? '.' + p[1].slice(0, 2) : '');
+        input.classList.remove('is-invalid');
+      });
+    }
+    if (btn) btn.textContent = 'Get cost breakdown';
+    var err = d.createElement('small');
+    err.className = 'mono-cost-err';
+    err.setAttribute('role', 'alert');
+    if (input) input.parentNode.appendChild(err);
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var v = input ? parseFloat(input.value.replace(/,/g, '')) : 1;
+      if (!(v > 0)) {
+        input.classList.add('is-invalid');
+        err.textContent = 'Enter a gross salary to continue.';
+        input.focus();
+        return;
+      }
+      err.textContent = '';
+      var modal = d.getElementById('staticBackdrop');
+      if (!modal || !window.bootstrap) { location.href = 'contact-us.html'; return; }
+      modal.addEventListener('shown.bs.modal', function () {
+        var hc = modal.querySelector('select.hiring_country');
+        if (!hc || !name) return;
+        var want = name.toLowerCase(), opt = [].find.call(hc.options, function (o) {
+          var t = o.text.trim().toLowerCase();
+          return t === want || o.value.toLowerCase() === want;
+        });
+        if (!opt) return;
+        opt.selected = true;
+        if ($) $(hc).trigger('change'); else hc.dispatchEvent(new Event('change', { bubbles: true }));
+      }, { once: true });
+      window.bootstrap.Modal.getOrCreateInstance(modal).show();
+    });
+    // the "Employee cost Calculator" button beside the widget had no link
+    var cta = d.querySelector('.expand_section .banner_left a.common_btn:not([href])');
+    if (cta && input) {
+      cta.href = '#';
+      cta.addEventListener('click', function (e) {
+        e.preventDefault();
+        form.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+        setTimeout(function () { input.focus({ preventScroll: true }); }, 450);
+      });
+    }
+  }
+
   function boot() {
     try { countryGuide(); } catch (e) { }
+    try { costWidget(); } catch (e) { }
     try { demoPoints(); } catch (e) { }
     try { unshout(); } catch (e) { }
     try { testimonials(); } catch (e) { }
