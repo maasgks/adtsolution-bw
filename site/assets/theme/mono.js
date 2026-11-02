@@ -495,10 +495,22 @@
     var badge = left && left.querySelector('.common_btn');
     if (badge) badge.classList.add('mono-status');
     hero.classList.add('mono-contact-hero', 'mono-anim');
-    hero.querySelectorAll('.contact_column_wrapper').forEach(function (c, i) {
+    // each card gets a status chip; the last ("Book a Demo") is the featured dark card (mono.css §40)
+    var CHIPS = [['mono-chip-live', 'Live'], ['', 'Under 24h reply'], ['', 'Free &middot; 30 min']];
+    var cards = hero.querySelectorAll('.contact_column_wrapper');
+    cards.forEach(function (c, i) {
       c.style.setProperty('--i', i);
       var a = c.querySelector('p a');
       if (a) c.classList.add('mono-has-link');
+      var chip = CHIPS[i], icon = c.querySelector(':scope > span');
+      if (chip && icon && !c.querySelector('.mono-chip')) {
+        var top = d.createElement('div');
+        top.className = 'mono-contact-top';
+        c.insertBefore(top, icon);
+        top.appendChild(icon);
+        top.insertAdjacentHTML('beforeend', '<span class="mono-chip ' + chip[0] + '">' + chip[1] + '</span>');
+      }
+      if (cards.length === 3 && i === 2) c.classList.add('mono-contact-feature');
     });
     // consultation: benefits on the left under the form's heading, form card on the right
     var book = d.querySelector('.book_now_section');
@@ -883,6 +895,25 @@
       });
     }
     if (btn) btn.textContent = 'Get cost breakdown';
+    // card header, and a note on what happens next
+    form.insertAdjacentHTML('beforebegin', '<div class="mono-cost-head"><span class="mono-cost-ico">' + cgIcon('calculator') + '</span>' +
+      '<span><strong>Employer cost estimate</strong><small>Salary, taxes and contributions' + (name ? ' in ' + name : '') + '</small></span></div>');
+    form.insertAdjacentHTML('afterend', '<p class="mono-cost-foot">Our team sends you the full breakdown.</p>');
+    // currency tag in the salary field: from the field's own label ("Gross Salary (CAD) *"), else the
+    // "Currency" key fact
+    if (input) {
+      var lab = input.parentNode.querySelector('label'), cur = lab && /\(([A-Z]{3})\)/.exec(lab.textContent);
+      if (!cur) [].some.call(d.querySelectorAll('.country_taxes_column'), function (c) {
+        var l = c.querySelector('p');
+        if (!l || !/currenc/i.test(l.textContent)) return false;
+        cur = /\b([A-Z]{3})\b/.exec(c.textContent.replace(l.textContent, ''));
+        return true;
+      });
+      if (cur) {
+        input.parentNode.classList.add('mono-has-cur');
+        input.insertAdjacentHTML('beforebegin', '<span class="mono-cost-cur" aria-hidden="true">' + cur[1] + '</span>');
+      }
+    }
     var err = d.createElement('small');
     err.className = 'mono-cost-err';
     err.setAttribute('role', 'alert');
@@ -1035,10 +1066,10 @@
     d.head.appendChild(s);
   })();
 
-  /* ---------- "Why Dhi ADT" cards: the hover spotlight follows the pointer (mono.css §9) ---------- */
+  /* ---------- "Why Dhi ADT" + contact cards: the hover spotlight follows the pointer (mono.css §9, §40) ---------- */
   if (window.matchMedia && matchMedia('(hover: hover)').matches) {
     d.addEventListener('pointermove', function (e) {
-      var c = e.target.closest && e.target.closest('.why_slider .why_slider_column');
+      var c = e.target.closest && e.target.closest('.why_slider .why_slider_column, .mono-contact-hero .contact_column_wrapper');
       if (!c) return;
       var r = c.getBoundingClientRect();
       c.style.setProperty('--mx', (e.clientX - r.left).toFixed(0) + 'px');
