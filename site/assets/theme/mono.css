@@ -467,86 +467,106 @@ img.mono-img-missing { visibility: hidden; }
   .mono-js .mono-reveal, .mono-js .mono-reveal-img { opacity: 1 !important; translate: none !important; clip-path: none !important; }
 }
 
-/* ---------- 9. Home "Why Dhi" feature cards ----------------------------- */
-/* Numbered cards (01-04) of equal height. Each has a soft icon tile, a title and calm body copy.
-   On hover the card lifts, a warm spotlight follows the pointer (mono.js sets --mx / --my), the icon
-   tile turns ink with a white icon, and an accent line grows along the bottom edge. */
-/* room for the hover lift and shadow: the slider box clips (overflow: hidden in the page CSS), so the list
-   gets padding inside it */
-.why_slider { overflow: visible !important; }
-.why_slider .slick-list { padding: 12px 0 24px !important; margin: -12px 0 -24px; }
-.why_slider .slick-track { display: flex !important; }
-.why_slider .slick-slide { height: auto !important; display: flex !important; }
+/* ---------- 9. Home "Why Dhi" feature tray ------------------------------ */
+/* The four reasons sit in one grey tray, like the product tiles (§13), split by hairline dividers.
+   Each cell has an ink icon tile, an outlined number (01-04), a title and calm body copy.
+   On hover the cell rises out of the tray as a white card: the dividers beside it fade, the number fills
+   with the accent and a warm spotlight follows the pointer (mono.js sets --mx / --my). */
+.why_slider_wrapper { margin-top: 48px !important; }
+html body .why_slider {
+  position: relative; isolation: isolate; overflow: hidden !important;
+  padding: 8px !important;
+  background: linear-gradient(180deg, #fafafa 0%, #f3f3f4 100%) !important;
+  border: 1px solid #ececee; border-radius: 28px !important;
+  box-shadow: inset 0 1px 0 #fff, 0 24px 48px -36px rgba(17, 17, 17, .25);
+}
+html body .why_slider::after {                                        /* faint warm light in the corner */
+  content: ""; position: absolute; inset: auto -10% -60% auto; width: 50%; height: 120%; z-index: -1; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(222, 121, 9, .08), transparent);
+}
+.why_slider .slick-list { padding: 0 !important; margin: 0 !important; overflow: hidden; border-radius: 20px; }
+.why_slider .slick-track { display: flex !important; padding: 0 !important; }   /* the page CSS pads the track 30px and spaces slides 12px */
+.why_slider .slick-slide { height: auto !important; display: flex !important; position: relative; margin: 0 !important; }
 .why_slider .slick-slide > div, .why_slider .slick-slide > div > [class*="col-"] { display: flex !important; width: 100%; }
-/* before the slider starts (or where it never does) the four columns are plain blocks: same equal heights */
+.why_slider [class*="col-"] { padding: 0 !important; }
+/* before the slider starts (or where it never does) the four columns are plain cells: same equal heights */
 .why_slider:not(.slick-initialized) { display: flex; flex-wrap: wrap; }
-.why_slider:not(.slick-initialized) > [class*="col-"] { display: flex; }
+.why_slider:not(.slick-initialized) > [class*="col-"] { display: flex; position: relative; }
+/* hairline divider on the left of every cell; hidden beside the hovered one */
+.why_slider .slick-slide::before, .why_slider:not(.slick-initialized) > [class*="col-"]::before {
+  content: ""; position: absolute; left: 0; top: 28px; bottom: 28px; width: 1px; z-index: 0;
+  background: linear-gradient(180deg, transparent, #e2e2e6 20%, #e2e2e6 80%, transparent);
+  transition: opacity .3s var(--mono-ease);
+}
+.why_slider .slick-slide:not(.slick-active) + .slick-active::before, .why_slider .slick-track > .slick-slide:first-child::before,
+.why_slider:not(.slick-initialized) > [class*="col-"]:first-child::before,
+.why_slider .slick-slide:hover::before, .why_slider .slick-slide:hover + .slick-slide::before,
+.why_slider:not(.slick-initialized) > [class*="col-"]:hover::before,
+.why_slider:not(.slick-initialized) > [class*="col-"]:hover + [class*="col-"]::before { opacity: 0; }
+
 .why_slider .why_slider_column {
   --mx: 50%; --my: 0%;
   position: relative; isolation: isolate; overflow: hidden;
   height: 100%; width: 100%;
   min-height: 0 !important;
   display: flex; flex-direction: column; align-items: flex-start;
-  padding: 26px 24px 30px !important;
-  background: linear-gradient(180deg, #fff 0%, #fcfcfc 100%) !important;
-  border: 1px solid #ececee !important;
+  padding: 28px 28px 32px !important; margin: 0 !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
   border-radius: 20px !important;
-  box-shadow: 0 1px 2px rgba(17, 17, 17, .04), 0 12px 28px -22px rgba(17, 17, 17, .28) !important;
-  transition: border-color .3s var(--mono-ease), box-shadow .45s var(--mono-ease), translate .45s var(--mono-ease-out) !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: background-color .35s var(--mono-ease), border-color .35s var(--mono-ease), box-shadow .45s var(--mono-ease) !important;
 }
 /* pointer spotlight */
 .why_slider .why_slider_column::before {
   content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background: radial-gradient(260px circle at var(--mx) var(--my), rgba(222, 121, 9, .09), transparent 70%);
+  background: radial-gradient(280px circle at var(--mx) var(--my), rgba(222, 121, 9, .08), transparent 70%);
   opacity: 0; transition: opacity .4s var(--mono-ease);
 }
-/* accent line along the bottom */
-.why_slider .why_slider_column::after {
-  content: ""; position: absolute; left: 24px; right: 24px; bottom: 0; height: 2px; border-radius: 2px;
-  background: linear-gradient(90deg, var(--mono-accent), rgba(222, 121, 9, 0));
-  transform: scaleX(0); transform-origin: left; transition: transform .55s var(--mono-ease-out);
-}
+.why_slider .why_slider_column::after { content: none !important; }
 .why_slider .why_slider_column:hover {
-  translate: 0 -4px; transform: none !important;   /* the site's own hover adds a 10px transform lift on top */
-  border-color: #e0e0e3 !important;
-  box-shadow: 0 1px 2px rgba(17, 17, 17, .05), 0 28px 48px -28px rgba(17, 17, 17, .4) !important;
+  transform: none !important; translate: none !important;
+  background: #fff !important;
+  border-color: #ececee !important;
+  box-shadow: 0 1px 2px rgba(17, 17, 17, .04), 0 22px 40px -26px rgba(17, 17, 17, .35) !important;
 }
 .why_slider .why_slider_column:hover::before { opacity: 1; }
-.why_slider .why_slider_column:hover::after { transform: scaleX(1); }
-/* number in the top-right corner, from the card's own icon (01-04) */
+/* outlined number in the top-right corner, from the card's own icon (01-04) */
 .why_slider .why_slider_column > span::after {
-  position: absolute; top: 26px; right: 24px;
-  font: 500 13px/1 Inter-Medium, Inter, sans-serif; letter-spacing: .04em; color: #c4c4c9;
-  transition: color .3s var(--mono-ease);
+  position: absolute; top: 22px; right: 26px;
+  font: 600 40px/1 Inter-SemiBold, Inter, sans-serif; letter-spacing: -.04em;
+  color: transparent; -webkit-text-stroke: 1px #cfcfd4;
+  transition: color .35s var(--mono-ease), -webkit-text-stroke-color .35s var(--mono-ease);
 }
 .why_slider .why_slider_column:has(img[src*="why_Icon1"]) > span::after { content: "01"; }
 .why_slider .why_slider_column:has(img[src*="why_Icon2"]) > span::after { content: "02"; }
 .why_slider .why_slider_column:has(img[src*="why_Icon3"]) > span::after { content: "03"; }
 .why_slider .why_slider_column:has(img[src*="why_Icon4"]) > span::after { content: "04"; }
-.why_slider .why_slider_column:hover > span::after { color: var(--mono-accent); }
+.why_slider .why_slider_column:hover > span::after { color: rgba(222, 121, 9, .12); -webkit-text-stroke-color: var(--mono-accent); }
+/* ink icon tile with a white icon */
 .why_slider .why_slider_column > span {
-  width: 54px !important; height: 54px !important;
+  width: 48px !important; height: 48px !important;
   display: inline-flex !important; align-items: center; justify-content: center;
-  background: linear-gradient(180deg, #fafafa, #f1f1f3) !important;
-  border: 1px solid #ececee;
-  border-radius: 16px !important;
-  box-shadow: inset 0 1px 0 #fff, 0 6px 14px -10px rgba(17, 17, 17, .3);
+  background: linear-gradient(180deg, #2a2a2a, #111) !important;
+  border-radius: 14px !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14), 0 10px 20px -12px rgba(17, 17, 17, .6);
   margin: 0 !important;
-  transition: background .35s var(--mono-ease), border-color .35s var(--mono-ease), box-shadow .35s var(--mono-ease);
+  transition: box-shadow .35s var(--mono-ease);
 }
+/* (the tile itself never scales: that would re-anchor the number, which is its ::after) */
 .why_slider .why_slider_column:hover > span {
-  background: #111 !important; border-color: #111;
-  box-shadow: 0 10px 22px -10px rgba(17, 17, 17, .55);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14), 0 0 0 4px rgba(222, 121, 9, .14), 0 12px 22px -12px rgba(17, 17, 17, .6);
 }
-.why_slider .why_slider_column > span img { width: 28px !important; height: 28px !important; object-fit: contain; transition: filter .35s var(--mono-ease), scale .5s var(--mono-ease-out); }
-.why_slider .why_slider_column:hover > span img { filter: brightness(0) invert(1); scale: 1.08; }
+.why_slider .why_slider_column > span img { width: 24px !important; height: 24px !important; object-fit: contain; filter: brightness(0) invert(1); transition: scale .5s var(--mono-ease-out); }
+.why_slider .why_slider_column:hover > span img { scale: 1.1; }
 .why_slider .why_slider_column .why-head {
   min-height: 0 !important;
-  margin: 24px 0 8px !important;
+  margin: 40px 0 10px !important;
   color: var(--mono-ink) !important;
   font-family: Inter-SemiBold, Inter, sans-serif !important;
-  font-size: 18px !important; line-height: 1.3 !important;
-  letter-spacing: -.015em;
+  font-size: 19px !important; line-height: 1.3 !important;
+  letter-spacing: -.02em;
 }
 .why_slider .why_slider_column p:not(.why-head) {
   min-height: 0 !important;
@@ -563,9 +583,11 @@ html body .why_adt_section.bg_grey::before {
   -webkit-mask-image: radial-gradient(70% 60% at 50% 0%, #000 0%, transparent 75%);
   mask-image: radial-gradient(70% 60% at 50% 0%, #000 0%, transparent 75%);
 }
-.why_slider_wrapper { margin-top: 48px !important; }
-@media (max-width: 991px) { .why_slider .why_slider_column { margin-bottom: 16px; } }
-@media (hover: none) { .why_slider .why_slider_column::after { transform: scaleX(.35); } }
+@media (max-width: 767px) {
+  html body .why_slider { border-radius: 24px !important; }
+  .why_slider .why_slider_column { padding: 24px 22px 28px !important; }
+  .why_slider .why_slider_column .why-head { margin-top: 32px !important; }
+}
 
 /* home testimonial CTA stretched across the whole container: size it to its label */
 .testimonial_cta_section .common_btn {
