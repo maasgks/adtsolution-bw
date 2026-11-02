@@ -3321,3 +3321,41 @@ html body :is(.booking_right_wrapper, .modal) .multi-step-booking-form.multi-ste
 html body :is(.booking_right_wrapper, .modal) .multi-step-booking-form .hiring-country-wrap .select2-selection--multiple:has(.select2-selection__choice) .select2-selection__rendered { flex: 1 1 auto !important; }
 html body :is(.booking_right_wrapper, .modal) .multi-step-booking-form .hiring-country-wrap .select2-selection--multiple:has(.select2-selection__choice) .select2-search--inline { flex: 0 1 40px !important; }
 html body :is(.booking_right_wrapper, .modal) .multi-step-booking-form .hiring-country-wrap .select2-selection--multiple:has(.select2-selection__choice) .select2-search--inline { flex: 0 1 24px !important; min-width: 24px !important; }
+
+/* ---------- 45. "Ready to expand globally?" + demo form: the form gets the wider column ---------- */
+/* Above 1300px the site's inline CSS gave the text 58% and squeezed the two-column form into 42%;
+   at every desktop width the text now takes ~42% and the form ~58%, with a gutter between. */
+@media (min-width: 1200px) {
+  html body .booking_section .row > .footer_booking_section_left { flex: 0 0 42% !important; max-width: 42% !important; padding-right: 48px !important; }
+  html body .booking_section .row > .footer_booking_section_right { flex: 0 0 58% !important; max-width: 58% !important; }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  html body .booking_section .row > .footer_booking_section_left { padding-right: 32px !important; }
+}
+@media (min-width: 992px) {
+  html body .booking_section .footer_booking_section_left .ready_banner_credit {
+    display: grid !important; grid-template-columns: 1fr !important; gap: 14px !important; justify-content: start !important;
+  }
+  html body .booking_section .footer_booking_section_left .ready_banner_credit > * { margin: 0 !important; }
+}
+
+/* ---------- 46. Country guides index: compact header so the countries show in the first view ---------- */
+html body .mono-cgx-hero.banner { padding: 32px 0 0 !important; }
+html body .mono-cgx-hero .banner_left {
+  display: grid !important; grid-template-columns: minmax(0, 1fr) auto; align-items: end; column-gap: 32px; text-align: left !important;
+}
+html body .mono-cgx-hero .banner_left > .mono-eyebrow { grid-column: 1 / -1; justify-self: start; margin: 0 0 12px !important; }
+html body .mono-cgx-hero .banner_left h1 { grid-column: 1; text-align: left !important; font-size: clamp(28px, 1.4vw + 16px, 40px) !important; line-height: 1.1 !important; }
+html body .mono-cgx-hero .banner_left p.mono-cgx-lead { grid-column: 1; max-width: 640px; margin: 8px 0 0 !important; font-size: 15.5px !important; text-align: left !important; }
+html body .mono-cgx-hero .mono-cgx-stats { grid-column: 2; grid-row: 2 / span 2; align-self: end; margin: 0; justify-content: flex-end; }
+html body .mono-cgx.countries_tab_section { padding-top: 20px !important; }
+html body .mono-cgx .resources_tab_content { margin-top: 20px !important; }
+@media (max-width: 767px) {
+  html body .mono-cgx-hero.banner { padding-top: 24px !important; }
+  html body .mono-cgx-hero .banner_left { grid-template-columns: 1fr; }
+  html body .mono-cgx-hero .mono-cgx-stats { grid-column: 1; grid-row: auto; justify-content: flex-start; margin-top: 14px; }
+  html body .mono-cgx-hero .banner_left h1 { font-size: 26px !important; }
+}
+html body .mono-cgx-hero.banner { padding-bottom: 28px !important; }
+html body .mono-cgx.countries_tab_section { padding-top: 0 !important; }
+html body .mono-cgx.countries_tab_section > .container_2 { margin-top: 0 !important; }
