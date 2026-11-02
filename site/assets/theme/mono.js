@@ -738,7 +738,11 @@
     calculator: '<rect width="16" height="20" x="4" y="2" rx="2"/><path d="M8 6h8M16 14v4M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"/>',
     info: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>',
     book: '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>',
-    left: '<path d="m15 18-6-6 6-6"/>', right: '<path d="m9 18 6-6-6-6"/>'
+    left: '<path d="m15 18-6-6 6-6"/>', right: '<path d="m9 18 6-6-6-6"/>',
+    pin: '<path d="M20 10c0 4.99-5.54 10.19-7.4 11.8a1 1 0 0 1-1.2 0C9.54 20.19 4 14.99 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/>',
+    mail: '<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
+    phone: '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
+    out: '<path d="M7 7h10v10"/><path d="M7 17 17 7"/>'
   };
   function cgIcon(k, cls) {
     return '<svg class="' + (cls || 'mono-cg-ico') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
@@ -1100,6 +1104,98 @@
     d.querySelectorAll('.blog-faq-accordion').forEach(function (l) { l.classList.add('mono-faqx'); });
   }
 
+  // segmented control: a white thumb (li.mono-seg-thumb, mono.css §44) slides under the chosen tab
+  function segThumb(nav) {
+    if (!nav || nav.querySelector('.mono-seg-thumb')) return;
+    var thumb = d.createElement('li');
+    thumb.className = 'mono-seg-thumb';
+    thumb.setAttribute('aria-hidden', 'true');
+    nav.insertBefore(thumb, nav.firstChild);
+    var place = function (b, animate) {
+      if (!b || !b.offsetWidth) return;
+      thumb.classList.toggle('mono-seg-still', !animate);
+      thumb.style.width = b.offsetWidth + 'px';
+      thumb.style.transform = 'translateX(' + b.offsetLeft + 'px)';
+    };
+    var active = function () { return nav.querySelector('.nav-link.active'); };
+    place(active(), false);
+    nav.addEventListener('click', function (e) {
+      var b = e.target.closest && e.target.closest('.nav-link');
+      if (b) place(b, true);
+    });
+    nav.addEventListener('shown.bs.tab', function () { place(active(), true); });
+    addEventListener('resize', function () { place(active(), false); });
+    addEventListener('load', function () { place(active(), false); });
+    if (d.fonts && d.fonts.ready) d.fonts.ready.then(function () { place(active(), false); });
+  }
+
+  // Contact page offices (mono.css §48): heading on the left, region switch and prev/next on the right;
+  // each office becomes a white card with an inset photo, the address, and email / phone / directions.
+  function officesSection() {
+    var sec = d.querySelector('.country_tab_section.mono-offices-on');
+    if (!sec || sec.dataset.monoOfc) return;
+    sec.dataset.monoOfc = '1';
+    var nav = sec.querySelector('.nav-tabs'), head = sec.querySelector('.mono-office-head');
+    var total = sec.querySelectorAll('.tab_slider_column').length;
+    if (head && nav) {
+      head.insertAdjacentHTML('beforeend', '<p class="mono-office-lede">' + total + ' offices across Europe, Asia and North America, each with a local team you can reach directly.</p>');
+      var bar = d.createElement('div');
+      bar.className = 'mono-office-bar';
+      var ctl = d.createElement('div');
+      ctl.className = 'mono-office-ctl';
+      ctl.innerHTML = '<button type="button" class="mono-office-arrow" data-dir="prev" aria-label="Previous office">' + cgIcon('left') + '</button>' +
+        '<button type="button" class="mono-office-arrow" data-dir="next" aria-label="Next office">' + cgIcon('right') + '</button>';
+      head.parentNode.insertBefore(bar, head);
+      bar.appendChild(head);
+      var side = d.createElement('div');
+      side.className = 'mono-office-side';
+      side.appendChild(nav);
+      side.appendChild(ctl);
+      bar.appendChild(side);
+      nav.querySelectorAll('.nav-link').forEach(function (b) {
+        var p = sec.querySelector(b.getAttribute('data-bs-target'));
+        if (p) b.insertAdjacentHTML('beforeend', '<span class="mono-count">' + p.querySelectorAll('.tab_slider_column').length + '</span>');
+      });
+      segThumb(nav);
+      ctl.addEventListener('click', function (e) {
+        var btn = e.target.closest('.mono-office-arrow'), $ = window.jQuery;
+        var sl = sec.querySelector('.tab-pane.active .tab_slider.slick-initialized');
+        if (!btn || !sl || !$) return;
+        $(sl).slick(btn.dataset.dir === 'prev' ? 'slickPrev' : 'slickNext');
+      });
+    }
+    var TAG = { 'Netherlands': 'HQ', 'United Kingdom': 'HQ' };
+    sec.querySelectorAll('.tab_slider_column').forEach(function (col) {
+      var bg = col.style.backgroundImage, h3 = col.querySelector('h3'), ps = col.querySelectorAll('.tab_slider_details p');
+      var name = h3 ? h3.textContent.trim() : '', m = name.match(/^(.*?)\s*\((.*)\)$/);
+      if (m) { name = m[1]; h3.lastChild.textContent = m[1]; }
+      var tag = m ? m[2] : TAG[name];
+      col.classList.add('mono-ofc');
+      col.style.backgroundImage = 'none';
+      col.insertAdjacentHTML('afterbegin', '<div class="mono-ofc-ph" style="background-image:' + bg.replace(/"/g, "'") + '">' +
+        (tag ? '<span class="mono-ofc-tag">' + tag + '</span>' : '') + '</div>');
+      if (ps.length < 3) return;
+      var addr = ps[0].textContent.replace(/\s+/g, ' ').trim();
+      ps[0].className = 'mono-ofc-addr';
+      ps[0].innerHTML = cgIcon('pin') + '<span></span>';
+      ps[0].lastChild.textContent = addr;
+      var mail = ps[1].querySelector('a'), tel = ps[2].querySelector('a');
+      var links = d.createElement('div');
+      links.className = 'mono-ofc-links';
+      [[mail, 'mail', 'Email'], [tel, 'phone', 'Call']].forEach(function (x) {
+        if (!x[0]) return;
+        x[0].className = 'mono-ofc-btn';
+        x[0].setAttribute('title', x[0].textContent.trim());
+        x[0].innerHTML = cgIcon(x[1]) + '<span>' + x[2] + '</span>';
+        links.appendChild(x[0]);
+      });
+      links.insertAdjacentHTML('beforeend', '<a class="mono-ofc-btn mono-ofc-map" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=' +
+        encodeURIComponent(addr) + '"><span>Directions</span>' + cgIcon('out') + '</a>');
+      ps[1].remove(); ps[2].remove();
+      ps[0].parentNode.appendChild(links);
+    });
+  }
+
   // Country guides index (mono.css §42): header with live counts, a count on each region tab, compact
   // cards whose photo can zoom on hover, and a "View guide" row.
   function cgIndex() {
@@ -1120,30 +1216,7 @@
       var p = sec.querySelector(b.getAttribute('data-bs-target'));
       if (p) b.insertAdjacentHTML('beforeend', '<span class="mono-count">' + p.querySelectorAll('.country_main_column').length + '</span>');
     });
-    // segmented control: a white thumb slides under the chosen region
-    var nav = sec.querySelector('.countries-nav');
-    if (nav) {
-      var thumb = d.createElement('li');
-      thumb.className = 'mono-seg-thumb';
-      thumb.setAttribute('aria-hidden', 'true');
-      nav.insertBefore(thumb, nav.firstChild);
-      var place = function (b, animate) {
-        if (!b || !b.offsetWidth) return;
-        thumb.classList.toggle('mono-seg-still', !animate);
-        thumb.style.width = b.offsetWidth + 'px';
-        thumb.style.transform = 'translateX(' + b.offsetLeft + 'px)';
-      };
-      var active = function () { return nav.querySelector('.nav-link.active'); };
-      place(active(), false);
-      nav.addEventListener('click', function (e) {
-        var b = e.target.closest && e.target.closest('.nav-link');
-        if (b) place(b, true);
-      });
-      nav.addEventListener('shown.bs.tab', function () { place(active(), true); });
-      addEventListener('resize', function () { place(active(), false); });
-      addEventListener('load', function () { place(active(), false); });
-      if (d.fonts && d.fonts.ready) d.fonts.ready.then(function () { place(active(), false); });
-    }
+    segThumb(sec.querySelector('.countries-nav'));
     // the photo moves to a layer that can scale without scaling the flag and name on top of it
     sec.querySelectorAll('.guide_column_image').forEach(function (im) {
       var bg = im.style.backgroundImage;
@@ -1170,6 +1243,7 @@
     try { unshout(); } catch (e) { }
     try { testimonials(); } catch (e) { }
     try { journey(); aboutHero(); values(); team(); diff(); contactPage(); } catch (e) { }
+    try { officesSection(); } catch (e) { }
     try { homeSections(); } catch (e) { }
     buttons();
     try { reveal(); } catch (e) { }
