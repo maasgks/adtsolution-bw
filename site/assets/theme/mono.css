@@ -106,8 +106,9 @@ select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
 }
 
 /* ---------- 3. Buttons ------------------------------------------------- */
-/* Solid pills sized to their label. Hover never changes a button's colours: instead a small arrow
-   slides in after the label (mono.js adds .mono-arrow / .mono-arrow-inline where there is room for it).
+/* Solid pills sized to their label. On hover a small arrow
+   slides in after the label (mono.js adds .mono-arrow / .mono-arrow-inline where there is room for it)
+   and the button warms to the brand orange (§36).
    mono.js tags dark buttons .mono-btn-ink and light outlined ones .mono-btn-line; the selectors below
    cover the common ones before the script runs. */
 .mono-btn-ink, .common_btn_orange, .banner_button a:first-child, .btn-primary, .pp-btn-primary,
@@ -467,85 +468,80 @@ img.mono-img-missing { visibility: hidden; }
   .mono-js .mono-reveal, .mono-js .mono-reveal-img { opacity: 1 !important; translate: none !important; clip-path: none !important; }
 }
 
-/* ---------- 9. Home "Why Dhi" feature tray ------------------------------ */
-/* The four reasons sit in one grey tray, like the product tiles (§13), split by hairline dividers.
-   Each cell has an ink icon tile, an outlined number (01-04), a title and calm body copy.
-   On hover the cell rises out of the tray as a white card: the dividers beside it fade, the number fills
-   with the accent and a warm spotlight follows the pointer (mono.js sets --mx / --my). */
+/* ---------- 9. Home "Why Dhi" bento ------------------------------------- */
+/* The four reasons are bento tiles in the language of the product tiles (§13). On desktop they form a
+   2 x 2 grid of alternating wide / narrow tiles; the first one (Local Expertise) is an ink feature tile
+   with a warm glow and the original orange icon. Light tiles have an ink icon tile with a white icon.
+   Each tile carries an outlined number (01-04). On hover a tile lifts, the number fills with the accent
+   and a warm spotlight follows the pointer (mono.js sets --mx / --my). Below 1025px the site's slider
+   stays: one tile per slide, same styling. */
 .why_slider_wrapper { margin-top: 48px !important; }
-html body .why_slider {
-  position: relative; isolation: isolate; overflow: hidden !important;
-  padding: 8px !important;
-  background: linear-gradient(180deg, #fafafa 0%, #f3f3f4 100%) !important;
-  border: 1px solid #ececee; border-radius: 28px !important;
-  box-shadow: inset 0 1px 0 #fff, 0 24px 48px -36px rgba(17, 17, 17, .25);
-}
-html body .why_slider::after {                                        /* faint warm light in the corner */
-  content: ""; position: absolute; inset: auto -10% -60% auto; width: 50%; height: 120%; z-index: -1; pointer-events: none;
-  background: radial-gradient(closest-side, rgba(222, 121, 9, .08), transparent);
-}
-.why_slider .slick-list { padding: 0 !important; margin: 0 !important; overflow: hidden; border-radius: 20px; }
-.why_slider .slick-track { display: flex !important; padding: 0 !important; }   /* the page CSS pads the track 30px and spaces slides 12px */
-.why_slider .slick-slide { height: auto !important; display: flex !important; position: relative; margin: 0 !important; }
+html body .why_slider { overflow: visible !important; padding: 0 !important; background: none !important; border: 0 !important; box-shadow: none !important; }
+.why_slider .slick-list { padding: 12px 0 20px !important; margin: -12px -8px -20px !important; overflow: hidden; }
+.why_slider .slick-track { display: flex !important; padding: 0 !important; }
+.why_slider .slick-slide { height: auto !important; display: flex !important; margin: 0 !important; padding: 0 8px !important; }
 .why_slider .slick-slide > div, .why_slider .slick-slide > div > [class*="col-"] { display: flex !important; width: 100%; }
-.why_slider [class*="col-"] { padding: 0 !important; }
-/* before the slider starts (or where it never does) the four columns are plain cells: same equal heights */
 .why_slider:not(.slick-initialized) { display: flex; flex-wrap: wrap; }
-.why_slider:not(.slick-initialized) > [class*="col-"] { display: flex; position: relative; }
-/* hairline divider on the left of every cell; hidden beside the hovered one */
-.why_slider .slick-slide::before, .why_slider:not(.slick-initialized) > [class*="col-"]::before {
-  content: ""; position: absolute; left: 0; top: 28px; bottom: 28px; width: 1px; z-index: 0;
-  background: linear-gradient(180deg, transparent, #e2e2e6 20%, #e2e2e6 80%, transparent);
-  transition: opacity .3s var(--mono-ease);
-}
-.why_slider .slick-slide:not(.slick-active) + .slick-active::before, .why_slider .slick-track > .slick-slide:first-child::before,
-.why_slider:not(.slick-initialized) > [class*="col-"]:first-child::before,
-.why_slider .slick-slide:hover::before, .why_slider .slick-slide:hover + .slick-slide::before,
-.why_slider:not(.slick-initialized) > [class*="col-"]:hover::before,
-.why_slider:not(.slick-initialized) > [class*="col-"]:hover + [class*="col-"]::before { opacity: 0; }
+.why_slider:not(.slick-initialized) > [class*="col-"] { display: flex; }
 
+@media (min-width: 1025px) {
+  /* four slides, all visible: slick never moves them, so the track (or the plain list before the slider
+     starts) can be a grid */
+  html body .why_slider:not(.slick-initialized), html body .why_slider .slick-track {
+    display: grid !important; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px;
+    width: auto !important; transform: none !important; margin: 0 !important;
+  }
+  html body .why_slider .slick-track::before, html body .why_slider .slick-track::after { content: none !important; }
+  .why_slider .slick-list { margin: -12px 0 -20px !important; padding: 12px 0 20px !important; overflow: visible !important; }
+  html body .why_slider .slick-slide, html body .why_slider:not(.slick-initialized) > [class*="col-"] { width: auto !important; max-width: none !important; padding: 0 !important; }
+  html body .why_slider .slick-slide:nth-child(4n+1), html body .why_slider .slick-slide:nth-child(4n+4),
+  html body .why_slider:not(.slick-initialized) > [class*="col-"]:nth-child(4n+1),
+  html body .why_slider:not(.slick-initialized) > [class*="col-"]:nth-child(4n+4) { grid-column: span 7; }
+  html body .why_slider .slick-slide:nth-child(4n+2), html body .why_slider .slick-slide:nth-child(4n+3),
+  html body .why_slider:not(.slick-initialized) > [class*="col-"]:nth-child(4n+2),
+  html body .why_slider:not(.slick-initialized) > [class*="col-"]:nth-child(4n+3) { grid-column: span 5; }
+  .why_slider .why_slider_column { padding: 32px 36px 36px !important; min-height: 248px !important; }
+  .why_slider .why_slider_column > span { top: 32px !important; left: 36px !important; }
+  .why_slider .why_slider_column .why-head::before { top: 28px !important; right: 36px !important; }
+  .why_slider .why_slider_column p { max-width: 440px; }
+}
+
+/* light tile */
 .why_slider .why_slider_column {
   --mx: 50%; --my: 0%;
   position: relative; isolation: isolate; overflow: hidden;
   height: 100%; width: 100%;
   min-height: 0 !important;
-  display: flex; flex-direction: column; align-items: flex-start;
+  display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end;
   padding: 28px 28px 32px !important; margin: 0 !important;
-  background: transparent !important;
-  border: 1px solid transparent !important;
-  border-radius: 20px !important;
-  box-shadow: none !important;
+  background: linear-gradient(180deg, #fafafa 0%, #f3f3f4 100%) !important;
+  border: 1px solid #ececee !important;
+  border-radius: 24px !important;
+  box-shadow: inset 0 1px 0 #fff !important;
   transform: none !important;
-  transition: background-color .35s var(--mono-ease), border-color .35s var(--mono-ease), box-shadow .45s var(--mono-ease) !important;
+  transition: translate .5s var(--mono-ease-out), border-color .35s var(--mono-ease), box-shadow .45s var(--mono-ease) !important;
 }
 /* pointer spotlight */
 .why_slider .why_slider_column::before {
   content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background: radial-gradient(280px circle at var(--mx) var(--my), rgba(222, 121, 9, .08), transparent 70%);
+  background: radial-gradient(320px circle at var(--mx) var(--my), rgba(222, 121, 9, .09), transparent 70%);
   opacity: 0; transition: opacity .4s var(--mono-ease);
 }
-.why_slider .why_slider_column::after { content: none !important; }
+/* faint warm light in the corner */
+.why_slider .why_slider_column::after {
+  content: "" !important; position: absolute; inset: auto -20% -45% auto; width: 60%; height: 80%; z-index: -2; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(222, 121, 9, .07), transparent) !important;
+  transform: none !important;
+}
 .why_slider .why_slider_column:hover {
-  transform: none !important; translate: none !important;
-  background: #fff !important;
-  border-color: #ececee !important;
-  box-shadow: 0 1px 2px rgba(17, 17, 17, .04), 0 22px 40px -26px rgba(17, 17, 17, .35) !important;
+  translate: 0 -4px; transform: none !important;
+  border-color: #e3e3e6 !important;
+  box-shadow: inset 0 1px 0 #fff, 0 1px 2px rgba(17, 17, 17, .04), 0 28px 48px -30px rgba(17, 17, 17, .38) !important;
 }
 .why_slider .why_slider_column:hover::before { opacity: 1; }
-/* outlined number in the top-right corner, from the card's own icon (01-04) */
-.why_slider .why_slider_column > span::after {
-  position: absolute; top: 22px; right: 26px;
-  font: 600 40px/1 Inter-SemiBold, Inter, sans-serif; letter-spacing: -.04em;
-  color: transparent; -webkit-text-stroke: 1px #cfcfd4;
-  transition: color .35s var(--mono-ease), -webkit-text-stroke-color .35s var(--mono-ease);
-}
-.why_slider .why_slider_column:has(img[src*="why_Icon1"]) > span::after { content: "01"; }
-.why_slider .why_slider_column:has(img[src*="why_Icon2"]) > span::after { content: "02"; }
-.why_slider .why_slider_column:has(img[src*="why_Icon3"]) > span::after { content: "03"; }
-.why_slider .why_slider_column:has(img[src*="why_Icon4"]) > span::after { content: "04"; }
-.why_slider .why_slider_column:hover > span::after { color: rgba(222, 121, 9, .12); -webkit-text-stroke-color: var(--mono-accent); }
-/* ink icon tile with a white icon */
+/* icon tile top-left; the copy sits at the bottom of the tile */
 .why_slider .why_slider_column > span {
+  position: absolute !important; top: 28px; left: 28px;
   width: 48px !important; height: 48px !important;
   display: inline-flex !important; align-items: center; justify-content: center;
   background: linear-gradient(180deg, #2a2a2a, #111) !important;
@@ -554,18 +550,30 @@ html body .why_slider::after {                                        /* faint w
   margin: 0 !important;
   transition: box-shadow .35s var(--mono-ease);
 }
-/* (the tile itself never scales: that would re-anchor the number, which is its ::after) */
+.why_slider .why_slider_column > span::after { content: none !important; }
 .why_slider .why_slider_column:hover > span {
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14), 0 0 0 4px rgba(222, 121, 9, .14), 0 12px 22px -12px rgba(17, 17, 17, .6);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14), 0 0 0 4px rgba(222, 121, 9, .16), 0 12px 22px -12px rgba(17, 17, 17, .6);
 }
 .why_slider .why_slider_column > span img { width: 24px !important; height: 24px !important; object-fit: contain; filter: brightness(0) invert(1); transition: scale .5s var(--mono-ease-out); }
 .why_slider .why_slider_column:hover > span img { scale: 1.1; }
+/* outlined number top-right, from the card's own icon (01-04) */
+.why_slider .why_slider_column .why-head::before {
+  position: absolute; top: 24px; right: 28px;
+  font: 600 40px/1 Inter-SemiBold, Inter, sans-serif; letter-spacing: -.04em;
+  color: transparent; -webkit-text-stroke: 1px #cfcfd4;
+  transition: color .35s var(--mono-ease), -webkit-text-stroke-color .35s var(--mono-ease);
+}
+.why_slider .why_slider_column:has(img[src*="why_Icon1"]) .why-head::before { content: "01"; }
+.why_slider .why_slider_column:has(img[src*="why_Icon2"]) .why-head::before { content: "02"; }
+.why_slider .why_slider_column:has(img[src*="why_Icon3"]) .why-head::before { content: "03"; }
+.why_slider .why_slider_column:has(img[src*="why_Icon4"]) .why-head::before { content: "04"; }
+.why_slider .why_slider_column:hover .why-head::before { color: rgba(222, 121, 9, .12); -webkit-text-stroke-color: var(--mono-accent); }
 .why_slider .why_slider_column .why-head {
   min-height: 0 !important;
-  margin: 40px 0 10px !important;
+  margin: 96px 0 10px !important;
   color: var(--mono-ink) !important;
   font-family: Inter-SemiBold, Inter, sans-serif !important;
-  font-size: 19px !important; line-height: 1.3 !important;
+  font-size: 20px !important; line-height: 1.3 !important;
   letter-spacing: -.02em;
 }
 .why_slider .why_slider_column p:not(.why-head) {
@@ -574,6 +582,32 @@ html body .why_slider::after {                                        /* faint w
   color: #5b6170 !important;
   font-size: 15px !important; line-height: 1.6 !important;
 }
+
+/* ink feature tile: Local Expertise */
+html body .why_slider .why_slider_column:has(img[src*="why_Icon1"]) {
+  background:
+    radial-gradient(90% 120% at 100% 100%, rgba(222, 121, 9, .30) 0%, rgba(222, 121, 9, 0) 55%),
+    radial-gradient(60% 80% at 0% 0%, rgba(255, 255, 255, .06) 0%, transparent 60%),
+    #111 !important;
+  border-color: #111 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 24px 48px -30px rgba(17, 17, 17, .55) !important;
+}
+html body .why_slider .why_slider_column:has(img[src*="why_Icon1"])::after { content: none !important; }
+html body .why_slider .why_slider_column:has(img[src*="why_Icon1"])::before { background: radial-gradient(360px circle at var(--mx) var(--my), rgba(222, 121, 9, .22), transparent 70%); }
+html body .why_slider .why_slider_column:has(img[src*="why_Icon1"]):hover {
+  border-color: #111 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 32px 56px -30px rgba(17, 17, 17, .65) !important;
+}
+.why_slider .why_slider_column:has(img[src*="why_Icon1"]) > span {
+  background: rgba(255, 255, 255, .08) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .12);
+}
+.why_slider .why_slider_column:has(img[src*="why_Icon1"]):hover > span { box-shadow: inset 0 0 0 1px rgba(222, 121, 9, .5), 0 0 0 4px rgba(222, 121, 9, .18); }
+.why_slider .why_slider_column:has(img[src*="why_Icon1"]) > span img { filter: none; }
+.why_slider .why_slider_column:has(img[src*="why_Icon1"]) .why-head { color: #fff !important; }
+.why_slider .why_slider_column:has(img[src*="why_Icon1"]) .why-head::before { -webkit-text-stroke-color: rgba(255, 255, 255, .28); }
+.why_slider .why_slider_column:has(img[src*="why_Icon1"]) p:not(.why-head) { color: rgba(255, 255, 255, .72) !important; }
+
 /* the section: a faint dot grid fading out from the heading */
 html body .why_adt_section.bg_grey { position: relative; isolation: isolate; }
 html body .why_adt_section.bg_grey::before {
@@ -584,10 +618,12 @@ html body .why_adt_section.bg_grey::before {
   mask-image: radial-gradient(70% 60% at 50% 0%, #000 0%, transparent 75%);
 }
 @media (max-width: 767px) {
-  html body .why_slider { border-radius: 24px !important; }
   .why_slider .why_slider_column { padding: 24px 22px 28px !important; }
-  .why_slider .why_slider_column .why-head { margin-top: 32px !important; }
+  .why_slider .why_slider_column > span { top: 24px; left: 22px; }
+  .why_slider .why_slider_column .why-head::before { top: 22px; right: 22px; font-size: 34px; }
+  .why_slider .why_slider_column .why-head { margin-top: 84px !important; }
 }
+@media (hover: none) { .why_slider .why_slider_column:hover { translate: none; } }
 
 /* home testimonial CTA stretched across the whole container: size it to its label */
 .testimonial_cta_section .common_btn {
@@ -2515,4 +2551,296 @@ html body.mono-vm-open .modal-backdrop.show { opacity: 1; }
   html body #video_modal.show .modal-content { transform: none !important; transition: opacity .25s ease !important; }
   html body #video_modal .video-wrapper video { filter: none; transform: none; }
   html body #video_modal.show .modal-content::after { animation: none; }
+}
+
+/* ---------- 36. Brand hover: buttons warm to orange -------------------------------------------- */
+/* At rest buttons stay black / white (§3); on hover and keyboard focus they take the brand orange:
+   - filled buttons (ink, and the white pills on dark bands) fill with orange, white label, warm glow
+   - outlined buttons on light surfaces get an orange outline and label over a warm tint
+   - outlined buttons on dark bands get an orange outline over a translucent orange wash
+   The fill is a deeper shade of the brand orange (#d06c05) so the white label stays readable.
+   Earlier rules pin the hover colours with !important at many specificities; `:not(#mono-hover)` adds
+   ID weight so these win everywhere without listing each one. */
+:root {
+  --mono-accent-fill: #d06c05;
+  --mono-accent-ink: #b35900;                   /* orange text on white (4.8:1) */
+  --mono-accent-tint: #fff5ea;
+  --mono-accent-shadow: 0 1px 2px rgba(0, 0, 0, .12), 0 12px 26px -12px rgba(222, 121, 9, .75);
+}
+html body :is(.mono-btn-ink, .mono-btn-light, .mono-btn-line, .mono-btn-ghost, .common_btn, .btn-primary, .pp-btn-primary,
+  .multi-step-booking-form button[type="submit"], .klaro .cm-btn, .klaro .cn-learn-more):not(#mono-hover) {
+  transition: padding .35s var(--mono-ease-out), background-color .25s var(--mono-ease), border-color .25s var(--mono-ease),
+    color .25s var(--mono-ease), box-shadow .3s var(--mono-ease), translate .3s var(--mono-ease-out), scale .15s var(--mono-ease), transform .25s ease !important;
+}
+
+/* filled */
+html body :is(.mono-btn-ink, .mono-btn-light, .common_btn_orange, .banner_button a:first-child, .btn-primary, .pp-btn-primary,
+  .testimonial_cta_section a.common_btn, .pricing_btns a.common_btn:first-child,
+  .multi-step-booking-form button[type="submit"], .multi-step-booking-form .booking-step button.common_btn,
+  .klaro .cm-btn.cm-btn-success):not(.mono-btn-line):not(.mono-btn-ghost):not(#mono-hover):is(:hover, :focus-visible) {
+  background-color: var(--mono-accent-fill) !important; background-image: none !important;
+  border-color: var(--mono-accent-fill) !important; color: #fff !important;
+  box-shadow: var(--mono-accent-shadow) !important;
+}
+html body :is(.mono-btn-ink, .mono-btn-light, .common_btn_orange, .banner_button a:first-child, .btn-primary, .pp-btn-primary,
+  .testimonial_cta_section a.common_btn, .pricing_btns a.common_btn:first-child):not(.mono-btn-line):not(.mono-btn-ghost):not(#mono-hover):is(:hover, :focus-visible) * { color: #fff !important; }
+/* icons drawn as images inside a filled button turn white with the label */
+html body :is(.mono-btn-light, .pricing_btns a.common_btn:first-child):not(#mono-hover):is(:hover, :focus-visible) img { filter: brightness(0) invert(1); }
+
+/* outlined, light surfaces */
+html body :is(.mono-btn-line, .mono-ah-copy .hero-cta .common_btn + .common_btn, .about-hero .hero-cta .common_btn + .common_btn,
+  .klaro .cm-btn.cm-btn-info, .klaro .cookie-notice .cn-learn-more):not(#mono-hover):is(:hover, :focus-visible) {
+  background-color: var(--mono-accent-tint) !important; background-image: none !important;
+  border-color: var(--mono-accent) !important; color: var(--mono-accent-ink) !important;
+  box-shadow: 0 0 0 3px rgba(222, 121, 9, .12) !important;
+}
+html body :is(.mono-btn-line, .mono-ah-copy .hero-cta .common_btn + .common_btn, .about-hero .hero-cta .common_btn + .common_btn):not(#mono-hover):is(:hover, :focus-visible) * { color: var(--mono-accent-ink) !important; }
+
+/* outlined, dark bands */
+html body :is(.mono-btn-ghost, :is(.bg_orange_gradient, .bg_blue2, .email_support_section) :is(.pricing_btns, .banner_button) a.common_btn + a.common_btn):not(#mono-hover):is(:hover, :focus-visible) {
+  background-color: rgba(222, 121, 9, .16) !important; background-image: none !important;
+  border-color: var(--mono-accent) !important; color: #fff !important; box-shadow: none !important;
+}
+
+/* quieter text actions: cookie "Decline" */
+html body .klaro .cm-btn.cm-btn-danger:not(#mono-hover):is(:hover, :focus-visible) { background: var(--mono-accent-tint) !important; color: var(--mono-accent-ink) !important; }
+
+/* small round controls: testimonial arrows, back to top */
+html body .trusted_by_section .slider_arrowss button:not(#mono-hover):hover { background: var(--mono-accent-fill) !important; border-color: var(--mono-accent-fill) !important; box-shadow: var(--mono-accent-shadow); }
+html body a#scroll:not(#mono-hover):hover { background-color: var(--mono-accent-fill) !important; border-color: var(--mono-accent-fill); box-shadow: var(--mono-accent-shadow); }
+
+/* cookie banner + preferences: orange focus ring, orange "on" switches, orange link hover */
+html body .klaro :is(.cm-btn, .cn-learn-more):focus-visible { outline: 2px solid var(--mono-accent) !important; outline-offset: 3px !important; }
+html body .klaro .cm-list-input:checked + .cm-list-label .slider,
+html body .klaro .cm-list-input.half-checked:checked + .cm-list-label .slider { background-color: var(--mono-accent-fill) !important; box-shadow: 0 0 0 3px rgba(222, 121, 9, .14) !important; }
+html body .klaro .cookie-notice:not(.cookie-modal-notice) .cn-body p a:hover { color: var(--mono-accent-ink) !important; }
+html body .klaro .cookie-notice:not(.cookie-modal-notice) {
+  background:
+    radial-gradient(120% 140% at 0% 0%, rgba(222, 121, 9, .12) 0%, rgba(222, 121, 9, 0) 46%),
+    radial-gradient(60% 120% at 100% 100%, rgba(222, 121, 9, .07) 0%, rgba(222, 121, 9, 0) 60%), #fff !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  html body :is(.mono-btn-ink, .mono-btn-light, .mono-btn-line, .mono-btn-ghost, .common_btn, .klaro .cm-btn):not(#mono-hover) { transition: none !important; }
+}
+
+/* ---------- 37. Country guides: shadcn-style layout ------------------------------------------- */
+/* Zinc neutrals, 1px borders, rounded-xl cards, muted labels and Lucide icons (injected by mono.js),
+   with the site's ink + orange accents:
+   - hero: the flag becomes a badge ("Country guide · United Kingdom")
+   - key facts: a heading and a grid of stat cards (label, icon, value)
+   - guide tabs: a docs layout, sticky sidebar nav beside a content card (header + separator, sub-headings,
+     check lists, key / value rows, previous / next stepper); the note is an alert. Phones get a
+     scrollable segmented tab bar above the card. */
+html body:has(.country_guide_section) {
+  --cg-fg: #18181b; --cg-text: #52525b; --cg-muted-fg: #71717a; --cg-muted: #f4f4f5; --cg-border: #e4e4e7;
+  --cg-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+}
+.mono-cg-ico { width: 16px; height: 16px; flex: none; }
+
+/* hero badge */
+html body .country_guide_section .country_flag {
+  display: inline-flex !important; align-items: center; gap: 8px; align-self: flex-start;
+  width: max-content !important; height: auto !important; max-width: 100%;
+  padding: 4px 14px 4px 4px !important; margin: 0 0 22px !important;
+  background: #fff !important; border: 1px solid var(--cg-border) !important; border-radius: 999px !important;
+  box-shadow: var(--cg-shadow) !important;
+  font: 500 13px/1.2 Inter-Medium, Inter, sans-serif; color: var(--cg-fg);
+}
+html body .country_guide_section .country_flag img {
+  width: 26px !important; height: 26px !important; margin: 0 !important; border-radius: 50% !important; object-fit: cover; box-shadow: none !important;
+}
+html body .country_guide_section .country_flag i { font-style: normal; color: #a1a1aa; margin: 0 2px; }
+
+/* key facts: as wide as the guide below */
+html body:has(.country_guide_section) .country_taxes_section .col-lg-10.offset-lg-1 { width: 100% !important; max-width: 100% !important; flex: 0 0 100% !important; margin-left: 0 !important; }
+html body:has(.country_guide_section) .country_taxes_section .mono-cg-head { margin: 0 0 20px; }
+.mono-cg-title { margin: 0 !important; font: 600 22px/1.3 Inter-SemiBold, Inter, sans-serif !important; letter-spacing: -.02em; color: var(--cg-fg) !important; }
+.mono-cg-desc { margin: 4px 0 0 !important; font-size: 15px !important; line-height: 1.5 !important; color: var(--cg-muted-fg) !important; }
+html body:has(.country_guide_section) .country_taxes_wrapper {
+  padding: 0 !important; margin: 0 !important; background: none !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important;
+}
+html body:has(.country_guide_section) .country_taxes_wrapper::before, html body:has(.country_guide_section) .country_taxes_wrapper::after { content: none !important; }
+html body:has(.country_guide_section) .country_taxes_wrapper > .row {
+  display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 0 !important;
+}
+html body:has(.country_guide_section) .country_taxes_wrapper > .row > [class*="col-"] { display: flex; width: auto !important; max-width: none !important; padding: 0 !important; margin: 0 !important; }
+html body:has(.country_guide_section) .country_taxes_wrapper .country_taxes_column {
+  position: relative; flex: 1 1 auto; display: flex; flex-direction: column; gap: 8px;
+  height: auto !important; min-height: 0 !important; margin: 0 !important; padding: 18px 20px 20px !important;
+  background: #fff !important; border: 1px solid var(--cg-border) !important; border-radius: 12px !important;
+  box-shadow: var(--cg-shadow) !important; text-align: left !important;
+}
+html body:has(.country_guide_section) .country_taxes_wrapper .country_taxes_column::before,
+html body:has(.country_guide_section) .country_taxes_wrapper .country_taxes_column::after { content: none !important; }
+html body:has(.country_guide_section) .country_taxes_wrapper .country_taxes_column:hover {
+  translate: 0 -2px; border-color: #d4d4d8 !important; box-shadow: 0 1px 2px rgba(0, 0, 0, .04), 0 10px 24px -14px rgba(0, 0, 0, .2) !important;
+}
+html body:has(.country_guide_section) .country_taxes_column > .mono-cg-ico { position: absolute; top: 18px; right: 18px; color: #a1a1aa; transition: color .25s var(--mono-ease); }
+html body:has(.country_guide_section) .country_taxes_column:hover > .mono-cg-ico { color: var(--mono-accent); }
+html body:has(.country_guide_section) .country_taxes_column p {
+  margin: 0 !important; padding-right: 26px; font: 500 13px/1.3 Inter-Medium, Inter, sans-serif !important;
+  color: var(--cg-muted-fg) !important; text-transform: none !important; letter-spacing: 0;
+}
+html body:has(.country_guide_section) .country_taxes_column p::first-letter { text-transform: uppercase; }
+html body:has(.country_guide_section) .country_taxes_column h2 {
+  margin: 0 !important; font: 600 17px/1.35 Inter-SemiBold, Inter, sans-serif !important; letter-spacing: -.01em;
+  color: var(--cg-fg) !important; font-variant-numeric: tabular-nums;
+}
+@media (max-width: 991px) { html body:has(.country_guide_section) .country_taxes_wrapper > .row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 420px) {
+  html body:has(.country_guide_section) .country_taxes_wrapper .country_taxes_column { padding: 14px 14px 16px !important; }
+  html body:has(.country_guide_section) .country_taxes_column > .mono-cg-ico { top: 14px; right: 14px; }
+  html body:has(.country_guide_section) .country_taxes_column h2 { font-size: 15px !important; }
+}
+
+/* guide: docs layout */
+html body:has(.country_guide_section) .hiring_benefits_section {
+  background: #fafafa !important; border-top: 1px solid #f0f0f1; border-bottom: 1px solid #f0f0f1;
+}
+html body .hiring_benefits_section .mono-cg-layout {
+  display: grid !important; grid-template-columns: 236px minmax(0, 1fr); gap: 32px; align-items: start;
+  width: 100% !important; max-width: 100% !important; flex: 0 0 100% !important; margin-left: 0 !important;
+}
+.mono-cg-nav { position: sticky; top: 104px; min-width: 0; }
+.mono-cg-navlabel { margin: 0 0 8px !important; padding: 0 12px; font: 500 12px/1.2 Inter-Medium, Inter, sans-serif !important; color: var(--cg-muted-fg) !important; }
+html body .hiring_benefits_section .mono-cg-nav ul.nav-tabs {
+  display: flex !important; flex-direction: column; flex-wrap: nowrap !important; align-items: stretch; justify-content: flex-start !important;
+  gap: 2px !important; margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important;
+}
+html body .hiring_benefits_section .mono-cg-nav ul.nav-tabs li { width: 100%; margin: 0 !important; padding: 0 !important; }
+html body:has(.country_guide_section) .hiring_benefits_section .mono-cg-nav ul.nav-tabs li button.nav-link {
+  position: relative; display: flex !important; align-items: center; gap: 10px;
+  width: 100% !important; min-width: 0 !important; height: 38px !important; margin: 0 !important; padding: 0 12px !important;
+  background: transparent !important; border: 0 !important; border-radius: 8px !important; box-shadow: none !important;
+  font: 500 14px/1.2 Inter-Medium, Inter, sans-serif !important; color: var(--cg-text) !important;
+  text-align: left; white-space: nowrap; transition: background-color .2s var(--mono-ease), color .2s var(--mono-ease) !important;
+}
+html body:has(.country_guide_section) .hiring_benefits_section .mono-cg-nav ul.nav-tabs li button.nav-link .mono-cg-ico { color: #a1a1aa; transition: color .2s var(--mono-ease); }
+html body:has(.country_guide_section) .hiring_benefits_section .mono-cg-nav ul.nav-tabs li button.nav-link:hover { background: var(--cg-muted) !important; color: var(--cg-fg) !important; }
+html body:has(.country_guide_section) .hiring_benefits_section .mono-cg-nav ul.nav-tabs li button.nav-link:hover .mono-cg-ico { color: var(--cg-fg); }
+html body:has(.country_guide_section) .hiring_benefits_section .mono-cg-nav ul.nav-tabs li button.nav-link.active {
+  background: #fff !important; color: var(--cg-fg) !important;
+  box-shadow: inset 0 0 0 1px var(--cg-border), 0 1px 2px rgba(0, 0, 0, .05) !important;
+}
+html body:has(.country_guide_section) .hiring_benefits_section .mono-cg-nav ul.nav-tabs li button.nav-link.active .mono-cg-ico { color: var(--mono-accent); }
+html body:has(.country_guide_section) .hiring_benefits_section .mono-cg-nav ul.nav-tabs li button.nav-link.active::before {
+  content: ""; position: absolute; left: 0; top: 9px; bottom: 9px; width: 3px; border-radius: 0 3px 3px 0; background: var(--mono-accent);
+}
+
+/* content card */
+html body .hiring_benefits_section .mono-cg-layout .tab-content { min-width: 0; margin: 0 !important; }
+html body:has(.country_guide_section) .hiring_benefits_section .country_tabs_content {
+  margin: 0 !important; padding: 0 0 28px !important; overflow: hidden;
+  background: #fff !important; border: 1px solid var(--cg-border) !important; border-radius: 12px !important; box-shadow: var(--cg-shadow) !important;
+}
+html body:has(.country_guide_section) .hiring_benefits_section .country_tabs_content > * { margin-left: 28px !important; margin-right: 28px !important; }
+html body:has(.country_guide_section) .hiring_benefits_section .country_tabs_content > h2 {
+  display: flex !important; align-items: center; gap: 14px;
+  margin: 0 0 24px !important; padding: 22px 28px !important; border-bottom: 1px solid var(--cg-border);
+  font: 600 21px/1.3 Inter-SemiBold, Inter, sans-serif !important; letter-spacing: -.02em; color: var(--cg-fg) !important;
+}
+html body:has(.country_guide_section) .hiring_benefits_section .country_tabs_content > h2 > img { display: none !important; }
+.mono-cg-tile {
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  width: 40px; height: 40px; border-radius: 10px; color: #fff;
+  background: linear-gradient(180deg, #2a2a2a, #111); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14), 0 6px 14px -8px rgba(17, 17, 17, .6);
+}
+.mono-cg-tile .mono-cg-ico { width: 20px; height: 20px; }
+html body:has(.country_guide_section) .hiring_benefits_section .country_tabs_content p {
+  margin-top: 0 !important; margin-bottom: 14px !important; font-size: 15px !important; line-height: 1.7 !important; color: var(--cg-text) !important;
+}
+html body:has(.country_guide_section) .hiring_benefits_section .country_tabs_content p strong { color: var(--cg-fg); font-family: Inter-SemiBold, Inter, sans-serif; font-weight: 600; }
+/* sub-headings */
+html body:has(.country_guide_section) .hiring_benefits_section .country_tabs_content p.mono-cg-sub {
+  margin: 26px 28px 10px !important; font: 600 15.5px/1.4 Inter-SemiBold, Inter, sans-serif !important; color: var(--cg-fg) !important; letter-spacing: -.01em;
+}
+html body:has(.country_guide_section) .hiring_benefits_section .country_tabs_content p.mono-cg-lead { margin-top: 22px !important; }
+html body:has(.country_guide_section) .hiring_benefits_section .country_tabs_content p.mono-cg-lead > strong:first-child { display: inline-block; margin-bottom: 4px; font-size: 15.5px; }
+/* key / value rows */
+html body:has(.country_guide_section) .hiring_benefits_section .country_tabs_content p.mono-cg-kv {
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 16px;
+  margin-bottom: 8px !important; padding: 12px 16px !important;
+  background: #fafafa; border: 1px solid var(--cg-border); border-radius: 8px;
+  font-size: 14.5px !important; line-height: 1.5 !important;
+}
+html body:has(.country_guide_section) .hiring_benefits_section .country_tabs_content p.mono-cg-kv > strong { font-family: Inter-Medium, Inter, sans-serif; font-weight: 500; color: var(--cg-muted-fg); }
+html body:has(.country_guide_section) .hiring_benefits_section .country_tabs_content p.mono-cg-kv + p:not(.mono-cg-kv):not(.mono-cg-sub) { margin-top: 20px !important; }
+/* check lists; long lists run in two columns */
+html body:has(.country_guide_section) .hiring_benefits_section .country_tabs_content ul {
+  display: grid; gap: 8px 24px; list-style: none !important; padding: 0 !important; margin-top: 0 !important; margin-bottom: 18px !important;
+}
+@media (min-width: 768px) {
+  html body:has(.country_guide_section) .hiring_benefits_section .country_tabs_content ul:has(> li:nth-child(5)) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+html body:has(.country_guide_section) .hiring_benefits_section .country_tabs_content ul > li {
+  position: relative; margin: 0 !important; padding: 0 0 0 28px !important; list-style: none !important;
+  font-size: 15px !important; line-height: 1.6 !important; color: #3f3f46 !important;
+}
+html body:has(.country_guide_section) .hiring_benefits_section .country_tabs_content ul > li::before {
+  content: ""; position: absolute; left: 0; top: 3px; width: 18px; height: 18px; border-radius: 50%;
+  background: #fff3e6 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b35900' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / 11px no-repeat;
+  box-shadow: inset 0 0 0 1px rgba(222, 121, 9, .22);
+}
+html body:has(.country_guide_section) .hiring_benefits_section .country_tabs_content ul > li::marker { content: none; }
+html body:has(.country_guide_section) .hiring_benefits_section .country_tabs_content > a.common_btn { margin-top: 10px !important; }
+html body:has(.country_guide_section) .hiring_benefits_section .country_tabs_content > a.common_btn img { width: 22px !important; height: 22px !important; }
+
+/* previous / next stepper */
+html body .hiring_benefits_section .mono-cg-pager {
+  display: flex; gap: 12px; margin-top: 28px !important; padding-top: 24px; border-top: 1px solid var(--cg-border);
+}
+.mono-cg-step {
+  display: flex; align-items: center; gap: 12px; flex: 1 1 0; min-width: 0;
+  padding: 12px 16px !important; border: 1px solid var(--cg-border); border-radius: 10px; background: #fff;
+  color: var(--cg-fg) !important; text-decoration: none !important; font: 500 14px/1.3 Inter-Medium, Inter, sans-serif;
+  transition: border-color .2s var(--mono-ease), background-color .2s var(--mono-ease), box-shadow .2s var(--mono-ease);
+}
+.mono-cg-step span { display: flex; flex-direction: column; gap: 2px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mono-cg-step small { font: 400 12px/1.2 Inter, sans-serif; color: var(--cg-muted-fg); }
+.mono-cg-step .mono-cg-ico { color: var(--cg-muted-fg); transition: color .2s var(--mono-ease), translate .3s var(--mono-ease-out); }
+.mono-cg-next { justify-content: flex-end; text-align: right; margin-left: auto; }
+.mono-cg-next span { align-items: flex-end; }
+.mono-cg-step:hover { border-color: var(--mono-accent); background: #fffaf4; box-shadow: 0 0 0 3px rgba(222, 121, 9, .1); }
+.mono-cg-step:hover .mono-cg-ico { color: var(--mono-accent); }
+.mono-cg-prev:hover .mono-cg-ico { translate: -2px 0; }
+.mono-cg-next:hover .mono-cg-ico { translate: 2px 0; }
+.mono-cg-prev:only-child { max-width: 50%; }
+.mono-cg-next:only-child { max-width: 50%; }
+
+/* note: alert */
+html body:has(.country_guide_section) .hiring_benefits_section .country_note {
+  display: flex !important; align-items: flex-start; gap: 12px;
+  margin: 16px 0 0 !important; padding: 14px 16px !important; text-align: left !important;
+  background: #fff !important; border: 1px solid var(--cg-border) !important; border-radius: 12px !important; box-shadow: none !important;
+}
+html body:has(.country_guide_section) .hiring_benefits_section .country_note > .mono-cg-ico { margin-top: 2px; color: var(--cg-fg); }
+html body:has(.country_guide_section) .hiring_benefits_section .country_note p {
+  margin: 0 !important; text-align: left !important; font-size: 13px !important; line-height: 1.6 !important; color: var(--cg-muted-fg) !important;
+}
+html body:has(.country_guide_section) .hiring_benefits_section .country_note p strong { display: block; margin-bottom: 2px; color: var(--cg-fg); font: 600 14px/1.4 Inter-SemiBold, Inter, sans-serif; }
+
+/* tablets and phones: tab bar above the card */
+@media (max-width: 991px) {
+  html body .hiring_benefits_section .mono-cg-layout { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .mono-cg-nav { position: static; }
+  .mono-cg-navlabel { display: none; }
+  html body .hiring_benefits_section .mono-cg-nav ul.nav-tabs {
+    flex-direction: row; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+    padding: 4px !important; background: var(--cg-muted) !important; border-radius: 10px;
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+  }
+  html body .hiring_benefits_section .mono-cg-nav ul.nav-tabs::-webkit-scrollbar { display: none; }
+  html body .hiring_benefits_section .mono-cg-nav ul.nav-tabs li { width: auto; flex: none; }
+  html body:has(.country_guide_section) .hiring_benefits_section .mono-cg-nav ul.nav-tabs li button.nav-link { height: 34px !important; gap: 8px; padding: 0 12px !important; font-size: 13.5px !important; border-radius: 7px !important; }
+  html body:has(.country_guide_section) .hiring_benefits_section .mono-cg-nav ul.nav-tabs li button.nav-link.active::before { content: none; }
+  html body:has(.country_guide_section) .hiring_benefits_section .mono-cg-nav ul.nav-tabs li button.nav-link:hover { background: rgba(255, 255, 255, .6) !important; }
+  html body:has(.country_guide_section) .hiring_benefits_section .mono-cg-nav ul.nav-tabs li button.nav-link.active:hover { background: #fff !important; }
+}
+@media (max-width: 575px) {
+  html body:has(.country_guide_section) .hiring_benefits_section .country_tabs_content > * { margin-left: 18px !important; margin-right: 18px !important; }
+  html body:has(.country_guide_section) .hiring_benefits_section .country_tabs_content > h2 { padding: 18px !important; font-size: 18px !important; gap: 12px; }
+  html body:has(.country_guide_section) .hiring_benefits_section .country_tabs_content p.mono-cg-sub { margin-left: 18px !important; margin-right: 18px !important; }
+  .mono-cg-tile { width: 36px; height: 36px; }
+  html body .hiring_benefits_section .mono-cg-pager { flex-direction: column; }
+  .mono-cg-prev:only-child, .mono-cg-next:only-child { max-width: none; }
 }

@@ -705,7 +705,115 @@
     });
   }
 
+  /* ---------- country guides: key-fact cards, guide sidebar, content cards (mono.css §37) ---------- */
+  // Lucide icon paths (24px grid, stroked)
+  var CG_ICON = {
+    currency: '<rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/>',
+    language: '<path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/>',
+    wage: '<circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/>',
+    cost: '<path d="M22 7 13.5 15.5 8.5 10.5 2 17"/><path d="M16 7h6v6"/>',
+    hours: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+    tax: '<path d="M19 5 5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/>',
+    probation: '<path d="M5 22h14M5 2h14"/><path d="M17 22v-4.17a2 2 0 0 0-.59-1.42L12 12l-4.41 4.41A2 2 0 0 0 7 17.83V22"/><path d="M7 2v4.17a2 2 0 0 0 .59 1.42L12 12l4.41-4.41A2 2 0 0 0 17 6.17V2"/>',
+    leave: '<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+    hire: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/>',
+    contract: '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4M16 13H8M16 17H8M10 9H8"/>',
+    benefits: '<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C9 3 11 5 12 8c1-3 3-5 4.5-5a2.5 2.5 0 0 1 0 5"/>',
+    payroll: '<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>',
+    legal: '<path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10M12 3v18M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>',
+    visa: '<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>',
+    eor: '<rect width="16" height="20" x="4" y="2" rx="2"/><path d="M9 22v-4h6v4M8 6h.01M16 6h.01M12 6h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01M8 10h.01M8 14h.01"/>',
+    calculator: '<rect width="16" height="20" x="4" y="2" rx="2"/><path d="M8 6h8M16 14v4M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"/>',
+    info: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>',
+    book: '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>',
+    left: '<path d="m15 18-6-6 6-6"/>', right: '<path d="m9 18 6-6-6-6"/>'
+  };
+  function cgIcon(k, cls) {
+    return '<svg class="' + (cls || 'mono-cg-ico') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (CG_ICON[k] || CG_ICON.book) + '</svg>';
+  }
+  function cgKind(text, map) {
+    text = (text || '').toLowerCase();
+    for (var i = 0; i < map.length; i++) if (map[i][1].test(text)) return map[i][0];
+    return '';
+  }
+  var CG_FACTS = [['currency', /currenc/], ['language', /language/], ['wage', /wage|salary/], ['cost', /cost|contribution/],
+    ['hours', /hour/], ['tax', /tax|vat/], ['probation', /probation/], ['leave', /leave|holiday|vacation/]];
+  var CG_TABS = [['calculator', /calculat/], ['hire', /hir|recruit/], ['contract', /contract/], ['benefits', /benefit/], ['tax', /tax/], ['calculator', /calculat/],
+    ['payroll', /payroll|salar/], ['legal', /legal|law|regulat/], ['visa', /visa|permit|immigra/], ['eor', /eor|employer of record/]];
+  function countryGuide() {
+    var hero = d.querySelector('.banner.country_guide_section');
+    if (!hero || hero.dataset.mono) return;
+    hero.dataset.mono = '1';
+    var h1 = hero.querySelector('h1'), parts = h1 ? h1.textContent.split(':') : [];
+    var name = parts.length > 1 ? parts.pop().trim() : '';
+    // hero: the flag becomes a badge
+    var flag = hero.querySelector('.country_flag');
+    if (flag) flag.insertAdjacentHTML('beforeend', '<span>Country guide' + (name ? ' <i>&middot;</i> ' + name : '') + '</span>');
+    // key facts: a heading and one icon per card
+    var facts = d.querySelector('.country_taxes_wrapper');
+    if (facts) {
+      facts.insertAdjacentHTML('beforebegin', '<div class="mono-cg-head"><p class="mono-cg-title">Key facts</p>' +
+        '<p class="mono-cg-desc">Employment essentials' + (name ? ' for ' + name : '') + ' at a glance.</p></div>');
+      facts.querySelectorAll('.country_taxes_column').forEach(function (c) {
+        var l = c.querySelector('p');
+        c.insertAdjacentHTML('afterbegin', cgIcon(cgKind(l && l.textContent, CG_FACTS) || 'info'));
+      });
+    }
+    // guide tabs: sidebar with icons, content cards with a stepper
+    var sec = d.querySelector('.hiring_benefits_section'), ul = sec && sec.querySelector('ul.nav-tabs');
+    if (!ul) return;
+    var nav = d.createElement('div');
+    nav.className = 'mono-cg-nav';
+    nav.innerHTML = '<p class="mono-cg-navlabel">In this guide</p>';
+    ul.parentNode.insertBefore(nav, ul);
+    nav.appendChild(ul);
+    ul.parentNode.parentNode.classList.add('mono-cg-layout');
+    var btns = [].slice.call(ul.querySelectorAll('button[data-bs-target]'));
+    btns.forEach(function (b, i) {
+      var k = cgKind(b.textContent, CG_TABS) || 'book';
+      b.insertAdjacentHTML('afterbegin', cgIcon(k));
+      var pane = d.querySelector(b.getAttribute('data-bs-target'));
+      if (!pane) return;
+      var card = pane.querySelector('.country_tabs_content'), h2 = card && card.querySelector('h2');
+      if (h2) h2.insertAdjacentHTML('afterbegin', '<span class="mono-cg-tile">' + cgIcon(k) + '</span>');
+      // "<strong>Heading</strong>" paragraphs become sub-headings, "<strong>Label:</strong> value" ones key / value rows
+      if (card) card.querySelectorAll(':scope > p').forEach(function (p) {
+        var s = p.firstElementChild;
+        if (!s || s.tagName !== 'STRONG' || p.textContent.trim().indexOf(s.textContent.trim()) !== 0) return;
+        var rest = p.textContent.trim().slice(s.textContent.trim().length).trim();
+        var n = s.nextSibling;
+        while (n && n.nodeType === 3 && !n.textContent.trim()) n = n.nextSibling;
+        if (!rest) p.classList.add('mono-cg-sub');
+        else if (n && n.nodeName === 'BR') p.classList.add('mono-cg-lead');
+        else if (rest.length < 90 && !p.closest('.country_note')) p.classList.add('mono-cg-kv');
+      });
+      var note = pane.querySelector('.country_note');
+      if (note) note.insertAdjacentHTML('afterbegin', cgIcon('info'));
+      // previous / next
+      var prev = btns[i - 1], next = btns[i + 1], html = '';
+      if (prev) html += '<a class="mono-cg-step mono-cg-prev" href="#" data-cg-go="' + (i - 1) + '">' + cgIcon('left') + '<span><small>Previous</small>' + prev.textContent.trim() + '</span></a>';
+      if (next) html += '<a class="mono-cg-step mono-cg-next" href="#" data-cg-go="' + (i + 1) + '"><span><small>Next</small>' + next.textContent.trim() + '</span>' + cgIcon('right') + '</a>';
+      if (html) (card || pane).insertAdjacentHTML('beforeend', '<div class="mono-cg-pager">' + html + '</div>');
+    });
+    sec.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('[data-cg-go]');
+      if (!a) return;
+      e.preventDefault();
+      var b = btns[+a.getAttribute('data-cg-go')];
+      if (!b) return;
+      b.click();
+      var top = sec.querySelector('.mono-cg-layout').getBoundingClientRect().top;
+      if (top < 0) scrollTo({ top: scrollY + top - 110, behavior: reduce ? 'auto' : 'smooth' });
+    });
+    // the active tab scrolls into view in the mobile tab bar
+    ul.addEventListener('shown.bs.tab', function (e) {
+      if (ul.scrollWidth > ul.clientWidth) ul.scrollTo({ left: e.target.offsetLeft - 16, behavior: reduce ? 'auto' : 'smooth' });
+    });
+  }
+
   function boot() {
+    try { countryGuide(); } catch (e) { }
     try { demoPoints(); } catch (e) { }
     try { unshout(); } catch (e) { }
     try { testimonials(); } catch (e) { }
