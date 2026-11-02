@@ -955,9 +955,74 @@
     }
   }
 
+  // FAQ (mono.css §41): where the section has a heading column and an accordion column they become
+  // two columns, the heading with a short intro and a help card on the left, questions on the right.
+  function faqSection() {
+    var hero = d.querySelector('.country_guide_section h1'), parts = hero ? hero.textContent.split(':') : [];
+    var name = parts.length > 1 ? parts.pop().trim() : '', modal = d.getElementById('staticBackdrop');
+    d.querySelectorAll('.faq_section').forEach(function (sec) {
+      if (sec.dataset.mono) return;
+      sec.dataset.mono = '1';
+      sec.classList.add('mono-faq-on');
+      var acc = sec.querySelector('.accordion');
+      var accCol = acc && acc.closest('[class*="col-"]'), row = accCol && accCol.parentNode;
+      var titleCol = row && [].find.call(row.children, function (c) { return c !== accCol && c.querySelector('h2'); });
+      if (!titleCol) return;
+      var wrap = d.createElement('div');
+      wrap.className = 'mono-faq';
+      wrap.innerHTML = '<div class="mono-faq-intro"><span class="mono-eyebrow">FAQ</span></div><div class="mono-faq-list"></div>';
+      var intro = wrap.firstChild;
+      intro.appendChild(titleCol.querySelector('h2'));
+      intro.insertAdjacentHTML('beforeend', '<p class="mono-faq-desc">Quick answers to the questions we hear most' +
+        (name ? ' about hiring in ' + name : '') + '.</p>' +
+        (modal ? '<div class="mono-faq-help"><span class="mono-faq-help-ico">' + cgIcon('info') + '</span><strong>Still have questions?</strong>' +
+          '<span>Our experts can walk you through it.</span>' +
+          '<a class="common_btn" role="button" tabindex="0" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Talk to an expert</a></div>' : ''));
+      wrap.lastChild.appendChild(acc);
+      row.parentNode.insertBefore(wrap, row);
+      row.style.display = 'none';
+    });
+  }
+
+  // Country guides index (mono.css §42): header with live counts, a count on each region tab, compact
+  // cards whose photo can zoom on hover, and a "View guide" row.
+  function cgIndex() {
+    var sec = d.querySelector('.countries_tab_section');
+    if (!sec || sec.dataset.mono) return;
+    sec.dataset.mono = '1';
+    sec.classList.add('mono-cgx');
+    var panes = sec.querySelectorAll('.tab-content > .tab-pane'), seen = {};
+    sec.querySelectorAll('.guide_column_wrapper > a').forEach(function (a) { seen[a.getAttribute('href')] = 1; });
+    var banner = d.querySelector('.resources_banner_section'), left = banner && banner.querySelector('.banner_left');
+    if (left) {
+      banner.classList.add('mono-cgx-hero');
+      left.insertAdjacentHTML('afterbegin', '<span class="mono-eyebrow">Country guides</span>');
+      left.insertAdjacentHTML('beforeend', '<p class="mono-cgx-lead">Hiring rules, payroll, taxes and benefits, country by country. Pick a region or search for a country.</p>' +
+        '<div class="mono-cgx-stats"><span><b>' + Object.keys(seen).length + '</b> countries</span><span><b>' + panes.length + '</b> regions</span></div>');
+    }
+    sec.querySelectorAll('.countries-nav .nav-link').forEach(function (b) {
+      var p = sec.querySelector(b.getAttribute('data-bs-target'));
+      if (p) b.insertAdjacentHTML('beforeend', '<span class="mono-count">' + p.querySelectorAll('.country_main_column').length + '</span>');
+    });
+    // the photo moves to a layer that can scale without scaling the flag and name on top of it
+    sec.querySelectorAll('.guide_column_image').forEach(function (im) {
+      var bg = im.style.backgroundImage;
+      if (!bg) return;
+      im.style.setProperty('--cgx-img', bg);
+      im.style.backgroundImage = 'none';
+    });
+    sec.querySelectorAll('.guide_column_wrapper > a').forEach(function (a) {
+      a.insertAdjacentHTML('beforeend', '<span class="mono-cgx-go">View guide<i aria-hidden="true"></i></span>');
+    });
+    var input = sec.querySelector('.resources_search input');
+    if (input) { input.placeholder = 'Search countries'; input.setAttribute('aria-label', 'Search countries'); }
+  }
+
   function boot() {
     try { countryGuide(); } catch (e) { }
     try { costWidget(); } catch (e) { }
+    try { faqSection(); } catch (e) { }
+    try { cgIndex(); } catch (e) { }
     try { demoPoints(); } catch (e) { }
     try { unshout(); } catch (e) { }
     try { testimonials(); } catch (e) { }
