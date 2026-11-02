@@ -949,10 +949,37 @@
       cta.href = '#';
       cta.addEventListener('click', function (e) {
         e.preventDefault();
+        e.stopPropagation();                 // the site sends every link in this section to a pricing section that does not exist
         form.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
         setTimeout(function () { input.focus({ preventScroll: true }); }, 450);
       });
     }
+  }
+
+  // "Book a free product demo" form placed on a page (not the modal): the site only builds the
+  // select2 for "Country hiring in" inside the modal, so here it showed as an empty native list box
+  // with its label stranded below. Same options as the modal; jQuery and select2 load late on
+  // phones, so this retries until they are there.
+  function pageBookingSelects(tries) {
+    var sels = [].filter.call(d.querySelectorAll('.multi-step-booking-form select.hiring_country'), function (s) { return !s.closest('.modal'); });
+    if (!sels.length) return;
+    var $ = window.jQuery;
+    if (!$ || !$.fn || !$.fn.select2) {
+      if ((tries || 0) < 1200) setTimeout(function () { pageBookingSelects((tries || 0) + 1); }, 500);
+      return;
+    }
+    sels.forEach(function (s) {
+      var $s = $(s);
+      if ($s.data('select2')) return;
+      var form = s.closest('form');
+      $s.select2({
+        width: '100%', placeholder: 'Country hiring in', allowClear: false, closeOnSelect: false, minimumResultsForSearch: 0,
+        dropdownParent: $(form)
+      });
+      $s.on('select2:selecting.mono', function (e) {
+        if (($s.val() || []).length >= 10) e.preventDefault();          // the modal's limit
+      });
+    });
   }
 
   // FAQ (mono.css §41): where the section has a heading column and an accordion column they become
@@ -1004,6 +1031,30 @@
       var p = sec.querySelector(b.getAttribute('data-bs-target'));
       if (p) b.insertAdjacentHTML('beforeend', '<span class="mono-count">' + p.querySelectorAll('.country_main_column').length + '</span>');
     });
+    // segmented control: a white thumb slides under the chosen region
+    var nav = sec.querySelector('.countries-nav');
+    if (nav) {
+      var thumb = d.createElement('li');
+      thumb.className = 'mono-seg-thumb';
+      thumb.setAttribute('aria-hidden', 'true');
+      nav.insertBefore(thumb, nav.firstChild);
+      var place = function (b, animate) {
+        if (!b || !b.offsetWidth) return;
+        thumb.classList.toggle('mono-seg-still', !animate);
+        thumb.style.width = b.offsetWidth + 'px';
+        thumb.style.transform = 'translateX(' + b.offsetLeft + 'px)';
+      };
+      var active = function () { return nav.querySelector('.nav-link.active'); };
+      place(active(), false);
+      nav.addEventListener('click', function (e) {
+        var b = e.target.closest && e.target.closest('.nav-link');
+        if (b) place(b, true);
+      });
+      nav.addEventListener('shown.bs.tab', function () { place(active(), true); });
+      addEventListener('resize', function () { place(active(), false); });
+      addEventListener('load', function () { place(active(), false); });
+      if (d.fonts && d.fonts.ready) d.fonts.ready.then(function () { place(active(), false); });
+    }
     // the photo moves to a layer that can scale without scaling the flag and name on top of it
     sec.querySelectorAll('.guide_column_image').forEach(function (im) {
       var bg = im.style.backgroundImage;
@@ -1023,6 +1074,7 @@
     try { costWidget(); } catch (e) { }
     try { faqSection(); } catch (e) { }
     try { cgIndex(); } catch (e) { }
+    try { pageBookingSelects(0); } catch (e) { }
     try { demoPoints(); } catch (e) { }
     try { unshout(); } catch (e) { }
     try { testimonials(); } catch (e) { }
