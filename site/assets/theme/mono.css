@@ -3359,3 +3359,79 @@ html body .mono-cgx .resources_tab_content { margin-top: 20px !important; }
 html body .mono-cgx-hero.banner { padding-bottom: 28px !important; }
 html body .mono-cgx.countries_tab_section { padding-top: 0 !important; }
 html body .mono-cgx.countries_tab_section > .container_2 { margin-top: 0 !important; }
+/* a little more air in the compact header (§46) */
+html body .mono-cgx-hero.banner { padding: 48px 0 40px !important; }
+html body .mono-cgx-hero .banner_left > .mono-eyebrow { margin-bottom: 16px !important; }
+html body .mono-cgx-hero .banner_left p.mono-cgx-lead { margin-top: 12px !important; }
+html body .mono-cgx.countries_tab_section { padding-top: 8px !important; }
+html body .mono-cgx .resources_tab_content { margin-top: 28px !important; }
+@media (max-width: 767px) {
+  html body .mono-cgx-hero.banner { padding: 32px 0 28px !important; }
+  html body .mono-cgx .resources_tab_content { margin-top: 20px !important; }
+}
+
+/* ---------- 47. FAQ: the other markups match §41 ---------------------------------------------------- */
+/* pricing (pp-faq), service pages (faq-list), comparisons (cmp-faq) and blog posts (blog-faq, <details>)
+   get the same numbered question cards with a round +/- button. mono.js faqUnify() marks each list
+   .mono-faqx and, outside blog posts, builds the same two columns as §41. Open state: .is-open or [open]. */
+html body .mono-faq-intro .mono-faq-desc { margin: 14px 0 0 !important; max-width: none !important; font-size: 16px !important; line-height: 1.6 !important; color: #5b6170 !important; text-align: left !important; }
+html body .mono-faq-intro h2 { margin: 0 !important; }
+html body section.mono-faq-on { background: #fff; }
+html body .mono-faq-list .mono-faqx { max-width: none !important; margin: 0 !important; }
+
+html body .mono-faqx { display: grid !important; gap: 10px !important; counter-reset: monofaqx; }
+html body .mono-faqx > :is(.pp-faq-item, .faq-item, .cmp-faq-item, .blog-faq-item) {
+  counter-increment: monofaqx; margin: 0 !important; overflow: hidden;
+  background: #fff !important; border: 1px solid #e4e4e7 !important; border-radius: 14px !important; box-shadow: none !important;
+  transition: border-color .2s var(--mono-ease), box-shadow .25s var(--mono-ease);
+}
+html body .mono-faqx > :is(.pp-faq-item, .faq-item, .cmp-faq-item, .blog-faq-item):hover { border-color: #d4d4d8 !important; }
+html body .mono-faqx > :is(.pp-faq-item, .faq-item, .cmp-faq-item, .blog-faq-item):is(.is-open, [open]) {
+  border-color: #d4d4d8 !important; box-shadow: 0 1px 2px rgba(17, 17, 17, .04), 0 18px 36px -24px rgba(17, 17, 17, .3) !important;
+}
+/* question row: number, text, round button */
+html body .mono-faqx :is(.pp-faq-q, .faq-q, .cmp-faq-q, .blog-faq-item__question) {
+  display: flex !important; align-items: center; gap: 16px; margin: 0 !important; padding: 18px 20px !important; cursor: pointer; list-style: none;
+  font: 600 16px/1.4 Inter-SemiBold, Inter, sans-serif !important; color: var(--mono-ink) !important; letter-spacing: -.005em; background: transparent !important;
+}
+html body .mono-faqx .blog-faq-item__question::-webkit-details-marker { display: none; }
+html body .mono-faqx .blog-faq-item__question > span { flex: 1; }
+html body .mono-faqx :is(.pp-faq-q, .faq-q, .cmp-faq-q, .blog-faq-item__question)::before {
+  content: counter(monofaqx, decimal-leading-zero); flex: none; min-width: 22px; align-self: center;
+  font: 600 12.5px/1 Inter-SemiBold, Inter, sans-serif; color: #a1a1aa; font-variant-numeric: tabular-nums; transition: color .2s var(--mono-ease);
+}
+html body .mono-faqx > :is(.is-open, [open]) :is(.pp-faq-q, .faq-q, .cmp-faq-q, .blog-faq-item__question)::before { color: var(--mono-accent); }
+html body .mono-faqx :is(.pp-faq-q, .faq-q, .cmp-faq-q, .blog-faq-item__question):focus-visible { outline: 2px solid var(--mono-accent); outline-offset: -2px; border-radius: 14px; }
+
+/* round button: the span icons keep their two bars (the vertical one folds away when open) */
+html body .mono-faqx :is(.pp-faq-icon, .faq-icon, .cmp-faq-icon) {
+  position: relative; flex: none; width: 30px !important; height: 30px !important; margin-left: auto; opacity: 1 !important; border-radius: 50%;
+  background: #f4f4f5; border: 1px solid #e4e4e7; transition: background-color .2s var(--mono-ease), border-color .2s var(--mono-ease), rotate .3s var(--mono-ease-out);
+}
+html body .mono-faqx :is(.pp-faq-icon, .faq-icon, .cmp-faq-icon)::before,
+html body .mono-faqx :is(.pp-faq-icon, .faq-icon, .cmp-faq-icon)::after { background: #111 !important; top: 50% !important; left: 50% !important; }
+html body .mono-faqx :is(.pp-faq-icon, .faq-icon, .cmp-faq-icon)::before { width: 12px !important; height: 2px !important; }
+html body .mono-faqx :is(.pp-faq-icon, .faq-icon, .cmp-faq-icon)::after { width: 2px !important; height: 12px !important; }
+html body .mono-faqx > .is-open :is(.pp-faq-icon, .faq-icon, .cmp-faq-icon) { rotate: 180deg; background: var(--mono-ink); border-color: var(--mono-ink); }
+html body .mono-faqx > .is-open :is(.pp-faq-icon, .faq-icon, .cmp-faq-icon)::before,
+html body .mono-faqx > .is-open :is(.pp-faq-icon, .faq-icon, .cmp-faq-icon)::after { background: #fff !important; }
+html body .mono-faqx > .is-open :is(.pp-faq-q, .faq-q, .cmp-faq-q):hover :is(.pp-faq-icon, .faq-icon, .cmp-faq-icon) { background: var(--mono-accent-fill); border-color: var(--mono-accent-fill); }
+html body .mono-faqx > :not(.is-open) :is(.pp-faq-q, .faq-q, .cmp-faq-q):hover :is(.pp-faq-icon, .faq-icon, .cmp-faq-icon) { border-color: #d4d4d8; }
+/* blog: the chevron svg sits in the same round button */
+html body .mono-faqx .blog-faq-item__icon {
+  flex: none; width: 30px !important; height: 30px !important; margin-left: auto; padding: 7px; border-radius: 50%; box-sizing: border-box;
+  background: #f4f4f5; border: 1px solid #e4e4e7; color: #111; transition: background-color .2s var(--mono-ease), rotate .3s var(--mono-ease-out);
+}
+html body .mono-faqx > [open] .blog-faq-item__icon { rotate: 180deg; background: var(--mono-ink); border-color: var(--mono-ink); color: #fff; }
+
+/* answer: lines up with the question text; the sites' own max-height / opacity open animation stays */
+html body .mono-faqx :is(.pp-faq-a, .faq-a, .cmp-faq-a) { padding: 0 66px 0 58px !important; }
+html body .mono-faqx > .is-open :is(.pp-faq-a, .faq-a, .cmp-faq-a) { padding: 0 66px 22px 58px !important; }
+html body .mono-faqx .blog-faq-item__answer { padding: 0 66px 22px 58px !important; }
+html body .mono-faqx :is(.pp-faq-a, .faq-a, .cmp-faq-a, .blog-faq-item__answer) { font-size: 15px !important; line-height: 1.7 !important; color: #52525b !important; }
+@media (max-width: 575px) {
+  html body .mono-faqx :is(.pp-faq-q, .faq-q, .cmp-faq-q, .blog-faq-item__question) { padding: 16px !important; gap: 12px; font-size: 15px !important; }
+  html body .mono-faqx :is(.pp-faq-a, .faq-a, .cmp-faq-a) { padding: 0 16px 0 50px !important; }
+  html body .mono-faqx > .is-open :is(.pp-faq-a, .faq-a, .cmp-faq-a), html body .mono-faqx .blog-faq-item__answer { padding: 0 16px 18px 50px !important; }
+}
+@media (max-width: 991px) { html body .mono-faq-intro .mono-faq-desc { text-align: center !important; } }

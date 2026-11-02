@@ -1002,13 +1002,62 @@
       intro.appendChild(titleCol.querySelector('h2'));
       intro.insertAdjacentHTML('beforeend', '<p class="mono-faq-desc">Quick answers to the questions we hear most' +
         (name ? ' about hiring in ' + name : '') + '.</p>' +
-        (modal ? '<div class="mono-faq-help"><span class="mono-faq-help-ico">' + cgIcon('info') + '</span><strong>Still have questions?</strong>' +
-          '<span>Our experts can walk you through it.</span>' +
-          '<a class="common_btn" role="button" tabindex="0" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Talk to an expert</a></div>' : ''));
+        faqHelp());
       wrap.lastChild.appendChild(acc);
       row.parentNode.insertBefore(wrap, row);
       row.style.display = 'none';
     });
+  }
+  function faqHelp() {
+    return d.getElementById('staticBackdrop') ? '<div class="mono-faq-help"><span class="mono-faq-help-ico">' + cgIcon('info') + '</span>' +
+      '<strong>Still have questions?</strong><span>Our experts can walk you through it.</span>' +
+      '<a class="common_btn" role="button" tabindex="0" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Talk to an expert</a></div>' : '';
+  }
+
+  // The other FAQ markups (pricing "pp-faq", service pages "faq-list", comparisons "cmp-faq", blog
+  // "blog-faq") get the same look (mono.css §47): numbered question cards everywhere, and outside blog
+  // posts the same two columns as faqSection(). Their own open / close scripts are left alone.
+  var FAQX = [
+    { list: '.pp-faq-list', item: '.pp-faq-item', head: '.pp-faq-head' },
+    { list: '.faq-list', item: '.faq-item', head: '.section-head' },
+    { list: null, item: '.cmp-faq-item', head: '.cmp-section-head' }
+  ];
+  function faqUnify() {
+    FAQX.forEach(function (v) {
+      var lists = v.list ? [].slice.call(d.querySelectorAll(v.list)) : [];
+      if (!v.list) {                                   // comparison pages: the items sit loose in the container
+        var parents = [];
+        d.querySelectorAll(v.item).forEach(function (it) { if (parents.indexOf(it.parentNode) < 0) parents.push(it.parentNode); });
+        parents.forEach(function (p) {
+          if (p.classList.contains('mono-faqx')) return;
+          var l = d.createElement('div');
+          var items = p.querySelectorAll(':scope > ' + v.item);
+          p.insertBefore(l, items[0]);
+          items.forEach(function (it) { l.appendChild(it); });
+          lists.push(l);
+        });
+      }
+      lists.forEach(function (list) {
+        if (list.classList.contains('mono-faqx') || !list.querySelector(v.item)) return;
+        list.classList.add('mono-faqx');
+        var sec = list.closest('section'), head = sec && sec.querySelector(v.head);
+        if (!head || !(head.compareDocumentPosition(list) & 4) || !head.querySelector('h2')) return;
+        sec.classList.add('mono-faq-on');
+        var wrap = d.createElement('div');
+        wrap.className = 'mono-faq';
+        wrap.innerHTML = '<div class="mono-faq-intro"><span class="mono-eyebrow">FAQ</span></div><div class="mono-faq-list"></div>';
+        var intro = wrap.firstChild, h2 = head.querySelector('h2'), lede = head.querySelector('p');
+        h2.removeAttribute('style');
+        intro.appendChild(h2);
+        if (lede) { lede.className = 'mono-faq-desc'; lede.removeAttribute('style'); intro.appendChild(lede); }
+        else intro.insertAdjacentHTML('beforeend', '<p class="mono-faq-desc">Quick answers to the questions we hear most.</p>');
+        intro.insertAdjacentHTML('beforeend', faqHelp());
+        head.parentNode.insertBefore(wrap, head);
+        head.style.display = 'none';
+        wrap.lastChild.appendChild(list);
+      });
+    });
+    d.querySelectorAll('.blog-faq-accordion').forEach(function (l) { l.classList.add('mono-faqx'); });
   }
 
   // Country guides index (mono.css §42): header with live counts, a count on each region tab, compact
@@ -1073,6 +1122,7 @@
     try { countryGuide(); } catch (e) { }
     try { costWidget(); } catch (e) { }
     try { faqSection(); } catch (e) { }
+    try { faqUnify(); } catch (e) { }
     try { cgIndex(); } catch (e) { }
     try { pageBookingSelects(0); } catch (e) { }
     try { demoPoints(); } catch (e) { }
