@@ -982,6 +982,46 @@
     });
   }
 
+  // Phone code on a page form (contact page and others): the site hangs its select2 list off <body>,
+  // where it flipped above the field over Full name / Work email and focusing its search box made
+  // the page jump. Rebuilt with the site's own options, the list lives in the form and always opens
+  // below the field.
+  function pageDialSelects(tries) {
+    var $ = window.jQuery;
+    var sels = [].filter.call(d.querySelectorAll('.multi-step-booking-form select[name="dial_code"]'), function (s) { return !s.closest('.modal') && !s.dataset.monoDial; });
+    if (!sels.length) return;
+    var ready = $ && $.fn && $.fn.select2;
+    sels.forEach(function (s) {
+      var $s = ready && $(s), inst = $s && $s.data('select2');
+      if (!inst && (tries || 0) < 40) return;            // let the site build it first, then take its options
+      if (!ready) return;
+      var opts = $.extend({}, inst ? inst.options.options : {
+        width: '100%', minimumResultsForSearch: 0,
+        templateSelection: window.adtDialSelection || undefined, placeholder: (s.querySelector('option[value=""]') || {}).text || 'Select'
+      });
+      var val = $s.val();
+      if (inst) $s.select2('destroy');
+      opts.dropdownParent = $(s.closest('form'));
+      $s.select2(opts).val(val).trigger('change.select2');
+      s.dataset.monoDial = '1';
+      var dd = $s.data('select2').dropdown;
+      if (!dd || !dd._positionDropdown) return;
+      var place = dd._positionDropdown;
+      dd._positionDropdown = function () {
+        place.call(this);
+        var box = this.$dropdownContainer[0], op = box.offsetParent, sel = this.$container[0];
+        if (!op) return;
+        var r = sel.getBoundingClientRect(), o = op.getBoundingClientRect(), k = (o.height / op.offsetHeight) || 1;   // the section is scaled
+        box.style.top = ((r.bottom - o.top) / k - op.clientTop) + 'px';
+        box.style.left = ((r.left - o.left) / k - op.clientLeft) + 'px';
+        this.$dropdown.removeClass('select2-dropdown--above').addClass('select2-dropdown--below');
+        this.$container.add(this.$dropdownContainer).removeClass('select2-container--above').addClass('select2-container--below');
+      };
+    });
+    if ([].some.call(sels, function (s) { return !s.dataset.monoDial; }) && (tries || 0) < 1200)
+      setTimeout(function () { pageDialSelects((tries || 0) + 1); }, 500);
+  }
+
   // FAQ (mono.css §41): where the section has a heading column and an accordion column they become
   // two columns, the heading with a short intro and a help card on the left, questions on the right.
   function faqSection() {
@@ -1125,6 +1165,7 @@
     try { faqUnify(); } catch (e) { }
     try { cgIndex(); } catch (e) { }
     try { pageBookingSelects(0); } catch (e) { }
+    try { pageDialSelects(0); } catch (e) { }
     try { demoPoints(); } catch (e) { }
     try { unshout(); } catch (e) { }
     try { testimonials(); } catch (e) { }
