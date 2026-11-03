@@ -3351,15 +3351,21 @@ html body .mono-cgx .resources_tab_content { margin-top: 20px !important; }
 html body .mono-cgx-hero.banner { padding-bottom: 28px !important; }
 html body .mono-cgx.countries_tab_section { padding-top: 0 !important; }
 html body .mono-cgx.countries_tab_section > .container_2 { margin-top: 0 !important; }
-/* a little more air in the compact header (§46) */
-html body .mono-cgx-hero.banner { padding: 48px 0 40px !important; }
-html body .mono-cgx-hero .banner_left > .mono-eyebrow { margin-bottom: 16px !important; }
-html body .mono-cgx-hero .banner_left p.mono-cgx-lead { margin-top: 12px !important; }
-html body .mono-cgx.countries_tab_section { padding-top: 8px !important; }
-html body .mono-cgx .resources_tab_content { margin-top: 28px !important; }
+/* compact header (§46): filter bar and the first row of countries sit in the first view on a laptop */
+html body .mono-cgx-hero.banner { padding: 28px 0 24px !important; }
+html body .mono-cgx-hero .banner_left > .mono-eyebrow { margin-bottom: 10px !important; }
+html body .mono-cgx-hero .banner_left p.mono-cgx-lead { max-width: none; margin-top: 6px !important; }
+html body .mono-cgx.countries_tab_section { padding-top: 0 !important; }
+html body .mono-cgx .resources_tab_content { margin-top: 20px !important; }
+@media (max-height: 760px) and (min-width: 768px) {
+  html body .mono-cgx-hero.banner { padding: 18px 0 16px !important; }
+  html body .mono-cgx-hero .banner_left > .mono-eyebrow { margin-bottom: 8px !important; }
+  html body .mono-cgx-hero .banner_left h1 { font-size: 30px !important; }
+  html body .mono-cgx .resources_tab_content { margin-top: 16px !important; }
+}
 @media (max-width: 767px) {
-  html body .mono-cgx-hero.banner { padding: 32px 0 28px !important; }
-  html body .mono-cgx .resources_tab_content { margin-top: 20px !important; }
+  html body .mono-cgx-hero.banner { padding: 24px 0 20px !important; }
+  html body .mono-cgx .resources_tab_content { margin-top: 16px !important; }
 }
 
 /* ---------- 47. FAQ: the other markups match §41 ---------------------------------------------------- */
@@ -3550,3 +3556,35 @@ html body .mono-offices-on .mono-ofc-btn:focus-visible { outline: 2px solid var(
   html body .mono-ofc-links { flex-wrap: wrap; }
   html body .mono-offices-on .mono-ofc-links .mono-ofc-map { flex-basis: 100%; }
 }
+
+/* ---------- 49. Back to top: chevron + reading-progress ring ------------------------------------------ */
+/* The site draws a CSS-border triangle on a flat black disc. Now a glassy ink disc with a stroked
+   chevron; an orange ring around it fills with page progress (--mono-scroll, set by mono.js). */
+html body a#scroll {
+  width: 48px; height: 48px; border-radius: 50% !important; border: 0 !important;
+  display: grid !important; place-items: center;
+  background: radial-gradient(120% 120% at 30% 20%, #2a2a2d 0%, #111 60%) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .18), 0 14px 28px -12px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .08);
+}
+html body a#scroll::before {               /* progress ring: track + orange arc, masked to a 2.5px band */
+  content: ""; position: absolute; inset: 0; border-radius: 50%; pointer-events: none;
+  background: conic-gradient(var(--mono-accent) calc(var(--mono-scroll, 0) * 1turn), rgba(255, 255, 255, .14) 0);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.5px));
+          mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.5px));
+}
+html body a#scroll span {
+  position: static !important; inset: auto !important; margin: 0 !important; border: 0 !important;
+  width: 18px !important; height: 18px !important; background: #fff;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 19V5M5 12l7-7 7 7'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 19V5M5 12l7-7 7 7'/%3E%3C/svg%3E") center / contain no-repeat;
+  transition: translate .35s var(--mono-ease-out);
+}
+html body a#scroll:not(#mono-hover):hover {
+  background: radial-gradient(120% 120% at 30% 20%, #e98a1f 0%, var(--mono-accent-fill) 65%) !important;
+  box-shadow: var(--mono-accent-shadow); translate: 0 -3px;
+}
+html body a#scroll:hover::before { background: rgba(255, 255, 255, .28); }
+html body a#scroll:hover span { translate: 0 -2px; }
+html body a#scroll:focus-visible { outline: 2px solid var(--mono-accent); outline-offset: 3px; }
+@media (max-width: 767px) { html body a#scroll { width: 42px; height: 42px; } html body a#scroll span { width: 16px !important; height: 16px !important; } }
+@media (prefers-reduced-motion: reduce) { html body a#scroll, html body a#scroll span { translate: none !important; } }

@@ -21,8 +21,9 @@
   function onScroll() {
     if (ticking) return; ticking = true;
     requestAnimationFrame(function () {
-      var max = html.scrollHeight - innerHeight;
-      bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, scrollY / max) : 0) + ')';
+      var max = html.scrollHeight - innerHeight, p = max > 0 ? Math.min(1, scrollY / max) : 0;
+      bar.style.transform = 'scaleX(' + p + ')';
+      html.style.setProperty('--mono-scroll', p.toFixed(4));   // back-to-top ring (mono.css §49)
       // header capsule: on past 32px, off only back near the top, so it never flickers mid-scroll
       var next = scrolled ? scrollY > 8 : scrollY > 32;
       if (next !== scrolled) { scrolled = next; html.classList.toggle('mono-scrolled', scrolled); }
