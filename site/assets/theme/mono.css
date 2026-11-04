@@ -3588,3 +3588,64 @@ html body a#scroll:hover span { translate: 0 -2px; }
 html body a#scroll:focus-visible { outline: 2px solid var(--mono-accent); outline-offset: 3px; }
 @media (max-width: 767px) { html body a#scroll { width: 42px; height: 42px; } html body a#scroll span { width: 16px !important; height: 16px !important; } }
 @media (prefers-reduced-motion: reduce) { html body a#scroll, html body a#scroll span { translate: none !important; } }
+
+/* ---------- 50. "Trusted by" logo strip: quiet monochrome logo cloud ------------------------------- */
+/* Every logo sits in the same optical box, rendered in one muted grey; edges fade into the page, the
+   strip pauses on hover, and the logo under the pointer darkens to ink while the rest recede.
+   Only the transparent "-unactive" artwork is used: the colour <img> files have an opaque grey
+   backdrop that showed as a box on hover, so they stay hidden. */
+html body .trusted_company_section .common_title p {
+  display: flex !important; align-items: center; justify-content: center; gap: 16px;
+  margin: 0 auto 6px !important; max-width: 560px;
+  font: 500 12px/1.4 Inter-Medium, Inter, sans-serif !important; letter-spacing: .14em !important;
+  text-transform: uppercase; color: #8a8f98 !important;
+}
+html body .trusted_company_section .common_title p::before,
+html body .trusted_company_section .common_title p::after {
+  content: ""; flex: 1 1 0; height: 1px; min-width: 24px;
+  background: linear-gradient(90deg, transparent, #e4e4e7);
+}
+html body .trusted_company_section .common_title p::after { background: linear-gradient(270deg, transparent, #e4e4e7); }
+/* the old fixed heights (205 / 120px) left a blank band under the strip; the content sizes itself now */
+html body .trusted_company_section.trusted_company_section { min-height: 0 !important; height: auto !important; padding: 20px 0 8px !important; }
+html body .trusted_company_section .trusted_company_wrapper { min-height: 0 !important; height: auto !important; margin: 10px 0 0 !important; }
+html body .trusted_company_section .trusted_company_wrapper .marquee3 {
+  position: relative; overflow: hidden; height: auto !important; min-height: 0 !important;
+  -webkit-mask: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+          mask: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+/* the loop translates by -50%, so spacing lives on each item (padding), never as flex gap */
+html body .trusted_company_section .marquee3 ul {
+  gap: 0 !important; padding: 18px 0 !important; margin: 0 !important; align-items: center;
+  animation-duration: 80s; will-change: transform;
+}
+html body .trusted_company_section .marquee3 ul li {
+  padding: 0 28px !important; margin: 0 !important; letter-spacing: 0 !important;
+  transition: opacity .4s var(--mono-ease-out);
+}
+html body .trusted_company_section .marquee3 ul li::before { content: none !important; }
+html body .trusted_company_section .trusted_slider_column {
+  width: 144px; height: 56px;
+  background-position: center; background-size: contain; background-repeat: no-repeat;
+  opacity: .75;
+  transition: filter .4s var(--mono-ease-out), opacity .4s var(--mono-ease-out), scale .4s var(--mono-ease-out);
+}
+html body .trusted_company_section .trusted_slider_column img,
+html body .trusted_company_section .trusted_slider_column:hover img { display: none !important; }
+html body .trusted_company_section .marquee3 ul:has(li:hover) li:not(:hover) { opacity: .4; }
+html body .trusted_company_section .marquee3 ul li:hover .trusted_slider_column { filter: brightness(.18); opacity: 1; scale: 1.05; }
+@media (max-width: 767px) {
+  html body .trusted_company_section .common_title p { font-size: 11px !important; letter-spacing: .1em !important; gap: 0; }
+  html body .trusted_company_section .common_title p::before,
+  html body .trusted_company_section .common_title p::after { display: none; }
+  html body .trusted_company_section .marquee3 ul { padding: 12px 0 !important; }
+  html body .trusted_company_section .marquee3 ul li { padding: 0 18px !important; }
+  html body .trusted_company_section .trusted_slider_column { width: 112px; height: 44px; }
+  html body .trusted_company_section .trusted_company_wrapper .marquee3 {
+    -webkit-mask: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+            mask: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html body .trusted_company_section .marquee3 ul { animation-play-state: paused !important; }
+}
