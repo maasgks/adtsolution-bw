@@ -1268,7 +1268,7 @@ html body :is(.booking_right_wrapper, .modal) .multi-step-booking-form.multi-ste
   font-size: 14.5px !important; line-height: 42px !important; color: var(--mono-ink) !important; box-shadow: none !important;
   transition: border-color .2s, box-shadow .2s, background-color .2s;
 }
-html body :is(.booking_right_wrapper, .modal) .multi-step-booking-form.multi-step-booking-form .form-floating > .form-control::placeholder { color: transparent !important; }
+html body :is(.booking_right_wrapper, .modal) .multi-step-booking-form.multi-step-booking-form .form-floating > .form-control::placeholder { color: #a1a1aa !important; opacity: 1; }   /* same grey as the select2 placeholders */
 html body :is(.booking_right_wrapper, .modal) .multi-step-booking-form.multi-step-booking-form .form-floating > .form-control:hover,
 html body :is(.booking_right_wrapper, .modal) .multi-step-booking-form.multi-step-booking-form .select2-container:hover .select2-selection { border-color: #d4d4d8 !important; }
 html body :is(.booking_right_wrapper, .modal) .multi-step-booking-form.multi-step-booking-form .form-floating > .form-control:focus,
