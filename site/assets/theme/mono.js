@@ -17,13 +17,17 @@
   bar.id = 'mono-progress';
   bar.setAttribute('aria-hidden', 'true');
   d.body.appendChild(bar);
-  var ticking = false, scrolled = false;
+  var ticking = false, scrolled = false, toTop = null, lastP = -1;
   function onScroll() {
     if (ticking) return; ticking = true;
     requestAnimationFrame(function () {
       var max = html.scrollHeight - innerHeight, p = max > 0 ? Math.min(1, scrollY / max) : 0;
       bar.style.transform = 'scaleX(' + p + ')';
-      html.style.setProperty('--mono-scroll', p.toFixed(4));   // back-to-top ring (mono.css §49)
+      // back-to-top ring (mono.css §49). Set on the button, never on <html>: an inherited custom
+      // property on the root restyles every element on the page each frame, which stutters scrolling.
+      if (!toTop || !toTop.isConnected) toTop = d.getElementById('scroll');
+      p = Math.round(p * 1000) / 1000;
+      if (toTop && p !== lastP) { lastP = p; toTop.style.setProperty('--mono-scroll', p); }
       // header capsule: on past 32px, off only back near the top, so it never flickers mid-scroll
       var next = scrolled ? scrollY > 8 : scrollY > 32;
       if (next !== scrolled) { scrolled = next; html.classList.toggle('mono-scrolled', scrolled); }
