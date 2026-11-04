@@ -1367,26 +1367,55 @@
   /* ---------- dark bands: a warm glow follows the pointer (mono.css §51) ---------- */
   // The glow is its own clipped layer, moved with a transform, so the band never repaints and its
   // overflow (form dropdowns) is left alone. Pointer devices only; reduced motion keeps it still.
-  if (!reduce && window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    var BANDS = '.bg_orange_gradient, section.bg_blue:not(.footer_section), section.bg_blue2';
-    d.querySelectorAll(BANDS).forEach(function (band) {
-      var layer = d.createElement('span'), spot = d.createElement('span'), raf = 0, x = 0, y = 0;
-      layer.className = 'mono-spot-layer'; layer.setAttribute('aria-hidden', 'true');
-      spot.className = 'mono-spot';
-      layer.appendChild(spot);
-      band.insertBefore(layer, band.firstChild);
-      band.classList.add('mono-spot-band');
-      band.addEventListener('pointermove', function (e) {
-        var r = band.getBoundingClientRect();
-        x = e.clientX - r.left; y = e.clientY - r.top;
-        if (!raf) raf = requestAnimationFrame(function () {
-          raf = 0;
-          spot.style.transform = 'translate3d(' + x.toFixed(0) + 'px,' + y.toFixed(0) + 'px,0)';
-        });
-        if (!layer.classList.contains('is-on')) layer.classList.add('is-on');
-      }, { passive: true });
-      band.addEventListener('pointerleave', function () { layer.classList.remove('is-on'); });
+  // Pages come from several templates with their own class names, so dark areas are found by their
+  // computed background instead of a class list: any wide block painted in a dark colour, or in a
+  // gradient whose opaque stops are all dark. Only the outermost dark block gets a glow.
+  function darkPaint(cs) {
+    var img = cs.backgroundImage, c = rgb(cs.backgroundColor);
+    if (img && img.indexOf('url(') >= 0) return false;                   // photos, not dark paint
+    if (c && c.a > .6) return lum(c) < .05;
+    if (!img || img.indexOf('gradient') < 0) return false;
+    var stops = (img.match(/rgba?\([^)]+\)/g) || []).map(rgb).filter(function (s) { return s && s.a > .6; });
+    return stops.length > 0 && stops.every(function (s) { return lum(s) < .05; });
+  }
+  function findDarkBands() {
+    var minW = Math.min(900, innerWidth * .6), found = [];
+    Array.prototype.forEach.call(d.body.querySelectorAll('*'), function (el) {
+      if (!(el.offsetWidth >= minW && el.offsetHeight >= 160)) return;   // (SVG has no offsetWidth)
+      for (var i = 0; i < found.length; i++) if (found[i].contains(el)) return;
+      if (el.closest('header, nav, .navbar, .modal, .offcanvas, .dropdown-menu, .klaro, [class*="exit-intent"], .mono-spot-band')) return;
+      var cs = getComputedStyle(el);
+      if (cs.position === 'fixed' || cs.position === 'sticky' || !darkPaint(cs)) return;
+      if (cs.position === 'static') el.classList.add('mono-spot-static');
+      found.push(el);
     });
+    return found;
+  }
+  function addGlow(band) {
+    var layer = d.createElement('span'), spot = d.createElement('span'), raf = 0, x = 0, y = 0;
+    layer.className = 'mono-spot-layer'; layer.setAttribute('aria-hidden', 'true');
+    spot.className = 'mono-spot';
+    layer.appendChild(spot);
+    band.insertBefore(layer, band.firstChild);
+    band.classList.add('mono-spot-band');
+    band.addEventListener('pointermove', function (e) {
+      var r = band.getBoundingClientRect();
+      x = e.clientX - r.left; y = e.clientY - r.top;
+      if (!raf) raf = requestAnimationFrame(function () {
+        raf = 0;
+        spot.style.transform = 'translate3d(' + x.toFixed(0) + 'px,' + y.toFixed(0) + 'px,0)';
+      });
+      if (!layer.classList.contains('is-on')) layer.classList.add('is-on');
+    }, { passive: true });
+    band.addEventListener('pointerleave', function () { layer.classList.remove('is-on'); });
+  }
+  if (!reduce && window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    // after load, once the site's stylesheets have painted the backgrounds
+    var scanBands = function () {
+      var run = function () { findDarkBands().forEach(addGlow); };
+      if (window.requestIdleCallback) requestIdleCallback(run, { timeout: 1500 }); else setTimeout(run, 200);
+    };
+    if (d.readyState === 'complete') scanBands(); else addEventListener('load', scanBands, { once: true });
   }
 
   /* ---------- video modal: grows out of the "Watch video" button (mono.css §35) ---------- */

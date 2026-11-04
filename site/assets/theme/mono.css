@@ -3653,7 +3653,8 @@ html body .trusted_company_section .marquee3 ul li:hover .trusted_slider_column 
 /* ---------- 51. Dark bands: pointer-following warm glow (same light as the "Why Dhi ADT" dark card, §9) ---------- */
 /* mono.js adds .mono-spot-layer as the band's first child: a clipped layer behind the content holding
    one soft orange disc, moved with a transform (no repaint of the band). It fades in on hover. */
-html body .mono-spot-band { position: relative; isolation: isolate; }
+html body .mono-spot-band { isolation: isolate; }
+html body .mono-spot-static { position: relative; }
 html body .mono-spot-layer {
   position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
   border-radius: inherit; opacity: 0; transition: opacity .6s var(--mono-ease-out);
@@ -3664,3 +3665,7 @@ html body .mono-spot-layer .mono-spot {
   background: radial-gradient(closest-side, rgba(222, 121, 9, .26), rgba(222, 121, 9, .09) 55%, transparent);
   will-change: transform;
 }
+
+/* ---------- 52. EOR country pages: the legal note lines up with the FAQ column above it ---------- */
+/* .faq-list is an 860px centred column; the note after it hung from the container's left edge. */
+html body .eorc2026 .faq-list + .legal-note { max-width: 860px; width: auto; margin: 26px auto 0 !important; }
