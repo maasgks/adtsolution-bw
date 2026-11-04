@@ -1364,6 +1364,31 @@
     }, { passive: true });
   }
 
+  /* ---------- dark bands: a warm glow follows the pointer (mono.css §51) ---------- */
+  // The glow is its own clipped layer, moved with a transform, so the band never repaints and its
+  // overflow (form dropdowns) is left alone. Pointer devices only; reduced motion keeps it still.
+  if (!reduce && window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    var BANDS = '.bg_orange_gradient, section.bg_blue:not(.footer_section), section.bg_blue2';
+    d.querySelectorAll(BANDS).forEach(function (band) {
+      var layer = d.createElement('span'), spot = d.createElement('span'), raf = 0, x = 0, y = 0;
+      layer.className = 'mono-spot-layer'; layer.setAttribute('aria-hidden', 'true');
+      spot.className = 'mono-spot';
+      layer.appendChild(spot);
+      band.insertBefore(layer, band.firstChild);
+      band.classList.add('mono-spot-band');
+      band.addEventListener('pointermove', function (e) {
+        var r = band.getBoundingClientRect();
+        x = e.clientX - r.left; y = e.clientY - r.top;
+        if (!raf) raf = requestAnimationFrame(function () {
+          raf = 0;
+          spot.style.transform = 'translate3d(' + x.toFixed(0) + 'px,' + y.toFixed(0) + 'px,0)';
+        });
+        if (!layer.classList.contains('is-on')) layer.classList.add('is-on');
+      }, { passive: true });
+      band.addEventListener('pointerleave', function () { layer.classList.remove('is-on'); });
+    });
+  }
+
   /* ---------- video modal: grows out of the "Watch video" button (mono.css §35) ---------- */
   (function videoModal() {
     var m = d.getElementById('video_modal');
