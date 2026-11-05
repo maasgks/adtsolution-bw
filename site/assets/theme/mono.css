@@ -3669,3 +3669,44 @@ html body .mono-spot-layer .mono-spot {
 /* ---------- 52. EOR country pages: the legal note lines up with the FAQ column above it ---------- */
 /* .faq-list is an 860px centred column; the note after it hung from the container's left edge. */
 html body .eorc2026 .faq-list + .legal-note { max-width: 860px; width: auto; margin: 26px auto 0 !important; }
+
+/* ---------- 53. Closing CTA before the footer (contact, about): an inset card, not a second footer ---------- */
+/* The band used the footer's black + orange gradient edge to edge, so the two read as one block. The
+   section now sits on the light page and its content becomes a rounded dark card with a warm top light
+   and a faint dot grid; white space underneath separates it from the footer. */
+html body section.booking_section.transprnt_pricing_section.bg_orange_gradient {
+  background: #fff !important; padding: 24px 0 88px !important;
+}
+html body section.transprnt_pricing_section.bg_orange_gradient > .container_2 {
+  position: relative; overflow: hidden; isolation: isolate;
+  width: calc(100% - 40px); max-width: 1200px; margin: 0 auto !important;
+  padding: 72px 48px 40px !important; border-radius: 32px;
+  background:
+    radial-gradient(70% 90% at 50% -10%, rgba(222, 121, 9, .34), transparent 60%),
+    radial-gradient(40% 60% at 100% 100%, rgba(222, 121, 9, .12), transparent 70%),
+    linear-gradient(180deg, #1c1c1e 0%, #0b0b0c 100%);
+  border: 1px solid rgba(255, 255, 255, .06);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .08) inset, 0 40px 80px -40px rgba(17, 17, 17, .55), 0 18px 36px -24px rgba(222, 121, 9, .25);
+}
+html body section.transprnt_pricing_section.bg_orange_gradient > .container_2::before {     /* dot grid, fading out from the top */
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(rgba(255, 255, 255, .09) 1px, transparent 1.2px) 0 0 / 22px 22px;
+  -webkit-mask: radial-gradient(80% 70% at 50% 0%, #000 0%, transparent 75%);
+          mask: radial-gradient(80% 70% at 50% 0%, #000 0%, transparent 75%);
+}
+html body .transprnt_pricing_section.bg_orange_gradient .banner_left h2 { letter-spacing: -.025em; }
+/* stats: three quiet tiles instead of a hairline row */
+html body .transprnt_pricing_section .response_time_wrapper {
+  display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;
+  margin-top: 48px !important; padding: 0 !important; border: 0 !important; background: none !important;
+}
+html body .transprnt_pricing_section .response_time_wrapper .response_time_column {
+  margin: 0 !important; padding: 22px 16px !important; width: auto !important;
+  background: rgba(255, 255, 255, .04) !important; border: 1px solid rgba(255, 255, 255, .08) !important; border-radius: 18px !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05) !important; backdrop-filter: blur(6px);
+}
+@media (max-width: 767px) {
+  html body section.booking_section.transprnt_pricing_section.bg_orange_gradient { padding: 12px 0 56px !important; }
+  html body section.transprnt_pricing_section.bg_orange_gradient > .container_2 { width: calc(100% - 24px); padding: 48px 20px 24px !important; border-radius: 24px; }
+  html body .transprnt_pricing_section .response_time_wrapper { grid-template-columns: 1fr; margin-top: 32px !important; }
+}
