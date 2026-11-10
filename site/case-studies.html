@@ -668,6 +668,10 @@ setTimeout(loadMixpanelLibrary, 5000);
   @media (min-width:992px) and (max-width:1199.98px){.cs2026 .cs-filterbar{--cs-pill-x:max(8px,calc(50% - 488px));}}
   @media (min-width:768px) and (max-width:991.98px){.cs2026 .cs-filterbar{--cs-pill-x:max(8px,calc(50% - 368px));}}
   @media (min-width:576px) and (max-width:767.98px){.cs2026 .cs-filterbar{--cs-pill-x:max(8px,calc(50% - 274px));}}
+  /* Past the list: the filters only act on the featured story and the grid, so once the listing has
+     scrolled away (testimonial, CTA and below) the stuck card slides up out of the way. */
+  .cs2026 .cs-filterbar{transition:padding .35s ease,background-color .35s ease,border-color .35s ease,opacity .25s ease,translate .3s ease,visibility 0s linear 0s;}
+  .cs2026 .cs-filterbar.is-past{opacity:0;translate:0 -12px;visibility:hidden;pointer-events:none;transition:opacity .25s ease,translate .3s ease,visibility 0s linear .3s;}
   @media (prefers-reduced-transparency:reduce){.cs2026 .cs-filterbar.is-stuck .cs-filter-inner{background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none;}}
   @media (prefers-reduced-motion:reduce){.cs2026 .cs-filterbar,.cs2026 .cs-filter-inner{transition:none;}}
   .cs2026 .cs-filter-inner{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
@@ -1072,6 +1076,14 @@ setTimeout(loadMixpanelLibrary, 5000);
       var e = entries[0];
       filterBar.classList.toggle('is-stuck', !e.isIntersecting && e.boundingClientRect.top < 71);
     }, { rootMargin: '-71px 0px 0px 0px', threshold: 0 }).observe(stickMark);
+
+    /* .is-past once the listing's bottom edge has gone up behind the stuck bar (~150px from the top) */
+    var listing = scope.querySelector('.cs-listing');
+    if (listing) new IntersectionObserver(function (entries) {
+      var e = entries[0], past = !e.isIntersecting && e.boundingClientRect.bottom < 150;
+      filterBar.classList.toggle('is-past', past);
+      if (past && filterBar.contains(document.activeElement)) document.activeElement.blur();
+    }, { rootMargin: '-150px 0px 0px 0px', threshold: 0 }).observe(listing);
   }
 
   /* ---------- scroll reveal (re-runnable, so cards paged in animate too) ---------- */
