@@ -654,6 +654,22 @@ setTimeout(loadMixpanelLibrary, 5000);
      Sticks under the 70px header — by the time the bar is stuck the trust bar
      has already collapsed, so offsetting for its height would leave a gap. */
   .cs2026 .cs-filterbar{position:sticky;top:70px;z-index:900;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:14px 0;}
+  /* Stuck: the header is a floating glass capsule by then (mono.css §27), so a full-width strip
+     under it clashed. The bar drops its band and becomes a matching glass card hanging 8px below
+     the capsule, at the capsule's width (same side insets as --pill-x in mono.css). The script
+     at the bottom of the page toggles .is-stuck. */
+  .cs2026 .cs-filterbar{--cs-pill-x:8px;transition:padding .35s ease,background-color .35s ease,border-color .35s ease;}
+  .cs2026 .cs-filter-inner{transition:padding .35s ease,background-color .35s ease,border-color .35s ease,box-shadow .35s ease,border-radius .35s ease;border:1px solid transparent;}
+  /* 9px + 1px + (9px + 9px + 2px border) = the band's 14px + 14px plus the inner's 2px transparent border, so nothing below shifts when it sticks */
+  .cs2026 .cs-filterbar.is-stuck{padding:9px 0 1px;background:transparent;border-bottom-color:transparent;-webkit-backdrop-filter:none;backdrop-filter:none;}
+  .cs2026 .cs-filterbar.is-stuck .cs-container{max-width:none;padding:0 var(--cs-pill-x);}
+  .cs2026 .cs-filterbar.is-stuck .cs-filter-inner{padding:9px;border-radius:22px;border-color:rgba(17,17,17,.08);background:rgba(255,255,255,.78);-webkit-backdrop-filter:saturate(170%) blur(18px);backdrop-filter:saturate(170%) blur(18px);box-shadow:0 1px 2px rgba(0,0,0,.05),0 18px 40px -20px rgba(0,0,0,.38);}
+  @media (min-width:1200px){.cs2026 .cs-filterbar{--cs-pill-x:max(12px,calc(50% - 586px));}}
+  @media (min-width:992px) and (max-width:1199.98px){.cs2026 .cs-filterbar{--cs-pill-x:max(8px,calc(50% - 488px));}}
+  @media (min-width:768px) and (max-width:991.98px){.cs2026 .cs-filterbar{--cs-pill-x:max(8px,calc(50% - 368px));}}
+  @media (min-width:576px) and (max-width:767.98px){.cs2026 .cs-filterbar{--cs-pill-x:max(8px,calc(50% - 274px));}}
+  @media (prefers-reduced-transparency:reduce){.cs2026 .cs-filterbar.is-stuck .cs-filter-inner{background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none;}}
+  @media (prefers-reduced-motion:reduce){.cs2026 .cs-filterbar,.cs2026 .cs-filter-inner{transition:none;}}
   .cs2026 .cs-filter-inner{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
   .cs2026 .cs-search{position:relative;flex:1 1 260px;min-width:0;}
   .cs2026 .cs-search .material-icons-outlined{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16.9px;color:var(--muted);pointer-events:none;z-index:1;}
@@ -1042,6 +1058,21 @@ setTimeout(loadMixpanelLibrary, 5000);
   var featuredWrap = document.getElementById('csFeaturedWrap');
   var listLabel    = document.getElementById('csListLabel');
   var shown        = PAGE_SIZE;
+
+  /* filter bar: .is-stuck while it is pinned under the header (see the CSS above). A 1px marker
+     just above the bar leaves the viewport's top band exactly when the bar starts to stick.
+     Uses the sticky top from the un-stuck state (70px), so the check never flips back and forth. */
+  var filterBar = scope.querySelector('.cs-filterbar');
+  if (filterBar && 'IntersectionObserver' in window) {
+    var stickMark = document.createElement('div');
+    stickMark.setAttribute('aria-hidden', 'true');
+    stickMark.style.cssText = 'height:1px;margin-bottom:-1px;pointer-events:none;';
+    filterBar.parentNode.insertBefore(stickMark, filterBar);
+    new IntersectionObserver(function (entries) {
+      var e = entries[0];
+      filterBar.classList.toggle('is-stuck', !e.isIntersecting && e.boundingClientRect.top < 71);
+    }, { rootMargin: '-71px 0px 0px 0px', threshold: 0 }).observe(stickMark);
+  }
 
   /* ---------- scroll reveal (re-runnable, so cards paged in animate too) ---------- */
   var io = ('IntersectionObserver' in window) ? new IntersectionObserver(function (entries) {
