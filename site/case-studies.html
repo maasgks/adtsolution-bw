@@ -1063,27 +1063,35 @@ setTimeout(loadMixpanelLibrary, 5000);
   var listLabel    = document.getElementById('csListLabel');
   var shown        = PAGE_SIZE;
 
-  /* filter bar: .is-stuck while it is pinned under the header (see the CSS above). A 1px marker
-     just above the bar leaves the viewport's top band exactly when the bar starts to stick.
-     Uses the sticky top from the un-stuck state (70px), so the check never flips back and forth. */
+  /* filter bar states (see the CSS above), measured on scroll — one rAF per frame at most:
+     .is-stuck  while it is pinned under the header. A 1px marker sits just above the bar; once the
+                marker has gone above the bar's sticky top (70px) the bar is stuck. The marker never
+                moves with the bar, so the check can't flip back and forth.
+     .is-past   once the listing's bottom edge has gone up behind the stuck bar (~150px from the
+                top): the filters only act on the featured story and the grid, so the bar gets out
+                of the way over the testimonial, the CTA and the rest of the page. */
   var filterBar = scope.querySelector('.cs-filterbar');
-  if (filterBar && 'IntersectionObserver' in window) {
+  var listing   = scope.querySelector('.cs-listing');
+  if (filterBar) {
     var stickMark = document.createElement('div');
     stickMark.setAttribute('aria-hidden', 'true');
     stickMark.style.cssText = 'height:1px;margin-bottom:-1px;pointer-events:none;';
     filterBar.parentNode.insertBefore(stickMark, filterBar);
-    new IntersectionObserver(function (entries) {
-      var e = entries[0];
-      filterBar.classList.toggle('is-stuck', !e.isIntersecting && e.boundingClientRect.top < 71);
-    }, { rootMargin: '-71px 0px 0px 0px', threshold: 0 }).observe(stickMark);
-
-    /* .is-past once the listing's bottom edge has gone up behind the stuck bar (~150px from the top) */
-    var listing = scope.querySelector('.cs-listing');
-    if (listing) new IntersectionObserver(function (entries) {
-      var e = entries[0], past = !e.isIntersecting && e.boundingClientRect.bottom < 150;
-      filterBar.classList.toggle('is-past', past);
-      if (past && filterBar.contains(document.activeElement)) document.activeElement.blur();
-    }, { rootMargin: '-150px 0px 0px 0px', threshold: 0 }).observe(listing);
+    var barTick = false;
+    var barUpdate = function () {
+      barTick = false;
+      var stuck = stickMark.getBoundingClientRect().top < 70;
+      var past  = stuck && !!listing && listing.getBoundingClientRect().bottom < 150;
+      filterBar.classList.toggle('is-stuck', stuck);
+      if (past !== filterBar.classList.contains('is-past')) {
+        filterBar.classList.toggle('is-past', past);
+        if (past && filterBar.contains(document.activeElement)) document.activeElement.blur();
+      }
+    };
+    var barQueue = function () { if (!barTick) { barTick = true; requestAnimationFrame(barUpdate); } };
+    window.addEventListener('scroll', barQueue, { passive: true });
+    window.addEventListener('resize', barQueue);
+    barUpdate();
   }
 
   /* ---------- scroll reveal (re-runnable, so cards paged in animate too) ---------- */
