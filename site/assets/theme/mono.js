@@ -279,15 +279,7 @@
     }, { passive: true });
     f.addEventListener('pointerenter', function () { f.classList.add('mono-ft-hot'); });
     f.addEventListener('pointerleave', function () { f.classList.remove('mono-ft-hot'); });
-    if (reduce) return;
-    f.querySelectorAll('.social_links li a').forEach(function (a) {
-      a.addEventListener('pointermove', function (e) {
-        var r = a.getBoundingClientRect();
-        a.style.setProperty('--tx', ((e.clientX - r.left) / r.width - .5) * 10 + 'px');
-        a.style.setProperty('--ty', ((e.clientY - r.top) / r.height - .5) * 10 - 3 + 'px');
-      });
-      a.addEventListener('pointerleave', function () { a.style.removeProperty('--tx'); a.style.removeProperty('--ty'); });
-    });
+    // (social icons used to drift toward the pointer; now they only tint on hover, mono.css §67)
   }
 
   /* ---------- "Book a demo" pop-up: chooser + two forms (CSS §66) ---------- */

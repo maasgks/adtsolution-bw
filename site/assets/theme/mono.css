@@ -5010,3 +5010,37 @@ html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form select.is-inv
 }
 html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-chipped:has(> select.is-invalid) .mono-bm-chip:not(.is-on) { border-color: #f0a5a5; }
 html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form .form-floating:has(.is-invalid) .invalid-feedback:not(:empty) { display: block !important; margin-top: 6px; font-size: 12.5px !important; font-weight: 600; color: #c03030 !important; }
+
+/* ---------- 67. Calmer hovers: country guide cards, footer social icons ---------- */
+/* Country guide cards: a 2px lift, a soft shadow and a slight photo zoom (was 6px, a large warm shadow
+   and a 7% zoom); the flag badge no longer moves. */
+html body .mono-cgx .guide_column_wrapper:hover > a,
+html body .mono-cgx .guide_column_wrapper > a:focus-visible {
+  transform: translateY(-2px); border-color: #ecd9c3;
+  box-shadow: 0 1px 2px rgba(17, 17, 17, .04), 0 12px 24px -18px rgba(17, 17, 17, .28);
+}
+html body .mono-cgx .guide_column_wrapper > a { transition: transform .35s cubic-bezier(.22, 1, .36, 1), box-shadow .35s ease, border-color .3s ease; }
+html body .mono-cgx .guide_column_wrapper:hover .guide_column_image::before { scale: 1.03; }
+html body .mono-cgx .guide_column_wrapper:hover .guide_column_image div { transform: none; }
+html body .mono-cgx .guide_column_wrapper:is(:hover, :focus-within) .mono-cgx-go i { translate: 2px 0; }
+/* the office cards used the same big lift */
+html body .mono-offices-on .tab_slider_column.mono-ofc:hover {
+  transform: translateY(-2px); border-color: #ecd9c3 !important;
+  box-shadow: 0 1px 2px rgba(17, 17, 17, .04), 0 12px 24px -18px rgba(17, 17, 17, .28);
+}
+html body .mono-ofc:hover .mono-ofc-ph::before { scale: 1.03; }
+
+/* Footer social icons: a soft orange tint and border, the icon brightens (no drift toward the pointer,
+   no solid orange fill, no growing icon) */
+html body section.footer_section .social_links li a,
+html body section.footer_section .social_links li a:hover { translate: none !important; }
+html body section.footer_section .social_links li a:hover {
+  border-color: rgba(222, 121, 9, .55); background: rgba(222, 121, 9, .12); box-shadow: none;
+}
+html body section.footer_section .social_links li a:hover img { filter: grayscale(1) brightness(1.7) contrast(1.1); scale: 1; }
+/* the site's own CSS also lifts the card's wrapper 10px on hover (on top of the card's own lift):
+   the wrapper stays put, so the whole card rises just 2px. Guide cards outside the redesigned grid
+   (no .mono-cgx) get the same small 2px lift on the wrapper. */
+html body .guide_column_wrapper:hover { transform: translateY(-2px) !important; }
+html body .mono-cgx .guide_column_wrapper,
+html body .mono-cgx .guide_column_wrapper:hover { transform: none !important; }
