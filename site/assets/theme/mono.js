@@ -183,6 +183,72 @@
     });
   }
 
+  /* ---------- section headings: ink gradient on light backdrops only (CSS in mono.css §56) ---------- */
+  // Only where the measured backdrop is light and the heading is dark, so a heading on a dark band
+  // drawn without the usual classes can never end up dark-on-dark.
+  function inkHeadings() {
+    d.querySelectorAll('.common_title > h2').forEach(function (h) {
+      if (h.classList.contains('mono-ink-h') || h.closest(DARK_CTX)) return;
+      var bg = effectiveBg(h), fg = rgb(getComputedStyle(h).color);
+      if (bg && fg && lum(bg) > .7 && lum(fg) < .1) h.classList.add('mono-ink-h');
+    });
+  }
+
+  /* ---------- one heading scale for every template (CSS in mono.css §60) ---------- */
+  // Page titles (h1) are sized in CSS alone. Section headings are h2s in every template but carry no
+  // shared class, so any content h2 that the page draws large (>= 27px) is a section heading and gets
+  // .mono-h2. Stat numbers ("50+", "98%"), card titles (smaller), the header, footer, forms and dialogs
+  // are left alone. Runs on load (final sizes) and when tabs / accordions reveal more content.
+  var H2_SKIP = 'header, nav, .footer_section, .modal, .klaro, [class*="exit-intent"], .dropdown-menu, form, ' +
+    '.booking_right_wrapper, table, [class*="counter"], [class*="stat"]';
+  function headingScale() {
+    d.querySelectorAll('h2:not(.mono-h2):not([data-mono-h])').forEach(function (h) {
+      if (!h.offsetParent || h.closest(H2_SKIP)) return;
+      var t = (h.textContent || '').trim();
+      h.setAttribute('data-mono-h', '');
+      if (t.replace(/[^A-Za-z]/g, '').length < 3) return;                // numbers, symbols
+      if (parseFloat(getComputedStyle(h).fontSize) >= 27) h.classList.add('mono-h2');
+    });
+  }
+
+  /* ---------- dark band right above the footer -> inset card (CSS in mono.css §59) ---------- */
+  // Many templates end with a dark CTA / newsletter band whose bottom edge touches the footer, so the
+  // two read as one black block. Whatever dark-painted block touches the footer (outermost one) gets
+  // .mono-prefoot: it becomes a rounded card with white space under it. Runs at boot and again on load.
+  function preFooter() {
+    var f = d.querySelector('.footer_section');
+    if (!f || d.querySelector('.mono-prefoot')) return;
+    var top = f.getBoundingClientRect().top, minW = innerWidth * .6, pick = null;
+    d.body.querySelectorAll('section, div, main, article').forEach(function (el) {
+      if (pick && pick.contains(el)) return;
+      if (f.contains(el) || el.contains(f) || el.closest('.modal, header, nav, .klaro')) return;
+      var r = el.getBoundingClientRect();
+      if (r.width < minW || r.height < 120 || Math.abs(r.bottom - top) > 3) return;
+      if (!darkPaint(getComputedStyle(el))) return;
+      pick = el;
+    });
+    if (pick) pick.classList.add('mono-prefoot');
+  }
+
+  /* ---------- footer: social icons under the brand blurb (CSS in mono.css §54) ---------- */
+  // Every page carries the same footer markup with the icons in the "Contact Us" column. Moving them
+  // under the logo leaves that column for email + phone numbers. Without JS they simply stay put.
+  function footerLayout() {
+    var f = d.querySelector('.footer_section');
+    if (!f || f.dataset.monoFooter) return;
+    var brand = f.querySelector('.footer_column_first'), social = f.querySelector('.footer_column .social_links');
+    if (brand && social && !brand.contains(social)) brand.appendChild(social);
+    f.dataset.monoFooter = '1';
+    // scroll-in animation (§54): columns, labels, offices and the wordmark come in once, in sequence
+    if (reduce || !('IntersectionObserver' in window)) { f.classList.add('mono-footer'); return; }
+    f.classList.add('mono-footer', 'mono-footer-anim');
+    var io = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      f.classList.add('mono-footer-in'); io.disconnect();
+    }, { threshold: .12 });
+    io.observe(f);
+  }
+
   /* ---------- home: "Global reach" + "Built for Dynamic HR Teams" ---------- */
   // Sections that animate as a whole when they scroll into view (.mono-anim -> .mono-seen; CSS in §10).
   function homeSections() {
@@ -1250,12 +1316,111 @@
     try { journey(); aboutHero(); values(); team(); diff(); contactPage(); } catch (e) { }
     try { officesSection(); } catch (e) { }
     try { homeSections(); } catch (e) { }
+    try { footerLayout(); } catch (e) { }
+    try { inkHeadings(); } catch (e) { }
+    try { preFooter(); } catch (e) { }
     buttons();
     try { reveal(); } catch (e) { }
   }
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', boot); else boot();
+
+  /* ---------- cards: cursor spotlight (CSS in mono.css §56) ---------- */
+  // ("Why Dhi ADT" tiles and the dark bands have their own pointer glows further down.)
+  // A soft orange light and a lit border follow the pointer across cards (Linear / Awwwards style).
+  // On first hover each card gets one decorative <span class="mono-cardlight">; after that the pointer
+  // only updates two custom properties on that card, batched to one write per frame.
+  var SPOT = '.global_section_common, .footer_tab_slider_content, .gl-card, .related-card, .feature-card, .value-card, ' +
+    '.team-card, .pp-diff-card, .pp-calc-card, .blog-rec-card, .country_taxes_column, .core_value_column, .resources_column, ' +
+    '.eor_global_column, .response_time_column, .relocation_service_column, .comprehensive_column, .global_presence_column, ' +
+    '.pricing_column';
+  var spotCard = null, spotX = 0, spotY = 0, spotQueued = false;
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    d.addEventListener('pointermove', function (e) {
+      var card = e.target.closest && e.target.closest(SPOT);
+      if (!card) return;
+      if (!card.querySelector(':scope > .mono-cardlight')) {
+        if (getComputedStyle(card).position === 'static') card.classList.add('mono-cardlight-pos');
+        var s = d.createElement('span'); s.className = 'mono-cardlight'; s.setAttribute('aria-hidden', 'true');
+        card.classList.add('mono-cardlight-host');
+        card.appendChild(s);
+      }
+      spotCard = card; spotX = e.clientX; spotY = e.clientY;
+      if (spotQueued) return;
+      spotQueued = true;
+      requestAnimationFrame(function () {
+        spotQueued = false;
+        var r = spotCard.getBoundingClientRect();
+        spotCard.style.setProperty('--mx', (spotX - r.left) + 'px');
+        spotCard.style.setProperty('--my', (spotY - r.top) + 'px');
+      });
+    }, { passive: true });
+  }
+
+  /* ---------- buttons: water-droplet ripple + springy press (CSS in mono.css §55) ---------- */
+  // A droplet grows from the exact press point and a thin wave ring spreads just behind it, both in the
+  // button's own text colour (light on dark buttons, dark on light ones). The button dips on press and
+  // springs back on release. One delegated listener covers every button, including ones added later.
+  var RIPPLE_BTN = '.common_btn, .btn, .cm-btn, .exit-intent-btn, [class*="mono-btn"], .cta-btn, .bad-btn, .cmp-btn, ' +
+    '.theme-btn, .casebtn, .pp-btn-primary, .cn-learn-more, button[type="submit"], a#scroll, .slider_arrowss button';
+  var NO_RIPPLE = '.btn-close, .navbar-toggler, .accordion-button, [role="tab"], .nav-link, .dropdown-toggle, [aria-disabled="true"], :disabled';
+  var reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  d.addEventListener('pointerdown', function (e) {
+    if (e.button !== 0 || reduceMotion.matches) return;
+    var btn = e.target.closest && e.target.closest(RIPPLE_BTN);
+    if (!btn || btn.matches(NO_RIPPLE)) return;
+    var r = btn.getBoundingClientRect();
+    if (r.width < 16 || r.height < 16) return;
+    if (getComputedStyle(btn).position === 'static') btn.classList.add('mono-ripple-pos');
+    btn.classList.add('mono-rippling');
+    var x = e.clientX - r.left, y = e.clientY - r.top;
+    // radius that reaches the farthest corner from the press point
+    var size = 2 * Math.hypot(Math.max(x, r.width - x), Math.max(y, r.height - y));
+    ['mono-drop', 'mono-drop-ring'].forEach(function (cls) {
+      var s = d.createElement('span');
+      s.className = cls; s.setAttribute('aria-hidden', 'true');
+      s.style.cssText = 'width:' + size + 'px;height:' + size + 'px;left:' + (x - size / 2) + 'px;top:' + (y - size / 2) + 'px';
+      btn.appendChild(s);
+      s.addEventListener('animationend', function () {
+        s.remove();
+        if (!btn.querySelector('.mono-drop, .mono-drop-ring')) btn.classList.remove('mono-rippling', 'mono-ripple-pos');
+      });
+    });
+    // press: dip now, spring back when the pointer lets go (or leaves)
+    btn.classList.remove('mono-springing');
+    btn.classList.add('mono-pressed');
+    var release = function () {
+      btn.classList.remove('mono-pressed');
+      void btn.offsetWidth;                                         // restart the spring if it is still running
+      btn.classList.add('mono-springing');
+      removeEventListener('pointerup', release); removeEventListener('pointercancel', release);
+    };
+    addEventListener('pointerup', release); addEventListener('pointercancel', release);
+  }, { passive: true });
+  d.addEventListener('animationend', function (e) {
+    if (e.animationName === 'mono-spring') e.target.classList.remove('mono-springing');
+  });
+  // Link buttons used to leave the page on the same frame, so the droplet was never seen. Plain
+  // same-tab navigations from a button now wait a beat for it, then the page cross-fades
+  // (view transition, mono.css §55). Other click handlers (analytics, modals) still run as before:
+  // only the browser's own navigation is deferred. New tabs, modifier keys, downloads, in-page
+  // anchors, mail/phone links and modal triggers are left alone.
+  d.addEventListener('click', function (e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || reduceMotion.matches) return;
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a || !a.matches(RIPPLE_BTN) || a.matches(NO_RIPPLE)) return;
+    if ((a.target && a.target !== '_self') || a.hasAttribute('download') || a.hasAttribute('data-bs-toggle')) return;
+    var url;
+    try { url = new URL(a.getAttribute('href'), location.href); } catch (err) { return; }
+    if (!/^(https?|file):$/.test(url.protocol)) return;
+    if (url.hash && url.pathname === location.pathname && url.search === location.search) return;
+    e.preventDefault();
+    setTimeout(function () { location.assign(url.href); }, 320);
+  });
+
   addEventListener('load', function () {
     var idle = window.requestIdleCallback || function (f) { return setTimeout(f, 200); };
+    try { preFooter(); } catch (e) { }
+    try { headingScale(); } catch (e) { }
     idle(function () { buttons(); try { guardContrast(); } catch (e) { } try { wideTables(); } catch (e) { } });
     setTimeout(buttons, 2500);                                   // late site CSS / lazy blocks
     d.querySelectorAll('img').forEach(markBroken);
@@ -1265,7 +1430,7 @@
   addEventListener('scroll', function () { clearTimeout(wowT); wowT = setTimeout(function () { showWow(false); }, 700); }, { passive: true });
   // buttons that only become visible later (modals, tabs, accordions, mobile menu)
   ['shown.bs.modal', 'shown.bs.tab', 'shown.bs.collapse', 'shown.bs.dropdown'].forEach(function (ev) {
-    d.addEventListener(ev, function () { setTimeout(buttons, 50); });
+    d.addEventListener(ev, function () { setTimeout(buttons, 50); setTimeout(function () { try { headingScale(); } catch (e) { } }, 60); });
   });
   /* ---------- certification strip: spotlight ---------- */
   // Each frame, every item gets --f = how close it is to the middle of the strip (1 across the
@@ -1371,7 +1536,7 @@
   // computed background instead of a class list: any wide block painted in a dark colour, or in a
   // gradient whose opaque stops are all dark. Only the outermost dark block gets a glow.
   function darkPaint(cs) {
-    var img = cs.backgroundImage, c = rgb(cs.backgroundColor);
+    var img = (cs.backgroundImage || '').replace(/url\("data:image\/svg\+xml[^"]*"\)/g, ''), c = rgb(cs.backgroundColor);   // ignore the grain tile (§56)
     if (img && img.indexOf('url(') >= 0) return false;                   // photos, not dark paint
     if (c && c.a > .6) return lum(c) < .05;
     if (!img || img.indexOf('gradient') < 0) return false;

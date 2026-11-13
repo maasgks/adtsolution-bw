@@ -117,7 +117,7 @@ select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
   background-image: none !important;
   border-color: var(--mono-ink) !important;
   color: #fff !important;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, .14) !important;
+  box-shadow: none !important;
   translate: none !important;
 }
 .mono-btn-ink.mono-pill, .common_btn_orange, .banner_button a:first-child { border-radius: 999px !important; }
@@ -172,10 +172,16 @@ html body :is(.bg_orange_gradient, .bg_blue2, .email_support_section) :is(.prici
    after the label. */
 .mono-arrow { position: relative !important; }
 html body :is(a, button).mono-arrow.mono-arrow.mono-arrow { transition: padding .35s var(--mono-ease-out) !important; }
+/* the arrow is an SVG mask filled with the text colour (not the "→" glyph), so it is the same size and
+   sits on the optical centre of the label in every font and button */
+:root {
+  --mono-arrow-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E");
+}
 .mono-arrow::after {
-  content: "\2192"; position: absolute; top: 50%; right: calc(var(--mono-pr, 24px) - 10px);
+  content: ""; position: absolute; top: 50%; right: calc(var(--mono-pr, 24px) - 10px);
+  width: 1em; height: 1em; background-color: currentColor;
+  -webkit-mask: var(--mono-arrow-svg) center / contain no-repeat; mask: var(--mono-arrow-svg) center / contain no-repeat;
   translate: -8px -50%; opacity: 0; pointer-events: none;
-  font-size: 1.05em; line-height: 1; color: currentColor;
   transition: opacity .25s var(--mono-ease), translate .35s var(--mono-ease-out);
 }
 html body :is(a, button).mono-arrow.mono-arrow.mono-arrow.mono-arrow.mono-arrow:is(:hover, :focus-visible) {
@@ -184,13 +190,41 @@ html body :is(a, button).mono-arrow.mono-arrow.mono-arrow.mono-arrow.mono-arrow:
 }
 .mono-arrow:is(:hover, :focus-visible)::after { opacity: 1; translate: 0 -50%; }
 .mono-arrow-inline::after {
-  content: "\2192"; display: inline-block; overflow: hidden; vertical-align: baseline;
+  content: ""; display: inline-block; vertical-align: -.16em;   /* centres a 1em box on the cap height */
+  width: 1em; height: 1em; background-color: currentColor;
+  -webkit-mask: var(--mono-arrow-svg) center / contain no-repeat; mask: var(--mono-arrow-svg) center / contain no-repeat;
   max-width: 0; margin-left: 0; opacity: 0; translate: -6px 0;
-  font-size: 1.05em; line-height: 1; color: currentColor;
   transition: max-width .35s var(--mono-ease-out), margin-left .35s var(--mono-ease-out), opacity .25s var(--mono-ease), translate .35s var(--mono-ease-out);
 }
-.mono-arrow-inline:is(:hover, :focus-visible)::after { max-width: 1.2em; margin-left: .45em; opacity: 1; translate: 0 0; }
+.mono-arrow-inline:is(:hover, :focus-visible)::after { max-width: 1em; margin-left: .45em; opacity: 1; translate: 0 0; }
 .mono-btn-ink:active, .mono-btn-line:active, .mono-btn-light:active, .common_btn:active, .btn:active { translate: 0 0; scale: .985; }
+
+/* "Learn more" style buttons that carry the white arrow image (~1,170 across the site): same size and type
+   as the home hero CTAs, and the arrow only appears on hover. Like .mono-arrow, the side padding shrinks by
+   exactly the arrow's width (18px + 8px gap = 26px) so the button never changes size. */
+html body a.common_btn.common_btn_blk:has(> img[src*="white_arrow"]) {
+  display: inline-flex !important; align-items: center !important; justify-content: center !important;
+  min-height: 48px !important; height: auto !important; padding: 12px 24px !important; border-radius: 999px !important;
+  font-family: Inter-SemiBold, Inter, sans-serif !important; font-size: 15px !important; line-height: 1.2 !important; white-space: nowrap;
+  transition: padding .35s var(--mono-ease-out), background-color .25s var(--mono-ease), border-color .25s var(--mono-ease) !important;
+}
+html body a.common_btn.common_btn_blk:has(> img[src*="white_arrow"]) > img {
+  display: block !important; flex: none; width: 18px !important; height: 18px !important;
+  max-width: 0 !important; margin: 0 !important; opacity: 0; translate: -6px 0; object-fit: contain;
+  transition: max-width .35s var(--mono-ease-out), margin-left .35s var(--mono-ease-out), opacity .25s var(--mono-ease), translate .35s var(--mono-ease-out);
+}
+html body a.common_btn.common_btn_blk:has(> img[src*="white_arrow"]):is(:hover, :focus-visible) { padding-inline: 11px !important; }
+/* hover fill: the site's orange, like every other filled button (was a dark grey) */
+html body a.common_btn.common_btn_blk:has(> img[src*="white_arrow"]):not(#mono-hover):is(:hover, :focus-visible) {
+  background-color: var(--mono-accent-fill) !important; background-image: none !important;
+  border-color: var(--mono-accent-fill) !important; color: #fff !important; box-shadow: none !important;
+}
+html body a.common_btn.common_btn_blk:has(> img[src*="white_arrow"]):is(:hover, :focus-visible) > img {
+  max-width: 18px !important; margin-left: 8px !important; opacity: 1; translate: 0 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  html body a.common_btn.common_btn_blk:has(> img[src*="white_arrow"]), html body a.common_btn.common_btn_blk:has(> img[src*="white_arrow"]) > img { transition: none !important; }
+}
 
 /* home hero: both CTAs on one row, same height (there is room before the hero image) */
 @media (min-width: 1200px) {
@@ -234,9 +268,15 @@ a#scroll { background-color: var(--mono-ink) !important; border: 1px solid rgba(
   background-image: radial-gradient(60% 90% at 100% 0%, var(--mono-glow), transparent 65%) !important;
 }
 
-/* former orange-gradient band and the dark (former navy) bands: rich black with a warm glow */
+/* former orange-gradient band and the dark (former navy) bands: rich black with a warm glow.
+   --mono-grain: a fine film-grain tile (SVG fractal noise, ~4% white) layered on top so the flat
+   black reads as a surface, as on most Awwwards dark sites. One 180px tile, no extra requests. */
+:root {
+  --mono-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .055 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
 .bg_orange_gradient, section.bg_blue:not(.footer_section), section.bg_blue2 {
   background:
+    var(--mono-grain),
     radial-gradient(60% 90% at 88% 0%, var(--mono-glow-dark), transparent 62%),
     radial-gradient(45% 70% at 0% 100%, rgba(222, 121, 9, .10), transparent 65%),
     linear-gradient(to right, #1a1a1a 0%, #050505 100%) !important;
@@ -367,8 +407,15 @@ p a:not([class]):hover, .pricy_page a:hover, .cookie-policy-page a:hover { text-
 /* (header glass on scroll: see section 27) */
 
 /* modals */
-.modal.fade .modal-dialog { transition: translate .45s var(--mono-ease-out), scale .45s var(--mono-ease-out), opacity .35s !important; translate: 0 24px; scale: .98; }
-.modal.show .modal-dialog { translate: 0 0; scale: 1; }
+/* opening is slow and soft: the dialog rises 40px out of a slight zoom while the backdrop dims in.
+   (#video_modal has its own grow-from-the-button animation, §35) */
+.modal.fade:not(#video_modal) { transition: opacity .45s cubic-bezier(.22, .61, .36, 1) !important; }
+.modal.fade:not(#video_modal) .modal-dialog {
+  transition: translate .7s cubic-bezier(.16, 1, .3, 1), scale .7s cubic-bezier(.16, 1, .3, 1), opacity .5s cubic-bezier(.22, .61, .36, 1) !important;
+  translate: 0 40px; scale: .96; opacity: 0;
+}
+.modal.show:not(#video_modal) .modal-dialog { translate: 0 0; scale: 1; opacity: 1; }
+.modal-backdrop.fade { transition: opacity .5s cubic-bezier(.22, .61, .36, 1) !important; }
 
 /* ---------- 7. Polish: spacing, sizing, consistency across templates --- */
 /* one hero heading size for every template (they ranged from 20px to 50px) */
@@ -395,8 +442,8 @@ h1 + :is(blockquote, .quote-block) { margin-top: 22px !important; }
 /* header "Book a demo": the blog / post template used a taller, regular-weight variant */
 .header .common_btn_orange, .header .right_header .common_btn {
   height: auto !important; min-height: 0 !important; width: auto !important; min-width: 0 !important;
-  padding: 10px 20px !important;
-  font-family: Inter-SemiBold, Inter, sans-serif !important; font-size: 16px !important; line-height: 1.3 !important;
+  min-height: 48px !important; padding: 12px 24px !important; /* same size as the home hero CTAs */
+  font-family: Inter-SemiBold, Inter, sans-serif !important; font-size: 15px !important; line-height: 1.2 !important;
 }
 
 /* privacy / legal copy: section headings were smaller than the paragraphs under them */
@@ -443,7 +490,9 @@ img.mono-img-missing { visibility: hidden; }
 .consultation-cta-box .common_btn { line-height: 1.35 !important; }
 
 /* ---------- 8. Motion: page entrance + scroll reveal ------------------- */
-.mono-js body { animation: monoPageIn .7s var(--mono-ease) both; }
+/* `backwards`, not `both`: a fill that holds opacity on <body> after the fade keeps body as Chrome's
+   backdrop root, and the floating header's backdrop-filter then shows the page behind it unblurred. */
+.mono-js body { animation: monoPageIn .7s var(--mono-ease) backwards; }
 
 .mono-js .mono-reveal {
   opacity: 0;
@@ -738,9 +787,17 @@ html body .global_reach_section .country_slider .slick-slide:hover .country_slid
   flex-direction: column; align-items: flex-start !important; justify-content: flex-end !important; gap: 10px;
   padding: 22px !important; font: 700 22px/1.1 Inter-Bold, Inter, sans-serif !important; letter-spacing: -.01em; color: #fff !important;
 }
+/* flags: the source icons are framed differently (the US one is a small rectangle, China fills the
+   circle), so they never lined up in identical rings. The <img> stays for its alt text, its picture is
+   pushed out of the box and an even, full-bleed vector flag (generated, below) is drawn as its
+   background instead. */
 .global_reach_section .country_slider_column div a img {
-  order: -1; top: 0 !important; width: 34px !important; height: 34px !important; object-fit: cover;
-  margin: 0 0 4px !important; border-radius: 50%; box-shadow: 0 0 0 2px rgba(255, 255, 255, .9);
+  order: -1; position: relative !important; top: 0 !important; left: 0 !important; flex: none;
+  width: 36px !important; height: 36px !important; max-width: none !important; margin: 0 0 4px !important;
+  border-radius: 50%; overflow: hidden;
+  object-fit: none; object-position: -9999px -9999px;
+  background: #fff center / cover no-repeat;
+  box-shadow: 0 0 0 2px #fff, 0 4px 12px -2px rgba(0, 0, 0, .45);
 }
 .global_reach_section .country_slider_column div a::after {
   content: "View country guide \2192"; font: 500 13px/1 Inter, sans-serif; letter-spacing: 0;
@@ -1971,10 +2028,84 @@ html body .klaro .cookie-modal .cm-modal .hide {
 }
 html body .klaro .cookie-modal .cm-modal .hide:hover { background: #f4f4f5 !important; }
 html body .klaro .cookie-modal .cm-modal .hide:focus-visible { outline: 2px solid var(--mono-ink) !important; outline-offset: 2px !important; }
-html body .klaro .cookie-modal .cm-modal .hide svg { width: 14px; height: 14px; stroke: var(--mono-ink) !important; }
+/* Klaro's X has no viewBox (drawn on a 12×12 grid), so it must stay 12px or it sits off-centre */
+html body .klaro .cookie-modal .cm-modal .hide svg { width: 12px; height: 12px; flex: none; margin: 0 !important; stroke: var(--mono-ink) !important; stroke-width: 1.5px; overflow: visible; }
 html body .klaro .cookie-modal .cm-modal .cm-header h1 { padding-right: 48px !important; }
-/* the category title already says "(Always Active)" */
+/* the "Always active" badge on the Necessary title replaces Klaro's "(always required)" note */
 html body .klaro .cookie-modal .cm-required { display: none !important; }
+
+/* categories: one bordered card each, text on the left, switch on the right, purpose as a small label.
+   The purpose text comes from klaro-config.js as <span class="mono-ck-purpose">. */
+/* compact enough to show everything in one view on laptop screens (no inner scrollbar):
+   a wider panel so descriptions stay short, tight cards, the purpose inline after the text */
+html body .klaro .cookie-modal .cm-modal.cm-klaro {
+  display: flex !important; flex-direction: column; max-width: 720px !important;
+  max-height: calc(100vh - 24px) !important; max-height: calc(100dvh - 24px) !important;
+}
+html body .klaro .cookie-modal .cm-modal.cm-klaro > .cm-header,
+html body .klaro .cookie-modal .cm-modal.cm-klaro > .cm-footer { flex: 0 0 auto; }
+/* only a last resort on very small screens (phones in landscape); hidden scrollbar */
+html body .klaro .cookie-modal .cm-modal.cm-klaro > .cm-body { flex: 1 1 auto; min-height: 0; overflow-y: auto !important; overscroll-behavior: contain; scrollbar-width: none; }
+html body .klaro .cookie-modal .cm-modal.cm-klaro > .cm-body::-webkit-scrollbar { display: none; }
+html body .klaro .cookie-modal .cm-modal .cm-header { padding: 20px 28px 16px !important; }
+html body .klaro .cookie-modal .cm-modal .cm-header h1 { margin-bottom: 4px !important; }
+html body .klaro .cookie-modal .cm-modal .cm-header p { font-size: 13.5px !important; line-height: 1.5 !important; }
+html body .klaro .cookie-modal .cm-modal .cm-body { padding: 14px 28px !important; }
+html body .klaro .cookie-modal .cm-modal .cm-footer { padding: 14px 28px 18px !important; }
+html body .klaro .cookie-modal .cm-services { display: flex !important; flex-direction: column; gap: 8px; margin: 0 !important; padding: 0 !important; }
+html body .klaro .cookie-modal .cm-services > li.cm-service { margin: 0 !important; padding: 0 !important; border: 0 !important; list-style: none; }
+html body .klaro .cookie-modal .cm-services > li.cm-service > div {
+  position: relative; padding: 13px 18px !important; border: 1px solid var(--mono-line); border-radius: 14px; background: #fff;
+  transition: border-color .2s var(--mono-ease), background-color .2s var(--mono-ease);
+}
+html body .klaro .cookie-modal .cm-services > li.cm-service > div:hover { border-color: #d4d4d8; }
+html body .klaro .cookie-modal .cm-services > li.cm-service > div:has(.cm-list-input:checked:not(.required)) { border-color: #e7c9a5; background: #fffaf4; }
+html body .klaro .cookie-modal .cm-services .cm-list-label {
+  display: flex !important; align-items: center; gap: 8px; min-height: 26px; margin: 0 !important;
+  padding: 0 72px 0 0 !important; cursor: pointer;
+}
+html body .klaro .cookie-modal .cm-services .cm-list-input.required + .cm-list-label { cursor: default; }
+html body .klaro .cookie-modal .cm-services .cm-list-title { padding: 0 !important; margin: 0 !important; display: inline-flex !important; align-items: center; }
+html body .klaro .cookie-modal #service-item-necessary-title::after {
+  content: "Always active"; margin-left: 10px; padding: 3px 9px; border-radius: 999px;
+  font: 600 11px/1.3 Inter-SemiBold, Inter, sans-serif; letter-spacing: .1px;
+  color: #166534; background: #f0fdf4; border: 1px solid #bbf7d0;
+}
+/* switch: right side of the card, vertically centred */
+html body .klaro .cookie-modal .cm-services .cm-switch {
+  position: absolute !important; top: 50% !important; right: 18px !important; left: auto !important; translate: 0 -50%;
+  width: 46px !important; height: 26px !important; margin: 0 !important;
+}
+html body .klaro .cookie-modal .cm-services .cm-switch .slider { width: 46px !important; height: 26px !important; inset: 0 !important; box-shadow: none !important; }
+html body .klaro .cookie-modal .cm-services .cm-switch .slider::before {
+  width: 20px !important; height: 20px !important; left: 2px !important; bottom: 2px !important; top: auto !important; border: 0 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .2) !important;
+}
+html body .klaro .cookie-modal .cm-services .cm-list-input:checked + .cm-list-label .slider::before { transform: translateX(20px) !important; }
+html body .klaro .cookie-modal .cm-services .cm-list-input:checked:not(.required) + .cm-list-label .slider {
+  background-color: var(--mono-accent-fill) !important; border-color: var(--mono-accent-fill) !important; box-shadow: none !important;
+}
+html body .klaro .cookie-modal .cm-services .cm-list-input.required + .cm-list-label .slider {
+  background-color: #a1a1aa !important; border-color: #a1a1aa !important; box-shadow: none !important; opacity: .55;
+}
+html body .klaro .cookie-modal .cm-services .cm-list-input:focus-visible + .cm-list-label .slider { outline: 2px solid var(--mono-ink); outline-offset: 2px; }
+/* description + purpose label */
+html body .klaro .cookie-modal .cm-services .cm-list-description {
+  padding: 0 72px 0 0 !important; margin: 4px 0 0 !important; font-size: 13px !important; line-height: 1.55 !important; color: #71717a !important;
+}
+html body .klaro .cookie-modal .cm-services .mono-ck-purpose {
+  display: inline-flex !important; align-items: center; gap: 5px; margin: 2px 0 0 4px; padding: 1px 9px; border-radius: 999px;
+  background: #f4f4f5; color: #3f3f46; font-size: 11.5px; line-height: 1.6; white-space: nowrap; vertical-align: 1px;
+}
+html body .klaro .cookie-modal .cm-services .mono-ck-purpose::before { content: "Purpose"; font-family: Inter-SemiBold, Inter, sans-serif; font-weight: 600; color: var(--mono-ink); }
+html body .klaro .cookie-modal .cm-services .purposes { display: none !important; }
+@media (max-width: 480px) {
+  html body .klaro .cookie-modal .cm-modal .cm-body { padding: 14px 16px !important; }
+  html body .klaro .cookie-modal .cm-services > li.cm-service > div { padding: 14px !important; }
+  html body .klaro .cookie-modal .cm-services .cm-switch { top: 14px !important; right: 14px !important; translate: none; }
+  html body .klaro .cookie-modal .cm-services .cm-list-description { padding-right: 0 !important; }
+  html body .klaro .cookie-modal .cm-modal .cm-header, html body .klaro .cookie-modal .cm-modal .cm-footer { padding-inline: 16px !important; }
+}
 
 
 /* ---------- 27. Header: full-width bar at the top, floating glass pill once scrolled ----------- */
@@ -2005,9 +2136,20 @@ html body .header_marquee .header::before {
 html.mono-scrolled body .header_marquee .header::before {
   inset: 9px var(--pill-x) 3px var(--pill-x);
   border-radius: 999px; border-color: rgba(17, 17, 17, .08);
-  background: rgba(255, 255, 255, .78);
-  -webkit-backdrop-filter: saturate(170%) blur(18px); backdrop-filter: saturate(170%) blur(18px);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, .05), 0 18px 40px -20px rgba(0, 0, 0, .38);
+  /* tinted glass: a light, see-through base lets the colours behind come through, and the heavy
+     blur melts them into soft patches so no text or logo stays readable. Two faint light layers
+     give the glass its reflection: a gloss on the top half and a diagonal streak. */
+  background-color: rgba(255, 255, 255, .55);
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, .45) 0%, rgba(255, 255, 255, .12) 48%, rgba(255, 255, 255, 0) 52%),
+    linear-gradient(105deg, rgba(255, 255, 255, 0) 22%, rgba(255, 255, 255, .3) 34%, rgba(255, 255, 255, 0) 46%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%); backdrop-filter: blur(28px) saturate(200%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .95), inset 0 -1px 0 rgba(17, 17, 17, .04),
+    0 1px 2px rgba(0, 0, 0, .05), 0 18px 40px -20px rgba(0, 0, 0, .38);
+}
+/* no blur support: keep it nearly solid so text behind never shows through sharp */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  html.mono-scrolled body .header_marquee .header::before { background-color: rgba(255, 255, 255, .95); }
 }
 /* content: centred in the capsule (it sits 3px lower than the bar), logo a touch smaller */
 html body .header_marquee .header > .container { transition: translate .6s var(--mono-ease-out); }
@@ -2450,6 +2592,9 @@ html body .home_banner .banner_video > a.common_btn_orange {
   gap: 10px; padding: 9px 10px 9px 18px !important;
   font-size: 15px !important; line-height: 1.2 !important;
   background: rgba(17, 17, 17, .82) !important; border-color: transparent !important;
+  /* always white. mono.js's contrast check can run before this pill has its dark fill and write an
+     inline color: #111 !important; text-fill-color paints over any `color`, inline or not. */
+  color: #fff !important; -webkit-text-fill-color: #fff !important;
   -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
   box-shadow: 0 8px 24px -10px rgba(0, 0, 0, .5);
   transition: transform .25s ease, background-color .25s ease;
@@ -2586,7 +2731,7 @@ html body.mono-vm-open .modal-backdrop.show { opacity: 1; }
   --mono-accent-fill: #d06c05;
   --mono-accent-ink: #b35900;                   /* orange text on white (4.8:1) */
   --mono-accent-tint: #fff5ea;
-  --mono-accent-shadow: 0 1px 2px rgba(0, 0, 0, .12), 0 12px 26px -12px rgba(222, 121, 9, .75);
+  --mono-accent-shadow: none;                   /* hover states carry no shadow */
 }
 html body :is(.mono-btn-ink, .mono-btn-light, .mono-btn-line, .mono-btn-ghost, .common_btn, .btn-primary, .pp-btn-primary,
   .multi-step-booking-form button[type="submit"], .klaro .cm-btn, .klaro .cn-learn-more):not(#mono-hover) {
@@ -2613,7 +2758,7 @@ html body :is(.mono-btn-line, .mono-ah-copy .hero-cta .common_btn + .common_btn,
   .klaro .cm-btn.cm-btn-info, .klaro .cookie-notice .cn-learn-more):not(#mono-hover):is(:hover, :focus-visible) {
   background-color: var(--mono-accent-tint) !important; background-image: none !important;
   border-color: var(--mono-accent) !important; color: var(--mono-accent-ink) !important;
-  box-shadow: 0 0 0 3px rgba(222, 121, 9, .12) !important;
+  box-shadow: none !important;
 }
 html body :is(.mono-btn-line, .mono-ah-copy .hero-cta .common_btn + .common_btn, .about-hero .hero-cta .common_btn + .common_btn):not(#mono-hover):is(:hover, :focus-visible) * { color: var(--mono-accent-ink) !important; }
 
@@ -3331,6 +3476,60 @@ html body :is(.booking_right_wrapper, .modal) .multi-step-booking-form .hiring-c
   html body .booking_section .footer_booking_section_left .ready_banner_credit > * { margin: 0 !important; }
 }
 
+/* the pitch column itself: eyebrow, tight heading, muted lead, the four points as check rows, and a
+   reassurance line. Covers the home page markup and the shared one (.footer_booking_section_left). */
+html body section.booking_section:not(.transprnt_pricing_section) .banner_left:has(> .ready_banner_credit) {
+  --rb-line: rgba(255, 255, 255, .09);
+  text-align: left !important; align-items: flex-start !important;
+}
+html body section.booking_section:not(.transprnt_pricing_section) .banner_left:has(> .ready_banner_credit)::before {
+  content: "Get started"; order: -1; display: inline-flex; align-items: center; gap: 8px; margin: 0 0 20px;
+  padding: 6px 12px 6px 10px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .14); background: rgba(255, 255, 255, .05);
+  font: 600 11.5px/1 Inter-SemiBold, Inter, sans-serif; letter-spacing: .12em; text-transform: uppercase; color: rgba(255, 255, 255, .85);
+  background-image: radial-gradient(circle at 14px 50%, var(--mono-accent) 0 3px, transparent 3.5px);
+  padding-left: 26px;
+}
+html body section.booking_section:not(.transprnt_pricing_section) .banner_left:has(> .ready_banner_credit) > h2 {
+  margin: 0 !important; max-width: 13ch;
+  font: 600 clamp(34px, 3.3vw, 48px)/1.06 Inter-SemiBold, Inter, sans-serif !important; letter-spacing: -.03em !important; color: #fff !important;
+}
+html body section.booking_section:not(.transprnt_pricing_section) .banner_left:has(> .ready_banner_credit) > p {
+  margin: 18px 0 28px !important; max-width: 46ch;
+  font-size: 16.5px !important; line-height: 1.6 !important; color: rgba(255, 255, 255, .68) !important;
+}
+html body section.booking_section:not(.transprnt_pricing_section) .banner_left .banner_credit.ready_banner_credit {
+  display: grid !important; grid-template-columns: 1fr !important; gap: 14px !important;
+  width: 100%; max-width: 460px; margin: 0 !important; padding: 0 !important; border: 0 !important;
+}
+/* a plain checklist: no box, fill or hover, so the points don't read as buttons */
+html body section.booking_section:not(.transprnt_pricing_section) .banner_left .banner_credit.ready_banner_credit > div {
+  display: flex !important; flex: none !important; flex-direction: row !important; align-items: center !important; gap: 12px;
+  margin: 0 !important; padding: 0 !important; border: 0 !important; border-radius: 0; background: none !important;
+  text-align: left !important; white-space: normal !important; cursor: default;
+  font: 400 15.5px/1.45 Inter-Regular, Inter, sans-serif !important; color: rgba(255, 255, 255, .86) !important;
+}
+/* the green dot becomes an orange check in a soft disc */
+html body section.booking_section:not(.transprnt_pricing_section) .banner_left .banner_credit.ready_banner_credit > div > span {
+  position: relative; flex: 0 0 22px !important; width: 22px !important; height: 22px !important; margin: 0 !important;
+  border-radius: 50%; background: rgba(222, 121, 9, .16) !important; border: 0 !important;
+}
+html body section.booking_section:not(.transprnt_pricing_section) .banner_left .banner_credit.ready_banner_credit > div > span::before { content: none !important; display: none !important; }
+html body section.booking_section:not(.transprnt_pricing_section) .banner_left .banner_credit.ready_banner_credit > div > span::after {
+  content: "" !important; display: block !important; animation: none !important; z-index: auto !important;
+  position: absolute; left: 50% !important; top: 50% !important; width: 5px !important; height: 9px !important; margin: -6px 0 0 -3px;
+  border-radius: 0 !important; background: none !important; border: solid var(--mono-accent); border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+html body section.booking_section:not(.transprnt_pricing_section) .banner_left:has(> .ready_banner_credit)::after {
+  content: "No credit card required \00a0\00b7\00a0 Setup in 24 hours"; margin-top: 22px;
+  font-size: 13.5px; color: rgba(255, 255, 255, .5);
+}
+@media (max-width: 767.98px) {
+  html body section.booking_section:not(.transprnt_pricing_section) .banner_left:has(> .ready_banner_credit) { margin-bottom: 32px; }
+  html body section.booking_section:not(.transprnt_pricing_section) .banner_left:has(> .ready_banner_credit) > h2 { font-size: 32px !important; max-width: none; }
+  html body section.booking_section:not(.transprnt_pricing_section) .banner_left .banner_credit.ready_banner_credit { max-width: none; }
+}
+
 /* ---------- 46. Country guides index: compact header so the countries show in the first view ---------- */
 html body .mono-cgx-hero.banner { padding: 32px 0 0 !important; }
 html body .mono-cgx-hero .banner_left {
@@ -3720,3 +3919,604 @@ html body .transprnt_pricing_section .response_time_wrapper .response_time_colum
   html body section.transprnt_pricing_section.bg_orange_gradient > .container_2 { width: calc(100% - 24px); padding: 48px 20px 24px !important; border-radius: 24px; }
   html body .transprnt_pricing_section .response_time_wrapper { grid-template-columns: 1fr; margin-top: 32px !important; }
 }
+
+/* ---------- Exit-intent pop-up: download button + animated checklist graphic ------------------ */
+/* The pop-up markup is copied into every page, so all of this is CSS only.
+   Animations restart each time the modal opens (it is display:none while closed). */
+
+/* download button: tall pill, icon in a white disc that nudges down, a light sweep every few seconds */
+html body #exitIntentModal #exit-intent-state-1 .exit-intent-btn.btn-primary {
+  position: relative; overflow: hidden; isolation: isolate;
+  min-height: 54px; padding: 8px 28px 8px 10px !important; border-radius: 999px !important;
+  font-family: Inter-SemiBold, Inter, sans-serif !important; font-size: 16px !important; font-weight: 600; letter-spacing: -.1px;
+  justify-content: center; box-shadow: none !important;
+}
+html body #exitIntentModal #exit-intent-state-1 .exit-intent-btn.btn-primary::after {
+  content: ""; position: absolute; inset: 0 auto 0 0; width: 45%; z-index: -1; pointer-events: none;
+  background: linear-gradient(100deg, transparent 0%, rgba(255, 255, 255, .16) 50%, transparent 100%);
+  transform: translateX(-120%) skewX(-18deg);
+  animation: mono-ei-sweep 3.6s var(--mono-ease) 1.2s infinite;
+}
+html body #exitIntentModal #exit-intent-state-1 .exit-intent-btn .material-icons-outlined {
+  display: inline-flex !important; align-items: center; justify-content: center;
+  width: 36px; height: 36px; margin: 0 12px 0 0 !important; border-radius: 50%;
+  background: #fff; color: var(--mono-ink) !important; -webkit-text-fill-color: currentColor;
+  font-size: 20px !important; line-height: 1;
+  animation: mono-ei-nudge 2.4s var(--mono-ease) 1s infinite;
+}
+html body #exitIntentModal #exit-intent-state-1 .exit-intent-btn:is(:hover, :focus-visible) .material-icons-outlined {
+  color: var(--mono-accent-fill) !important; animation-duration: .9s;
+}
+html body #exitIntentModal #exit-intent-state-1 .exit-intent-btn:focus-visible { outline: 2px solid var(--mono-accent); outline-offset: 3px; }
+html body #exitIntentModal #exit-intent-state-1 .exit-intent-btn:active { scale: .985; }
+
+@keyframes mono-ei-sweep { 0%, 55% { transform: translateX(-120%) skewX(-18deg); } 100% { transform: translateX(330%) skewX(-18deg); } }
+@keyframes mono-ei-nudge { 0%, 60%, 100% { translate: 0 0; } 70% { translate: 0 3px; } 80% { translate: 0 -1px; } 90% { translate: 0 1px; } }
+
+/* right side: soft glow, card drops in then floats, rows check themselves off one by one */
+html body #exitIntentModal .checklist-graphic-wrapper {
+  position: relative;
+  animation: mono-ei-enter .8s var(--mono-ease-out) .15s both;
+}
+html body #exitIntentModal .checklist-graphic-wrapper::before {          /* warm glow behind the card */
+  content: ""; position: absolute; left: 50%; top: 50%; width: 260px; height: 260px; margin: -130px 0 0 -130px;
+  border-radius: 50%; pointer-events: none; z-index: 0;
+  background: radial-gradient(closest-side, rgba(222, 121, 9, .22), rgba(222, 121, 9, 0));
+  animation: mono-ei-glow 4.5s ease-in-out infinite;
+}
+html body #exitIntentModal .checklist-graphic-wrapper::after {           /* floating "Free PDF" tag */
+  content: "\2193\00a0 Free PDF"; position: absolute; left: 2%; bottom: 7%; z-index: 3;
+  padding: 7px 13px; border-radius: 999px; background: #fff; border: 1px solid #ececec;
+  font: 600 11.5px/1 Inter-SemiBold, Inter, sans-serif; color: var(--mono-ink); letter-spacing: .2px;
+  box-shadow: 0 8px 20px -8px rgba(0, 0, 0, .25);
+  animation: mono-ei-tag-in .5s var(--mono-ease-out) 1.9s both, mono-ei-bob 3.2s ease-in-out 2.4s infinite;
+}
+html body #exitIntentModal .checklist-card {
+  position: relative; z-index: 1; transform-origin: 50% 60%;
+  animation: mono-ei-float 6s ease-in-out .95s infinite;
+}
+html body #exitIntentModal .checklist-header { position: relative; overflow: hidden; }
+html body #exitIntentModal .checklist-header::after {                     /* light passing over the dark header */
+  content: ""; position: absolute; inset: -20% auto -20% 0; width: 40%; pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .12), transparent);
+  transform: translateX(-150%) skewX(-18deg);
+  animation: mono-ei-sweep 5s var(--mono-ease) 2.2s infinite;
+}
+html body #exitIntentModal .checklist-pill { animation: mono-ei-pop .45s var(--mono-ease-out) .5s both; }
+
+html body #exitIntentModal .checklist-item { animation: mono-ei-row .5s var(--mono-ease-out) both; }
+html body #exitIntentModal .checklist-item .check-box.checked { animation: mono-ei-pop .4s var(--mono-ease-out) both; }
+html body #exitIntentModal .checklist-item .check-box.checked i { animation: mono-ei-tick .3s var(--mono-ease-out) both; }
+html body #exitIntentModal .checklist-item .line-placeholder { transform-origin: left center; animation: mono-ei-line .6s var(--mono-ease-out) both; }
+html body #exitIntentModal .checklist-item:nth-child(1) { animation-delay: .55s; }
+html body #exitIntentModal .checklist-item:nth-child(2) { animation-delay: .75s; }
+html body #exitIntentModal .checklist-item:nth-child(3) { animation-delay: .95s; }
+html body #exitIntentModal .checklist-item:nth-child(4) { animation-delay: 1.15s; }
+html body #exitIntentModal .checklist-item:nth-child(1) .line-placeholder { animation-delay: .65s; }
+html body #exitIntentModal .checklist-item:nth-child(2) .line-placeholder { animation-delay: .85s; }
+html body #exitIntentModal .checklist-item:nth-child(3) .line-placeholder { animation-delay: 1.05s; }
+html body #exitIntentModal .checklist-item:nth-child(4) .line-placeholder { animation-delay: 1.25s; }
+html body #exitIntentModal .checklist-item:nth-child(1) .check-box.checked { animation-delay: .9s; }
+html body #exitIntentModal .checklist-item:nth-child(1) .check-box.checked i { animation-delay: 1.05s; }
+html body #exitIntentModal .checklist-item:nth-child(2) .check-box.checked { animation-delay: 1.2s; }
+html body #exitIntentModal .checklist-item:nth-child(2) .check-box.checked i { animation-delay: 1.35s; }
+html body #exitIntentModal .checklist-item:nth-child(3) .check-box.checked { animation-delay: 1.5s; }
+html body #exitIntentModal .checklist-item:nth-child(3) .check-box.checked i { animation-delay: 1.65s; }
+
+/* the last, unchecked row keeps ticking itself on and off */
+html body #exitIntentModal .check-box.unchecked { position: relative; animation: mono-ei-todo 4s var(--mono-ease) 2.2s infinite; }
+html body #exitIntentModal .check-box.unchecked::after {
+  content: ""; position: absolute; left: 6px; top: 2.5px; width: 6px; height: 10px;
+  border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg) scale(0); opacity: 0;
+  animation: mono-ei-todo-tick 4s var(--mono-ease) 2.2s infinite;
+}
+
+@keyframes mono-ei-enter { from { transform: translate(28px, 18px) scale(.94); } to { transform: none; } }   /* no opacity: a held opacity fill here left the card unpainted in Chrome */
+@keyframes mono-ei-float {
+  0%, 100% { transform: rotate(5deg) translateY(0); }
+  50% { transform: rotate(2.5deg) translateY(-10px); }
+}
+@keyframes mono-ei-glow { 0%, 100% { opacity: .75; scale: .92; } 50% { opacity: 1; scale: 1.08; } }
+@keyframes mono-ei-tag-in { from { opacity: 0; transform: translateY(10px) scale(.9); } to { opacity: 1; transform: none; } }
+@keyframes mono-ei-bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -6px; } }
+@keyframes mono-ei-row { from { opacity: 0; transform: translateX(14px); } to { opacity: 1; transform: none; } }
+@keyframes mono-ei-pop { 0% { opacity: 0; transform: scale(.3); } 70% { opacity: 1; transform: scale(1.18); } 100% { opacity: 1; transform: scale(1); } }
+@keyframes mono-ei-tick { from { opacity: 0; transform: scale(0) rotate(-30deg); } to { opacity: 1; transform: none; } }
+@keyframes mono-ei-line { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes mono-ei-todo {
+  0%, 30%, 92%, 100% { background-color: #f1f5f9; transform: scale(1); }
+  38% { background-color: var(--mono-ink); transform: scale(1.18); }
+  44%, 84% { background-color: var(--mono-ink); transform: scale(1); }
+}
+@keyframes mono-ei-todo-tick {
+  0%, 34%, 88%, 100% { opacity: 0; transform: rotate(45deg) scale(0); }
+  42%, 84% { opacity: 1; transform: rotate(45deg) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html body #exitIntentModal :is(.checklist-graphic-wrapper, .checklist-card, .checklist-header, .checklist-pill,
+    .checklist-item, .check-box, .check-box i, .line-placeholder, .exit-intent-btn .material-icons-outlined),
+  html body #exitIntentModal :is(.checklist-graphic-wrapper, .checklist-header, .check-box.unchecked, .exit-intent-btn)::before,
+  html body #exitIntentModal :is(.checklist-graphic-wrapper, .checklist-header, .check-box.unchecked, .exit-intent-btn)::after {
+    animation: none !important;
+  }
+  html body #exitIntentModal .checklist-card { transform: rotate(5deg); }
+}
+
+
+/* ---------- 54. Footer: modern layout ------------------------------------------------------------ */
+/* Same markup on every page (two near-identical variants). Layout:
+   - brand column (logo, blurb, social icons moved here by mono.js footerLayout()) + three link columns
+     + contact column, on one grid
+   - small uppercase column labels, quiet grey links that turn white
+   - offices as light cards, a slim legal bar, and a large faded "ADT" wordmark closing the page
+   A soft orange hairline marks the top edge. */
+html body section.footer_section {
+  --ft-line: rgba(255, 255, 255, .08);
+  --ft-text: #a3a3a3;
+  --ft-label: #737373;
+  position: relative; overflow: hidden; isolation: isolate;
+  min-height: 0 !important; padding: 80px 0 0 !important;
+  background:
+    var(--mono-grain),
+    radial-gradient(50% 70% at 100% 0%, rgba(222, 121, 9, .13), transparent 62%),
+    radial-gradient(40% 60% at 0% 100%, rgba(222, 121, 9, .06), transparent 65%),
+    #090909 !important;
+}
+html body section.footer_section::before {                     /* top hairline */
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; z-index: 1;
+  background: linear-gradient(90deg, transparent 0%, rgba(222, 121, 9, .55) 30%, rgba(255, 255, 255, .18) 60%, transparent 100%);
+}
+html body section.footer_section::after {                      /* closing wordmark */
+  content: "ADT"; display: block; position: relative; z-index: -1;
+  margin: 28px 0 -.2em; text-align: center; pointer-events: none; user-select: none;
+  font: 700 clamp(120px, 24vw, 360px)/.8 Inter-Bold, Inter, sans-serif; letter-spacing: -.06em;
+  color: transparent; -webkit-text-fill-color: transparent;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .085) 0%, rgba(255, 255, 255, .02) 55%, rgba(255, 255, 255, 0) 80%);
+  -webkit-background-clip: text; background-clip: text;
+}
+
+/* main grid */
+html body section.footer_section > .container > .row:first-child {
+  display: grid !important; margin: 0 !important; gap: 40px 48px;
+  grid-template-columns: minmax(240px, 1.6fr) repeat(3, minmax(0, 1fr)) minmax(220px, 1.35fr);
+}
+html body section.footer_section > .container > .row:first-child > .footer_main_column {
+  width: auto !important; max-width: none !important; flex: none !important; padding: 0 !important; margin: 0 !important;
+}
+html body section.footer_section .footer_column { margin: 0 !important; text-align: left !important; }
+
+/* brand */
+html body section.footer_section .footer_column_first img { display: block; width: 128px !important; max-width: 128px !important; height: auto; margin: 0 0 20px !important; }
+html body section.footer_section .footer_column_first p {
+  max-width: 300px !important; margin: 0 !important;
+  font-size: 14.5px !important; line-height: 1.65 !important; color: var(--ft-text) !important;
+}
+
+/* column labels + links */
+html body section.footer_section .footer_column :is(h2, h3) {
+  margin: 4px 0 20px !important; font: 600 12px/1.2 Inter-SemiBold, Inter, sans-serif !important;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--ft-label) !important;
+}
+html body section.footer_section .footer_column ul:not(.social_links) { display: grid; gap: 12px; margin: 0 !important; padding: 0 !important; }
+html body section.footer_section .footer_column ul:not(.social_links) li { width: auto !important; margin: 0 !important; display: block; }
+html body section.footer_section .footer_column ul:not(.social_links) li a {
+  font-size: 14.5px !important; line-height: 1.4; color: var(--ft-text) !important;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; padding-bottom: 1px;
+  transition: color .25s var(--mono-ease), background-size .35s var(--mono-ease-out) !important;
+}
+html body section.footer_section .footer_column ul:not(.social_links) li a:hover { color: #fff !important; translate: none; background-size: 100% 1px; }
+
+/* social icons: quiet tiles that light up */
+html body section.footer_section .social_links {
+  display: flex !important; flex-wrap: wrap; gap: 10px; margin: 26px 0 0 !important; padding: 0 !important; justify-content: flex-start !important;
+}
+html body section.footer_section .social_links li { margin: 0 !important; width: auto !important; }
+html body section.footer_section .social_links li a {
+  display: grid; place-items: center; width: 38px; height: 38px; border-radius: 11px; overflow: hidden;
+  border: 1px solid var(--ft-line); background: rgba(255, 255, 255, .03);
+  transition: border-color .25s var(--mono-ease), background-color .25s var(--mono-ease), translate .3s var(--mono-ease-out) !important;
+}
+html body section.footer_section .social_links li a img {
+  width: 38px !important; max-width: none !important; height: 38px !important; display: block;
+  filter: grayscale(1) brightness(1.1) contrast(1.1); mix-blend-mode: screen;
+  transition: filter .25s var(--mono-ease);
+}
+html body section.footer_section .social_links li a:hover { border-color: rgba(222, 121, 9, .6); background: rgba(222, 121, 9, .12); translate: 0 -2px; }
+html body section.footer_section .social_links li a:hover img { filter: grayscale(1) brightness(1.6) contrast(1.1); }
+
+/* contact rows */
+html body section.footer_section .footer_column .numbers { display: grid; gap: 14px; margin: 0 !important; }
+html body section.footer_section .footer_column .numbers p {
+  display: flex !important; align-items: center; gap: 12px; margin: 0 !important; font-size: 14.5px !important; color: var(--ft-text) !important;
+}
+html body section.footer_section .footer_column .numbers p a { display: inline-flex !important; align-items: center; gap: 12px; font-size: 14.5px !important; color: var(--ft-text) !important; word-break: break-all; }
+html body section.footer_section .footer_column .numbers p a:hover { color: #fff !important; }
+html body section.footer_section .footer_column .numbers img {
+  flex: none; width: 20px !important; max-width: 20px !important; height: 20px !important; margin: 0 !important;
+  border-radius: 50%; object-fit: cover;
+}
+/* email: the old envelope image is replaced by an outline mail icon in the brand orange, sized to the flags */
+html body section.footer_section .footer_column .numbers p:first-child img { display: none !important; }
+html body section.footer_section .footer_column .numbers p:first-child a::before {
+  content: ""; flex: none; width: 20px; height: 20px; background-color: var(--mono-accent);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2.5' y='4.5' width='19' height='15' rx='3'/%3E%3Cpath d='m3.5 7 7.4 5.2a2 2 0 0 0 2.2 0L20.5 7'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2.5' y='4.5' width='19' height='15' rx='3'/%3E%3Cpath d='m3.5 7 7.4 5.2a2 2 0 0 0 2.2 0L20.5 7'/%3E%3C/svg%3E") center / contain no-repeat;
+  transition: background-color .25s var(--mono-ease);
+}
+html body section.footer_section .footer_column .numbers p:first-child a:hover::before { background-color: #fff; }
+html body section.footer_section .footer_column .numbers p:first-child { padding-bottom: 14px; border-bottom: 1px solid var(--ft-line); }
+
+/* offices */
+html body section.footer_section > .container > .row:nth-child(2) { margin-top: 64px !important; row-gap: 16px; }
+html body section.footer_section .footer_header { margin: 0 !important; padding: 40px 0 4px !important; border-top: 1px solid var(--ft-line) !important; }
+html body section.footer_section .footer_header :is(h2, h3) {
+  margin: 0 !important; font: 600 12px/1.2 Inter-SemiBold, Inter, sans-serif !important;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--ft-label) !important;
+}
+html body section.footer_section > .container > .row:nth-child(2) > [class*="col-lg-4"] { display: flex; }
+html body section.footer_section .footer_tab_slider_content {
+  display: block !important; width: 100%; height: auto !important; min-height: 100%; padding: 22px 24px !important; border-radius: 16px !important;
+  background: rgba(255, 255, 255, .025) !important; border: 1px solid var(--ft-line) !important; box-shadow: none !important;
+  transition: border-color .3s var(--mono-ease), background-color .3s var(--mono-ease) !important;
+}
+html body section.footer_section .footer_tab_slider_content:hover {
+  translate: none !important; box-shadow: none !important;
+  border-color: rgba(222, 121, 9, .4) !important; background: rgba(222, 121, 9, .05) !important;
+}
+html body section.footer_section .footer_tab_slider_content :is(h2, h3) {
+  display: flex !important; align-items: center; justify-content: space-between; gap: 12px; margin: 0 !important;
+  font: 600 16px/1.35 Inter-SemiBold, Inter, sans-serif !important; color: #fff !important;
+}
+html body section.footer_section .footer_tab_slider_content :is(h2, h3) img {
+  position: static !important; flex: none; width: 26px !important; height: 26px !important; border-radius: 50%; object-fit: cover;
+  box-shadow: 0 0 0 1px var(--ft-line);
+}
+html body section.footer_section .footer_tab_slider_details p {
+  margin: 14px 0 0 !important; padding-left: 26px !important; font-size: 14px !important; line-height: 1.6 !important; color: var(--ft-text) !important;
+  height: auto !important;   /* responsive.css pins the address to 80-100px at some widths, so long ones spilled out */
+}
+html body section.footer_section .footer_tab_slider_details p img { top: 2px !important; width: 16px !important; max-width: 16px !important; opacity: .45 !important; }
+
+/* legal bar */
+html body section.footer_section .line_separtor { height: 0; margin: 56px 0 0 !important; border: 0 !important; border-top: 1px solid var(--ft-line) !important; background: none !important; }
+html body section.footer_section > .container > .row:last-child { align-items: center; padding: 22px 0 0; }
+html body section.footer_section .copyright { margin: 0 !important; padding: 0 !important; border: 0 !important; font-size: 13.5px !important; color: var(--ft-label) !important; }
+html body section.footer_section .footer_last { border: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; }
+html body section.footer_section .footer_last ul { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px 24px; margin: 0 !important; padding: 0 !important; }
+html body section.footer_section .footer_last ul li { margin: 0 !important; }
+html body section.footer_section .footer_last ul li a { font-size: 13.5px !important; color: var(--ft-label) !important; }
+html body section.footer_section .footer_last ul li a:hover { color: #fff !important; }
+
+/* tablet: brand and contact span the row, link columns three across */
+@media (max-width: 991.98px) {
+  html body section.footer_section { padding-top: 64px !important; }
+  html body section.footer_section > .container > .row:first-child { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px 32px; }
+  html body section.footer_section > .container > .row:first-child > .footer_main_column:first-child,
+  html body section.footer_section > .container > .row:first-child > .footer_main_column:last-child { grid-column: 1 / -1; }
+  html body section.footer_section .footer_column .numbers { max-width: 420px; }
+  /* legal bar stacks: copyright, then the links, both left-aligned */
+  html body section.footer_section > .container > .row:last-child { row-gap: 14px; }
+  html body section.footer_section > .container > .row:last-child > * { flex: 0 0 100% !important; max-width: 100% !important; text-align: left !important; justify-content: flex-start !important; }
+  html body section.footer_section .copyright { text-align: left !important; }
+  html body section.footer_section .footer_last ul { justify-content: flex-start; }
+}
+/* phones: two columns of links, everything left-aligned, legal bar stacked */
+@media (max-width: 575.98px) {
+  html body section.footer_section { padding-top: 52px !important; }
+  html body section.footer_section > .container > .row:first-child { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 24px; }
+  html body section.footer_section .footer_column .numbers { grid-template-columns: 1fr; }
+  html body section.footer_section > .container > .row:nth-child(2) { margin-top: 48px !important; }
+  html body section.footer_section > .container > .row:last-child > * { text-align: left !important; justify-content: flex-start !important; }
+  html body section.footer_section > .container > .row:last-child { row-gap: 14px; }
+  html body section.footer_section .footer_last ul { justify-content: flex-start; gap: 8px 18px; }
+  html body section.footer_section::after { margin-top: 20px; }
+}
+
+
+/* ---------- 55. Buttons: water-droplet ripple + springy press (driven by mono.js) ---------------- */
+/* While a ripple runs the button clips it to its own shape. `isolation` makes the button its own
+   stacking context, so the droplet (z-index -1) sits above the button's fill but under its label. */
+html body .mono-rippling { overflow: hidden !important; isolation: isolate; }
+html body .mono-ripple-pos { position: relative !important; }
+html body .mono-drop, html body .mono-drop-ring {
+  position: absolute; z-index: -1; border-radius: 50%; pointer-events: none;
+  transform: scale(0); opacity: 0; will-change: transform, opacity;
+}
+/* the droplet: a soft-edged disc in the label colour (light on dark buttons, dark on light ones) */
+html body .mono-drop {
+  background: radial-gradient(circle closest-side, currentColor 0%, currentColor 45%, transparent 100%);
+  animation: mono-drop 1s cubic-bezier(.22, .61, .36, 1) forwards;
+}
+/* the wave: a thin ring that spreads a little later and a little further */
+html body .mono-drop-ring {
+  box-sizing: border-box; border: 1.5px solid currentColor; background: none;
+  animation: mono-drop-ring 1.15s cubic-bezier(.16, 1, .3, 1) .05s forwards;
+}
+@keyframes mono-drop {
+  0%   { transform: scale(0);    opacity: .42; }
+  55%  { opacity: .2; }
+  100% { transform: scale(1);    opacity: 0; }
+}
+@keyframes mono-drop-ring {
+  0%   { transform: scale(.08);  opacity: .55; }
+  100% { transform: scale(1.08); opacity: 0; }
+}
+
+/* press: a quick dip while held, then a soft spring back with a tiny overshoot */
+html body .mono-pressed:not(#mono-press) { scale: .965; transition: scale .12s cubic-bezier(.3, 0, .2, 1) !important; }
+html body .mono-springing:not(#mono-press) { animation: mono-spring .55s cubic-bezier(.22, .61, .36, 1); }
+@keyframes mono-spring {
+  0%   { scale: .965; }
+  45%  { scale: 1.025; }
+  75%  { scale: .995; }
+  100% { scale: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html body .mono-drop, html body .mono-drop-ring { display: none; }
+  html body .mono-pressed:not(#mono-press), html body .mono-springing:not(#mono-press) { scale: none; animation: none; }
+}
+
+
+/* ---------- 56. Modern touches (Awwwards-style): spotlight cards, kinetic hero, ink headings ----- */
+
+/* cursor spotlight: a soft orange light under the content and a lit edge, both centred on the pointer
+   (--mx / --my set by mono.js). The card becomes its own stacking context so the light (z-index -1)
+   sits above the card's fill but under its text. Hidden until hovered. */
+html body .mono-cardlight-host { isolation: isolate; }
+html body .mono-cardlight-pos { position: relative !important; }
+html body .mono-cardlight {
+  position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
+  opacity: 0; transition: opacity .45s var(--mono-ease);
+  background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), rgba(222, 121, 9, .085), transparent 62%);
+}
+html body .mono-cardlight::after {                                   /* the lit edge: a 1px ring masked to the border */
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(222, 121, 9, .75), transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+html body .mono-cardlight-host:hover > .mono-cardlight { opacity: 1; }
+/* on dark cards (footer offices, dark bands) the light can be a little brighter */
+html body :is(.footer_section, .bg_orange_gradient, .bg_blue, .bg_blue2) .mono-cardlight {
+  background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), rgba(222, 121, 9, .14), transparent 62%);
+}
+
+/* kinetic hero headline: the home h1 is already split into word groups (<span>Hire &amp;</span> ...),
+   so each group rises out of a soft blur in turn. Real text, nothing split into letters, space reserved. */
+html body .home_banner .banner_left h1.fade-stagger > span {
+  display: inline-block; will-change: transform, opacity, filter;
+  animation: mono-word-in .9s cubic-bezier(.16, 1, .3, 1) both;
+}
+html body .home_banner .banner_left h1.fade-stagger > span:nth-child(1) { animation-delay: .05s; }
+html body .home_banner .banner_left h1.fade-stagger > span:nth-child(2) { animation-delay: .13s; }
+html body .home_banner .banner_left h1.fade-stagger > span:nth-child(3) { animation-delay: .21s; }
+html body .home_banner .banner_left h1.fade-stagger > span:nth-child(4) { animation-delay: .29s; }
+html body .home_banner .banner_left h1.fade-stagger > span:nth-child(5) { animation-delay: .37s; }
+/* the closing word carries the brand: ink running into orange */
+html body .home_banner .banner_left h1.fade-stagger > span:last-child {
+  background: linear-gradient(100deg, var(--mono-ink) 0%, #6b3a06 45%, var(--mono-accent-fill) 80%, #e98a1f 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+  padding-bottom: .06em;                                       /* keeps the descender inside the clip */
+}
+@keyframes mono-word-in {
+  from { opacity: 0; transform: translateY(.45em); filter: blur(8px); }
+  to   { opacity: 1; transform: none; filter: blur(0); }
+}
+
+/* section headings on light sections: ink fading to a soft graphite, top to bottom. mono.js inkHeadings()
+   adds .mono-ink-h only where it measured a light backdrop and dark heading text. */
+html body .common_title > h2.mono-ink-h {
+  background: linear-gradient(180deg, #0a0a0a 0%, #0a0a0a 45%, #4b4b4b 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+  padding-bottom: .08em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html body .home_banner .banner_left h1.fade-stagger > span { animation: none !important; }
+  html body .mono-cardlight { transition: none; }
+}
+
+
+/* ---------- 57. Footer entrance + page transitions -------------------------------------------- */
+/* Footer (mono.js footerLayout() adds .mono-footer-anim, then .mono-footer-in when it scrolls into view):
+   the top hairline draws across, the five columns rise in turn with their links cascading, the social
+   tiles pop, the office cards follow, and the ADT wordmark rises out of the bottom edge and keeps a
+   slow light sweeping across it. Without JS (or with reduced motion) everything is simply shown. */
+html body section.footer_section.mono-footer-anim:not(.mono-footer-in) :is(
+  .footer_main_column, .footer_column ul:not(.social_links) li, .social_links li, .numbers p,
+  .footer_header, .footer_tab_slider_content, .line_separtor, .copyright, .footer_last) { opacity: 0; }
+html body section.footer_section.mono-footer-anim::before { transform: scaleX(0); transform-origin: 0 50%; transition: transform 1.4s cubic-bezier(.16, 1, .3, 1); }
+html body section.footer_section.mono-footer-anim.mono-footer-in::before { transform: scaleX(1); }
+html body section.footer_section.mono-footer-anim:not(.mono-footer-in)::after { opacity: 0; translate: 0 35%; }
+
+/* per-column delay (--c) and per-item step (--i) */
+html body section.footer_section .footer_main_column:nth-child(1) { --c: 0s; }
+html body section.footer_section .footer_main_column:nth-child(2) { --c: .08s; }
+html body section.footer_section .footer_main_column:nth-child(3) { --c: .16s; }
+html body section.footer_section .footer_main_column:nth-child(4) { --c: .24s; }
+html body section.footer_section .footer_main_column:nth-child(5) { --c: .32s; }
+html body section.footer_section :is(.footer_column ul li, .numbers p):nth-child(1) { --i: 1; }
+html body section.footer_section :is(.footer_column ul li, .numbers p):nth-child(2) { --i: 2; }
+html body section.footer_section :is(.footer_column ul li, .numbers p):nth-child(3) { --i: 3; }
+html body section.footer_section :is(.footer_column ul li, .numbers p):nth-child(4) { --i: 4; }
+html body section.footer_section :is(.footer_column ul li, .numbers p):nth-child(5) { --i: 5; }
+
+html body section.footer_section.mono-footer-in .footer_main_column {
+  animation: mono-ft-up .9s cubic-bezier(.16, 1, .3, 1) both; animation-delay: var(--c, 0s);
+}
+html body section.footer_section.mono-footer-in :is(.footer_column ul:not(.social_links) li, .numbers p) {
+  animation: mono-ft-up .7s cubic-bezier(.16, 1, .3, 1) both; animation-delay: calc(var(--c, 0s) + .15s + var(--i, 0) * .06s);
+}
+html body section.footer_section.mono-footer-in .social_links li {
+  animation: mono-ft-pop .6s cubic-bezier(.34, 1.56, .64, 1) both; animation-delay: calc(.35s + var(--i, 0) * .07s);
+}
+html body section.footer_section.mono-footer-in .footer_header { animation: mono-ft-up .8s cubic-bezier(.16, 1, .3, 1) .35s both; }
+html body section.footer_section.mono-footer-in > .container > .row:nth-child(2) > :nth-child(2) .footer_tab_slider_content { animation: mono-ft-up .9s cubic-bezier(.16, 1, .3, 1) .45s both; }
+html body section.footer_section.mono-footer-in > .container > .row:nth-child(2) > :nth-child(3) .footer_tab_slider_content { animation: mono-ft-up .9s cubic-bezier(.16, 1, .3, 1) .55s both; }
+html body section.footer_section.mono-footer-in > .container > .row:nth-child(2) > :nth-child(4) .footer_tab_slider_content { animation: mono-ft-up .9s cubic-bezier(.16, 1, .3, 1) .65s both; }
+html body section.footer_section.mono-footer-in :is(.line_separtor, .copyright, .footer_last) { animation: mono-ft-fade 1s ease .75s both; }
+
+/* wordmark: rises in, then a slow light passes over it every few seconds */
+html body section.footer_section.mono-footer-anim::after {
+  background:
+    linear-gradient(100deg, transparent 42%, rgba(255, 255, 255, .16) 50%, transparent 58%) 160% 0 / 250% 100% no-repeat,
+    linear-gradient(180deg, rgba(255, 255, 255, .085) 0%, rgba(255, 255, 255, .02) 55%, rgba(255, 255, 255, 0) 80%);
+  -webkit-background-clip: text; background-clip: text;
+  transition: opacity 1.4s cubic-bezier(.22, .61, .36, 1) .5s, translate 1.6s cubic-bezier(.16, 1, .3, 1) .5s;
+}
+html body section.footer_section.mono-footer-in::after { animation: mono-ft-sheen 7s cubic-bezier(.45, 0, .2, 1) 2s infinite; }
+
+@keyframes mono-ft-up   { from { opacity: 0; translate: 0 26px; } to { opacity: 1; translate: 0 0; } }
+@keyframes mono-ft-pop  { from { opacity: 0; scale: .6; } to { opacity: 1; scale: 1; } }
+@keyframes mono-ft-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes mono-ft-sheen { 0%, 25% { background-position: 160% 0, 0 0; } 75%, 100% { background-position: -60% 0, 0 0; } }
+
+/* page-to-page: the old page fades and lifts away, the new one rises in (cross-document view
+   transitions are already switched on in each page's inline CSS) */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) { animation: mono-vt-out .38s cubic-bezier(.4, 0, 1, 1) both; }
+  ::view-transition-new(root) { animation: mono-vt-in .65s cubic-bezier(.16, 1, .3, 1) .06s both; }
+}
+@keyframes mono-vt-out { to { opacity: 0; transform: translateY(-10px) scale(.995); } }
+@keyframes mono-vt-in  { from { opacity: 0; transform: translateY(16px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  html body section.footer_section :is(.footer_main_column, .footer_column ul li, .social_links li, .numbers p, .footer_header,
+    .footer_tab_slider_content, .line_separtor, .copyright, .footer_last) { animation: none !important; opacity: 1 !important; }
+  html body section.footer_section::before, html body section.footer_section::after { transform: none !important; translate: none !important; opacity: 1 !important; animation: none !important; }
+}
+
+/* ---------- 58. Home "Global reach" slider: even circular flags (generated vector icons) ---------- */
+html body .global_reach_section .country_slider {
+  --flag-usa: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' fill='%23fff'/%3E%3Crect y='0.00' width='60' height='4.62' fill='%23B22234'/%3E%3Crect y='9.23' width='60' height='4.62' fill='%23B22234'/%3E%3Crect y='18.46' width='60' height='4.62' fill='%23B22234'/%3E%3Crect y='27.69' width='60' height='4.62' fill='%23B22234'/%3E%3Crect y='36.92' width='60' height='4.62' fill='%23B22234'/%3E%3Crect y='46.15' width='60' height='4.62' fill='%23B22234'/%3E%3Crect y='55.38' width='60' height='4.62' fill='%23B22234'/%3E%3Crect width='30' height='32.3' fill='%233C3B6E'/%3E%3Cg fill='%23fff'%3E%3Ccircle cx='5.0' cy='5.0' r='1.3'/%3E%3Ccircle cx='12.0' cy='5.0' r='1.3'/%3E%3Ccircle cx='19.0' cy='5.0' r='1.3'/%3E%3Ccircle cx='26.0' cy='5.0' r='1.3'/%3E%3Ccircle cx='8.5' cy='12.4' r='1.3'/%3E%3Ccircle cx='15.5' cy='12.4' r='1.3'/%3E%3Ccircle cx='22.5' cy='12.4' r='1.3'/%3E%3Ccircle cx='5.0' cy='19.8' r='1.3'/%3E%3Ccircle cx='12.0' cy='19.8' r='1.3'/%3E%3Ccircle cx='19.0' cy='19.8' r='1.3'/%3E%3Ccircle cx='26.0' cy='19.8' r='1.3'/%3E%3Ccircle cx='8.5' cy='27.2' r='1.3'/%3E%3Ccircle cx='15.5' cy='27.2' r='1.3'/%3E%3Ccircle cx='22.5' cy='27.2' r='1.3'/%3E%3C/g%3E%3C/svg%3E");
+  --flag-uk: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' fill='%23012169'/%3E%3Cpath d='M0 0L60 60M60 0L0 60' stroke='%23fff' stroke-width='12'/%3E%3Cpath d='M0 0L60 60M60 0L0 60' stroke='%23C8102E' stroke-width='4'/%3E%3Cpath d='M30 0V60M0 30H60' stroke='%23fff' stroke-width='18'/%3E%3Cpath d='M30 0V60M0 30H60' stroke='%23C8102E' stroke-width='10'/%3E%3C/svg%3E");
+  --flag-china: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' fill='%23DE2910'/%3E%3Cg fill='%23FFDE00'%3E%3Cpolygon points='17.00,11.00 19.02,17.22 25.56,17.22 20.27,21.06 22.29,27.28 17.00,23.44 11.71,27.28 13.73,21.06 8.44,17.22 14.98,17.22'/%3E%3Cpolygon points='31.50,6.40 31.05,8.53 32.93,9.62 30.77,9.85 30.31,11.98 29.43,9.99 27.26,10.22 28.88,8.76 27.99,6.77 29.88,7.86'/%3E%3Cpolygon points='35.78,12.10 35.89,14.28 38.00,14.84 35.96,15.62 36.08,17.80 34.70,16.11 32.67,16.89 33.86,15.06 32.48,13.37 34.59,13.93'/%3E%3Cpolygon points='34.48,20.05 35.50,21.97 37.65,21.59 36.13,23.16 37.16,25.08 35.20,24.13 33.68,25.70 33.99,23.54 32.03,22.58 34.18,22.20'/%3E%3Cpolygon points='28.50,26.40 30.12,27.86 32.01,26.77 31.12,28.76 32.74,30.22 30.57,29.99 29.69,31.98 29.23,29.85 27.07,29.62 28.95,28.53'/%3E%3C/g%3E%3C/svg%3E");
+  --flag-canada: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' fill='%23fff'/%3E%3Crect width='15' height='60' fill='%23D52B1E'/%3E%3Crect x='45' width='15' height='60' fill='%23D52B1E'/%3E%3Cpolygon fill='%23D52B1E' points='30,16 32.5,21 35,19.5 34,27 38,23 39.5,25.5 43,25 41.5,29.5 43.5,30.5 37.5,35.5 38.5,38 31,37 31,44 29,44 29,37 21.5,38 22.5,35.5 16.5,30.5 18.5,29.5 17,25 20.5,25.5 22,23 26,27 25,19.5 27.5,21'/%3E%3C/svg%3E");
+  --flag-india: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Crect width='60' height='20' fill='%23FF9933'/%3E%3Crect y='20' width='60' height='20' fill='%23fff'/%3E%3Crect y='40' width='60' height='20' fill='%23138808'/%3E%3Ccircle cx='30' cy='30' r='6.5' fill='none' stroke='%23000080' stroke-width='1.3'/%3E%3Ccircle cx='30' cy='30' r='1.4' fill='%23000080'/%3E%3Cpath d='M30 23.5V36.5M23.5 30H36.5M25.4 25.4L34.6 34.6M34.6 25.4L25.4 34.6' stroke='%23000080' stroke-width='.6'/%3E%3C/svg%3E");
+  --flag-belgium: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Crect width='20' height='60' fill='%23000'/%3E%3Crect x='20' width='20' height='60' fill='%23FDDA24'/%3E%3Crect x='40' width='20' height='60' fill='%23EF3340'/%3E%3C/svg%3E");
+}
+html body .global_reach_section .country_slider_column[data-country="usa"] div a img { background-image: var(--flag-usa); }
+html body .global_reach_section .country_slider_column[data-country="uk"] div a img { background-image: var(--flag-uk); }
+html body .global_reach_section .country_slider_column[data-country="china"] div a img { background-image: var(--flag-china); }
+html body .global_reach_section .country_slider_column[data-country="canada"] div a img { background-image: var(--flag-canada); }
+html body .global_reach_section .country_slider_column[data-country="india"] div a img { background-image: var(--flag-india); }
+html body .global_reach_section .country_slider_column[data-country="belgium"] div a img { background-image: var(--flag-belgium); }
+
+/* ---------- 59. Dark band right above the footer: an inset card (mono.js preFooter() adds .mono-prefoot) ---------- */
+/* Dark CTA / newsletter bands that touched the footer read as one black block with it. They keep their
+   look but float as a rounded card on the light page, with white space separating them from the footer. */
+html body .mono-prefoot.mono-prefoot {
+  width: auto !important; max-width: none !important;
+  margin: 0 max(16px, calc((100% - 1360px) / 2)) 80px !important;
+  border-radius: 32px !important; overflow: hidden; isolation: isolate;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07), 0 40px 80px -44px rgba(17, 17, 17, .55) !important;
+}
+@media (max-width: 767.98px) {
+  html body .mono-prefoot.mono-prefoot { margin: 0 8px 48px !important; border-radius: 24px !important; }
+}
+
+/* newsletter band ("Stay Updated on Global HR Trends"): icon tile, one pill form with an orange button */
+html body .hr_trends_section .banner_left > span {
+  position: static !important; display: inline-grid !important; place-items: center;
+  width: 60px !important; height: 60px !important; margin: 0 auto 22px !important; padding: 0 !important;
+  border-radius: 18px !important; background: rgba(222, 121, 9, .12) !important; border: 1px solid rgba(222, 121, 9, .32) !important;
+  box-shadow: none !important; transform: none !important;
+}
+html body .hr_trends_section .banner_left > span img { width: 28px !important; height: auto !important; margin: 0 !important; }
+html body .hr_trends_section .banner_left > span::before, html body .hr_trends_section .banner_left > span::after { content: none !important; }
+html body .hr_trends_section .trends_form {
+  display: flex !important; align-items: center; gap: 6px; width: 100%; max-width: 560px; margin: 32px auto 0 !important;
+  padding: 6px !important; border-radius: 999px; background: #fff; box-shadow: 0 12px 30px -16px rgba(0, 0, 0, .6);
+}
+html body .hr_trends_section .trends_form input[type="text"], html body .hr_trends_section .trends_form input[type="email"] {
+  flex: 1 1 auto; min-width: 0; width: auto !important; height: 48px !important; margin: 0 !important; padding: 0 18px !important;
+  border: 0 !important; border-radius: 999px !important; background: transparent !important; box-shadow: none !important;
+  font-size: 15px !important; color: #111 !important; outline: none;
+}
+html body .hr_trends_section .trends_form button {
+  flex: none; position: static !important; width: auto !important; min-width: 0 !important; max-width: none !important; height: 48px !important; margin: 0 !important; padding: 0 26px !important;
+  border: 0 !important; border-radius: 999px !important; background: var(--mono-ink) !important; color: #fff !important;
+  font: 600 15px/1 Inter-SemiBold, Inter, sans-serif !important; white-space: nowrap; cursor: pointer;
+  transition: background-color .25s var(--mono-ease) !important;
+}
+html body .hr_trends_section .trends_form button:is(:hover, :focus-visible) { background: var(--mono-accent-fill) !important; }
+html body .hr_trends_section .trends_form:focus-within { box-shadow: 0 0 0 3px rgba(222, 121, 9, .35), 0 12px 30px -16px rgba(0, 0, 0, .6); }
+html body .hr_trends_section .banner_left > p:last-child { margin-top: 18px !important; font-size: 13.5px !important; color: rgba(255, 255, 255, .5) !important; }
+@media (max-width: 575.98px) {
+  html body .hr_trends_section .trends_form { flex-direction: column; border-radius: 22px; padding: 8px !important; }
+  html body .hr_trends_section .trends_form input[type="text"], html body .hr_trends_section .trends_form button { width: 100% !important; }
+}
+
+/* ---------- 60. One heading scale across every template ---------------------------------------- */
+/* Templates came with page titles from 30px to 47px (weights 500-800) and section headings from 30px
+   to 55px. Page titles: every h1 outside the header, footer and dialogs. Section headings: content
+   h2s that mono.js headingScale() found drawn large (.mono-h2). `:not(#mono-type)` adds ID weight so
+   this wins over each template's own rules. Margins and colours are left to each section. */
+html body h1:not(header h1, nav h1, .footer_section h1, .modal h1, .klaro h1, [class*="exit-intent"] h1):not(#mono-type) {
+  font-family: Inter-Bold, Inter-SemiBold, Inter, 'Inter-Fallback', Arial, sans-serif !important; font-weight: 700 !important;
+  font-size: clamp(28px, 1.6vw + 18px, 44px) !important; line-height: 1.12 !important; letter-spacing: -.025em !important;
+}
+html body h2.mono-h2:not(#mono-type) {
+  font-family: Inter-SemiBold, Inter, 'Inter-Fallback', Arial, sans-serif !important; font-weight: 600 !important;
+  font-size: clamp(24px, 1.2vw + 16px, 36px) !important; line-height: 1.18 !important; letter-spacing: -.02em !important;
+}
+
+
+/* ---------- 61. Exit pop-up, email step: field with a mail tile, paper-plane button, trust badge ---------- */
+/* Icons are crisp SVG masks in place of the Material icon-font glyphs (which show as blank boxes or
+   words until that font loads). */
+html body #exitIntentModal #exit-intent-state-2 .input-icon-wrapper { position: relative; }
+html body #exitIntentModal #exit-intent-state-2 .exit-intent-input {
+  height: 54px; padding: 0 16px 0 58px !important; border-radius: 14px !important; border: 1px solid #e4e4e7 !important;
+  background: #fafafa !important; font-size: 15.5px !important; color: #111 !important;
+  transition: border-color .2s var(--mono-ease), box-shadow .2s var(--mono-ease), background-color .2s var(--mono-ease);
+}
+html body #exitIntentModal #exit-intent-state-2 .exit-intent-input::placeholder { color: #a1a1aa; }
+html body #exitIntentModal #exit-intent-state-2 .exit-intent-input:focus { background: #fff !important; border-color: var(--mono-accent) !important; box-shadow: 0 0 0 4px rgba(222, 121, 9, .14) !important; }
+html body #exitIntentModal #exit-intent-state-2 .exit-intent-input.is-invalid { border-color: #dc2626 !important; box-shadow: 0 0 0 4px rgba(220, 38, 38, .12) !important; }
+html body #exitIntentModal #exit-intent-state-2 .input-icon-wrapper .input-icon.material-icons-outlined {
+  position: absolute !important; left: 9px !important; right: auto !important; top: 50% !important; transform: translateY(-50%) !important;
+  display: grid !important; place-items: center; width: 36px !important; height: 36px !important; border-radius: 10px;
+  background: rgba(222, 121, 9, .12) !important; pointer-events: none;
+}
+html body #exitIntentModal #exit-intent-state-2 .input-icon-wrapper .input-icon.material-icons-outlined { font-size: 0 !important; color: transparent !important; -webkit-text-fill-color: transparent !important; }
+html body #exitIntentModal #exit-intent-state-2 .input-icon-wrapper .input-icon.material-icons-outlined::before { content: none !important; display: none !important; }
+html body #exitIntentModal #exit-intent-state-2 .input-icon-wrapper .input-icon.material-icons-outlined::after { content: ""; display: block; width: 18px; height: 18px; background-color: var(--mono-accent-fill);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%271.9%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Crect%20x%3D%272.5%27%20y%3D%274.5%27%20width%3D%2719%27%20height%3D%2715%27%20rx%3D%273%27%2F%3E%3Cpath%20d%3D%27m3.5%207%207.4%205.2a2%202%200%200%200%202.2%200L20.5%207%27%2F%3E%3C%2Fsvg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%271.9%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Crect%20x%3D%272.5%27%20y%3D%274.5%27%20width%3D%2719%27%20height%3D%2715%27%20rx%3D%273%27%2F%3E%3Cpath%20d%3D%27m3.5%207%207.4%205.2a2%202%200%200%200%202.2%200L20.5%207%27%2F%3E%3C%2Fsvg%3E") center / contain no-repeat; }
+html body #exitIntentModal #exit-intent-state-2 .input-icon-wrapper .input-icon.material-icons-outlined { background: rgba(222, 121, 9, .12) !important; }
+
+/* button: same pill as step 1, the plane sits in a white disc and takes off on hover */
+html body #exitIntentModal #exit-intent-state-2 .exit-intent-btn.btn-primary {
+  position: relative; overflow: hidden; isolation: isolate; min-height: 54px; padding: 8px 28px 8px 10px !important;
+  border-radius: 999px !important; justify-content: center; box-shadow: none !important;
+  font-family: Inter-SemiBold, Inter, sans-serif !important; font-size: 16px !important; font-weight: 600;
+}
+html body #exitIntentModal #exit-intent-state-2 .exit-intent-btn > .material-icons-outlined {
+  display: grid !important; place-items: center; flex: none; width: 36px !important; height: 36px !important; margin: 0 12px 0 0 !important;
+  border-radius: 50%; background: #fff !important; overflow: hidden;
+}
+html body #exitIntentModal #exit-intent-state-2 .exit-intent-btn > .material-icons-outlined { font-size: 0 !important; color: transparent !important; -webkit-text-fill-color: transparent !important; }
+html body #exitIntentModal #exit-intent-state-2 .exit-intent-btn > .material-icons-outlined::before { content: none !important; display: none !important; }
+html body #exitIntentModal #exit-intent-state-2 .exit-intent-btn > .material-icons-outlined::after { content: ""; display: block; width: 18px; height: 18px; background-color: var(--mono-ink);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%271.9%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M14.54%2021.69a.5.5%200%200%200%20.94-.03l6.5-19a.5.5%200%200%200-.64-.63l-19%206.5a.5.5%200%200%200-.02.93l7.93%203.18a2%202%200%200%201%201.11%201.11z%27%2F%3E%3Cpath%20d%3D%27m21.85%202.15-10.94%2010.94%27%2F%3E%3C%2Fsvg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%271.9%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M14.54%2021.69a.5.5%200%200%200%20.94-.03l6.5-19a.5.5%200%200%200-.64-.63l-19%206.5a.5.5%200%200%200-.02.93l7.93%203.18a2%202%200%200%201%201.11%201.11z%27%2F%3E%3Cpath%20d%3D%27m21.85%202.15-10.94%2010.94%27%2F%3E%3C%2Fsvg%3E") center / contain no-repeat; }
+html body #exitIntentModal #exit-intent-state-2 .exit-intent-btn > .material-icons-outlined::after { transition: translate .45s cubic-bezier(.16, 1, .3, 1), background-color .25s var(--mono-ease); }
+html body #exitIntentModal #exit-intent-state-2 .exit-intent-btn:is(:hover, :focus-visible) { background-color: var(--mono-accent-fill) !important; }
+html body #exitIntentModal #exit-intent-state-2 .exit-intent-btn:is(:hover, :focus-visible) > .material-icons-outlined::after { background-color: var(--mono-accent-fill); animation: mono-plane .9s cubic-bezier(.65, 0, .35, 1); }
+@keyframes mono-plane { 0% { translate: 0 0; } 45% { translate: 22px -22px; opacity: 1; } 46% { opacity: 0; translate: -22px 22px; } 47% { opacity: 1; } 100% { translate: 0 0; } }
+
+/* trust line: shield-check badge in a soft green chip */
+html body #exitIntentModal #exit-intent-state-2 p.text-success {
+  display: inline-flex !important; align-items: center; gap: 8px; padding: 7px 12px 7px 8px; border-radius: 999px;
+  background: #f0fdf4; border: 1px solid #dcfce7; color: #15803d !important; font-size: 13px !important;
+}
+html body #exitIntentModal #exit-intent-state-2 p.text-success > .material-icons-outlined { display: grid !important; place-items: center; width: 18px !important; height: 18px !important; margin: 0 !important; }
+html body #exitIntentModal #exit-intent-state-2 p.text-success > .material-icons-outlined { font-size: 0 !important; color: transparent !important; -webkit-text-fill-color: transparent !important; }
+html body #exitIntentModal #exit-intent-state-2 p.text-success > .material-icons-outlined::before { content: none !important; display: none !important; }
+html body #exitIntentModal #exit-intent-state-2 p.text-success > .material-icons-outlined::after { content: ""; display: block; width: 17px; height: 17px; background-color: #16a34a;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%271.9%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M20%2013c0%205-3.5%207.5-7.66%208.95a1%201%200%200%201-.67-.01C7.5%2020.5%204%2018%204%2013V6a1%201%200%200%201%201-1c2%200%204.5-1.2%206.24-2.72a1.17%201.17%200%200%201%201.52%200C14.51%203.81%2017%205%2019%205a1%201%200%200%201%201%201z%27%2F%3E%3Cpath%20d%3D%27m9%2012%202%202%204-4%27%2F%3E%3C%2Fsvg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%271.9%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M20%2013c0%205-3.5%207.5-7.66%208.95a1%201%200%200%201-.67-.01C7.5%2020.5%204%2018%204%2013V6a1%201%200%200%201%201-1c2%200%204.5-1.2%206.24-2.72a1.17%201.17%200%200%201%201.52%200C14.51%203.81%2017%205%2019%205a1%201%200%200%201%201%201z%27%2F%3E%3Cpath%20d%3D%27m9%2012%202%202%204-4%27%2F%3E%3C%2Fsvg%3E") center / contain no-repeat; }
+@media (prefers-reduced-motion: reduce) { html body #exitIntentModal #exit-intent-state-2 .exit-intent-btn > .material-icons-outlined::after { animation: none !important; } }
+html body #exitIntentModal #exit-intent-state-2 .exit-intent-btn.btn-primary { display: flex !important; flex-direction: row !important; align-items: center !important; }
+html body #exitIntentModal #exit-intent-state-2 .exit-intent-input:focus { outline: none !important; }
+/* the card floats in 2D: a 3D tilt under `perspective` made Chrome paint it behind the pop-up's background */
+html body #exitIntentModal .checklist-graphic-wrapper { perspective: none !important; }

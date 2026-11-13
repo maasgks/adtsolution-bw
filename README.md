@@ -11,6 +11,9 @@ Layout and element placement are identical to the live site.
 node serve.mjs          # http://localhost:5173
 ```
 
+On Windows, double-click `start.bat` (runs the server and opens the browser), or
+double-click the root `index.html`, which forwards to `site/index.html`.
+
 (Opening `site/index.html` directly also works, but the server gives clean URLs and
 avoids browser `file://` restrictions.)
 
