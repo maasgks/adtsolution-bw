@@ -4780,3 +4780,233 @@ html body .bad .bad-legal a { color: #111; }
   html body .bad .bad-card::before { left: 18px; right: 18px; }
   html body .bad .bad-form { grid-template-columns: 1fr; }
 }
+
+
+/* ---------- 66. "Book a demo" pop-up: side panel, chooser, employer + relocation forms -------------- */
+/* Built by mono.js bookModal(). `:not(#mono-bm)` lends ID weight so these win over §31's modal rules.
+   The white panel scrolls on its own; the dark panel stays put. */
+html body .modal.mono-bm-on:not(#mono-bm) {
+  --bm-ink: #1b2559; --bm-text: #475467; --bm-muted: #7a8599; --bm-line: #e3e8f0; --bm-field: #f6f8fb;
+}
+html body .modal.mono-bm-on:not(#mono-bm) .modal-dialog { max-width: 1000px !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .modal-content { overflow: hidden !important; border-radius: 24px !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm {
+  display: grid; grid-template-columns: 336px minmax(0, 1fr); height: min(620px, calc(100vh - 32px)); text-align: left;
+}
+html body .modal.mono-bm-on:not(#mono-bm) .btn-close { top: 14px !important; right: 14px !important; background: #fff !important; box-shadow: 0 0 0 1px var(--bm-line) !important; }
+
+/* dark side panel */
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-aside {
+  position: relative; display: flex; flex-direction: column; justify-content: center; padding: 40px 32px; overflow: hidden;
+  color: #fff;
+  background:
+    radial-gradient(120% 60% at 70% 0%, rgba(222, 121, 9, .38), rgba(222, 121, 9, 0) 55%),
+    radial-gradient(80% 50% at 0% 100%, rgba(59, 91, 170, .35), rgba(59, 91, 170, 0) 70%),
+    linear-gradient(160deg, #1d2236 0%, #111827 55%, #0c1428 100%);
+}
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-badge {
+  align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; margin: 0 0 18px; padding: 7px 14px 7px 12px; border-radius: 999px;
+  background: rgba(222, 121, 9, .14); box-shadow: inset 0 0 0 1px rgba(222, 121, 9, .45);
+  font: 600 11.5px/1 Inter-SemiBold, Inter, sans-serif; letter-spacing: .12em; text-transform: uppercase; color: #f5a54a;
+}
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--mono-accent); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-aside h2 { margin: 0 0 14px !important; font: 700 27px/1.15 Inter-Bold, Inter, sans-serif !important; letter-spacing: -.025em !important; color: #fff !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-aside > p { margin: 0 0 22px !important; padding-bottom: 22px; border-bottom: 1px solid rgba(255, 255, 255, .12); font-size: 14px !important; line-height: 1.55 !important; color: rgba(255, 255, 255, .72) !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-trust { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-trust li { display: flex; align-items: center; gap: 12px; margin: 0; font: 600 14px/1.3 Inter-SemiBold, Inter, sans-serif; color: #fff; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-trust a { display: flex; align-items: center; gap: 12px; color: inherit; text-decoration: none; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-ico {
+  flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 8px;
+  background: rgba(255, 255, 255, .08); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .12); color: #f5a54a;
+}
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-ico svg { width: 16px; height: 16px; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-ico.mono-bm-g2 { background: #ff492c; box-shadow: none; color: #fff; font: 800 11px/1 Inter-Bold, Inter, sans-serif; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-stars { color: #fbbf24; letter-spacing: 2px; font-size: 14px; }
+
+/* white panel and its views */
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-main {
+  position: relative; overflow-y: auto; overscroll-behavior: contain; padding: 34px 36px 28px; background: #fff;
+  scrollbar-width: thin; scrollbar-color: #cfd6e2 transparent;
+}
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-main::-webkit-scrollbar { display: block; width: 6px; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-main::-webkit-scrollbar-thumb { background: #cfd6e2; border-radius: 6px; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-view { display: none; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-view.is-on { display: block; animation: mono-bm-in .45s cubic-bezier(.16, 1, .3, 1) both; }
+@keyframes mono-bm-in { from { opacity: 0; translate: 14px 0; } }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-view[data-view="choose"].is-on { display: flex; flex-direction: column; justify-content: center; min-height: 100%; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-eyebrow { display: block; margin: 0 0 10px; font: 600 12px/1 Inter-SemiBold, Inter, sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--mono-accent); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-view h3 { margin: 0 44px 8px 0 !important; font: 700 25px/1.22 Inter-Bold, Inter, sans-serif !important; letter-spacing: -.02em !important; color: var(--bm-ink) !important; outline: none; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-sub { margin: 0 0 22px !important; font-size: 14.5px !important; line-height: 1.5 !important; color: var(--bm-muted) !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-back {
+  display: inline-flex; align-items: center; gap: 6px; margin: 0 0 16px; padding: 0; border: 0; background: none;
+  font: 500 14px/1 Inter-Medium, Inter, sans-serif; color: var(--bm-muted); cursor: pointer;
+}
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-back svg { width: 16px; height: 16px; transition: translate .25s var(--mono-ease); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-back:hover { color: var(--bm-ink); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-back:hover svg { translate: -3px 0; }
+
+/* chooser cards */
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card {
+  position: relative; display: flex; flex-direction: column; align-items: flex-start; padding: 22px 20px 0; margin: 0;
+  border: 1px solid var(--bm-line); border-radius: 18px; background: #fff; text-align: left; cursor: pointer; overflow: hidden;
+  transition: border-color .25s var(--mono-ease), box-shadow .3s var(--mono-ease), translate .3s var(--mono-ease-out);
+}
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card:hover,
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card:focus-visible { border-color: rgba(222, 121, 9, .55); box-shadow: 0 18px 40px -24px rgba(27, 37, 89, .35); translate: 0 -2px; outline: none; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-radio {
+  position: absolute; top: 20px; right: 20px; width: 22px; height: 22px; border-radius: 50%; border: 2px solid #c6cdd8; background: #fff;
+  transition: border-color .2s var(--mono-ease), box-shadow .2s var(--mono-ease);
+}
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card:hover .mono-bm-radio { border-color: var(--mono-accent); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card.is-picked { border-color: var(--mono-accent); box-shadow: 0 0 0 3px rgba(222, 121, 9, .14); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card.is-picked .mono-bm-radio { border-color: var(--mono-accent); box-shadow: inset 0 0 0 4px #fff, inset 0 0 0 12px var(--mono-accent); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-tile { display: grid; place-items: center; width: 56px; height: 56px; margin-bottom: 18px; border-radius: 14px; background: #eef1f7; color: var(--bm-ink); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card.is-warm .mono-bm-tile { background: #fff1e3; color: var(--mono-accent); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-tile svg { width: 26px; height: 26px; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-kicker { margin-bottom: 8px; font: 600 11.5px/1 Inter-SemiBold, Inter, sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--bm-muted); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card strong { margin-bottom: 10px; font: 700 17px/1.3 Inter-Bold, Inter, sans-serif; color: var(--bm-ink); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-desc { flex: 1; margin-bottom: 20px; font-size: 14px; line-height: 1.5; color: var(--bm-muted); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-foot {
+  display: flex; align-items: center; justify-content: space-between; align-self: stretch; margin: 0 -20px; padding: 16px 20px;
+  border-top: 1px solid var(--bm-line); background: #fafbfd; font: 600 14.5px/1 Inter-SemiBold, Inter, sans-serif; color: var(--bm-ink);
+}
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-foot svg { width: 18px; height: 18px; transition: translate .3s var(--mono-ease-out); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card:hover .mono-bm-foot svg { translate: 4px 0; color: var(--mono-accent); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-note { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 22px 0 0 !important; font-size: 13.5px !important; color: var(--bm-muted) !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-note svg { width: 16px; height: 16px; }
+
+/* employer form (the site's own booking form): fields restyled, labels with an orange asterisk */
+html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form { margin: 0 !important; padding: 0 !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form .row { row-gap: 18px !important; --bs-gutter-x: 16px; }
+html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form .mono-bm-full { flex: 0 0 100% !important; max-width: 100% !important; width: 100% !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form .form-floating > label { font: 600 13.5px/1.3 Inter-SemiBold, Inter, sans-serif !important; color: #344054 !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form .form-floating > label.mono-bm-req::after { content: " *"; color: var(--mono-accent); }
+html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form .form-floating > .form-control,
+html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form .select2-container .select2-selection--single,
+html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form .select2-container .select2-selection--multiple {
+  height: 46px !important; min-height: 46px !important; border: 1px solid var(--bm-line) !important; border-radius: 12px !important;
+  background-color: var(--bm-field) !important; font-size: 15px !important; line-height: 44px !important; color: var(--bm-ink) !important;
+  transition: border-color .2s var(--mono-ease), box-shadow .2s var(--mono-ease), background-color .2s var(--mono-ease) !important;
+}
+html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form .select2-selection__rendered { line-height: 44px !important; font-size: 15px !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form .select2-selection__arrow { height: 44px !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form .form-floating > .form-control:focus,
+html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form .select2-container--focus .select2-selection,
+html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form .select2-container--open .select2-selection {
+  border-color: var(--mono-accent) !important; background-color: #fff !important; box-shadow: 0 0 0 4px rgba(222, 121, 9, .14) !important;
+}
+/* the two dropdown questions are answered with chips; their selects stay in the form, hidden */
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-chipped > select,
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-chipped > .select2-container { position: absolute !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important; overflow: hidden !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-chipped > label { order: -1; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-chip {
+  margin: 0; padding: 9px 14px; border: 1px solid var(--bm-line); border-radius: 10px; background: #fff; cursor: pointer;
+  font: 500 14px/1.2 Inter-Medium, Inter, sans-serif; color: #344054;
+  transition: border-color .2s var(--mono-ease), background-color .2s var(--mono-ease), color .2s var(--mono-ease), scale .15s var(--mono-ease);
+}
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-chip:hover { border-color: #c4ccd9; background: var(--bm-field); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-chip:active { scale: .96; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-chip.is-on { border-color: rgba(222, 121, 9, .55); background: #fff1e3; color: #b35900; }
+html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form .booking-privacy-text { margin: 4px 0 0 !important; text-align: center; font-size: 12.5px !important; line-height: 1.55 !important; color: var(--bm-muted) !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form .booking-privacy-text a { color: var(--bm-text); text-decoration: underline; }
+/* orange call to action + the reply-time pill */
+html body .modal.mono-bm-on:not(#mono-bm) :is(.multi-step-booking-form button.booking-submit-step, .mono-bm-submit) {
+  display: block; width: 100%; height: 52px !important; min-height: 52px !important; margin: 4px 0 0 !important; border: 0 !important; border-radius: 14px !important;
+  background: var(--mono-accent-fill) !important; color: #fff !important; font: 600 16.5px/1 Inter-SemiBold, Inter, sans-serif !important; cursor: pointer;
+  box-shadow: 0 14px 30px -14px rgba(208, 108, 5, .75) !important; transition: background-color .25s var(--mono-ease), translate .3s var(--mono-ease-out), box-shadow .3s var(--mono-ease) !important;
+}
+html body .modal.mono-bm-on:not(#mono-bm) :is(.multi-step-booking-form button.booking-submit-step, .mono-bm-submit):hover { background: #b85f04 !important; translate: 0 -1px; box-shadow: 0 18px 34px -14px rgba(208, 108, 5, .85) !important; }
+html body .modal.mono-bm-on:not(#mono-bm) :is(.multi-step-booking-form .booking-sla, .mono-bm-sla > span) {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 7px 14px 7px 12px !important; border-radius: 999px;
+  background: #fff4e8; font-size: 13px !important; color: var(--bm-muted) !important;
+}
+html body .modal.mono-bm-on:not(#mono-bm) :is(.multi-step-booking-form .booking-sla, .mono-bm-sla > span)::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--mono-accent); }
+html body .modal.mono-bm-on:not(#mono-bm) :is(.multi-step-booking-form .booking-sla, .mono-bm-sla > span) b,
+html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form .booking-sla strong { color: var(--bm-ink); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-sla { text-align: center; }
+
+/* relocation form (design only) */
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 16px; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-wide { grid-column: 1 / -1; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-f { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-f > label, html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-lab { margin: 0; font: 600 13.5px/1.3 Inter-SemiBold, Inter, sans-serif; color: #344054; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-f > label::after, html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-lab:not(.mono-bm-lab-row)::after,
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-lab-row > span::after { content: " *"; color: var(--mono-accent); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-lab-row { display: flex; justify-content: space-between; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-count { font: 500 12.5px/1.3 Inter-Medium, Inter, sans-serif; font-style: normal; color: var(--bm-muted); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-reloc :is(input[type="text"], input[type="email"], input[type="tel"], select),
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-phone, html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-tags {
+  width: 100%; height: 46px; margin: 0; padding: 0 14px; border: 1px solid var(--bm-line); border-radius: 12px; background-color: var(--bm-field);
+  font: 400 15px/1.2 Inter, sans-serif; color: var(--bm-ink); outline: none; appearance: none; -webkit-appearance: none;
+  transition: border-color .2s var(--mono-ease), box-shadow .2s var(--mono-ease), background-color .2s var(--mono-ease);
+}
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-reloc input::placeholder { color: #98a2b3; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-reloc :is(input[type="text"], input[type="email"], select):focus,
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-phone:focus-within, html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-tags:focus-within {
+  border-color: var(--mono-accent); background-color: #fff; box-shadow: 0 0 0 4px rgba(222, 121, 9, .14);
+}
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-sel { position: relative; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-sel::after { content: ""; position: absolute; right: 16px; top: 50%; width: 7px; height: 7px; margin-top: -5px; border-right: 1.6px solid #667085; border-bottom: 1.6px solid #667085; transform: rotate(45deg); pointer-events: none; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-sel select { padding-right: 38px; cursor: pointer; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-reloc .mono-bm-phone { display: flex; align-items: center; padding: 0; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-reloc .mono-bm-phone select {
+  flex: 0 0 86px; width: 86px; height: 44px; padding: 0 22px 0 14px; border: 0; border-right: 1px solid var(--bm-line); border-radius: 0;
+  background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23667085' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E") right 6px center / 14px no-repeat;
+  font-weight: 600; box-shadow: none !important; cursor: pointer;
+}
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-reloc .mono-bm-phone input { flex: 1; min-width: 0; height: 44px; border: 0; background: transparent; box-shadow: none !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-reloc .mono-bm-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; height: auto; min-height: 46px; padding: 6px 10px; cursor: text; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-reloc .mono-bm-tags input { flex: 1; min-width: 120px; width: auto; height: 32px; padding: 0 4px; border: 0; background: transparent; box-shadow: none !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-tag { display: inline-flex; align-items: center; gap: 4px; padding: 5px 6px 5px 10px; border-radius: 8px; background: #fff1e3; font: 500 13.5px/1 Inter-Medium, Inter, sans-serif; color: #b35900; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-tag button { width: 18px; height: 18px; padding: 0; border: 0; border-radius: 50%; background: none; color: inherit; font-size: 15px; line-height: 1; cursor: pointer; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-tag button:hover { background: rgba(179, 89, 0, .12); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-yn { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 12px 12px 16px; border: 1px solid var(--bm-line); border-radius: 14px; background: #fafbfd; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-toggle { flex: none; display: inline-flex; padding: 4px; border-radius: 999px; background: #eef1f6; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-toggle button { min-width: 50px; margin: 0; padding: 7px 14px; border: 0; border-radius: 999px; background: transparent; font: 600 14px/1 Inter-SemiBold, Inter, sans-serif; color: #475467; cursor: pointer; transition: background-color .2s var(--mono-ease), color .2s var(--mono-ease); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-toggle button.is-on { background: var(--mono-accent-fill); color: #fff; box-shadow: 0 6px 14px -6px rgba(208, 108, 5, .8); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-consent { display: flex; align-items: flex-start; gap: 12px; margin: 0; padding: 0 4px; font-size: 13px; line-height: 1.55; color: var(--bm-text); cursor: pointer; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-consent input { flex: none; width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--mono-accent-fill); cursor: pointer; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-consent a { color: var(--mono-accent-fill); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-reloc .mono-bm-submit { margin-top: 20px !important; }
+/* errors and the design-only notice */
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-reloc .is-bad { border-color: #e04b4b !important; box-shadow: 0 0 0 4px rgba(224, 75, 75, .1) !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-reloc :is(.mono-bm-chips, .mono-bm-toggle).is-bad { border-radius: 12px; box-shadow: 0 0 0 2px rgba(224, 75, 75, .55) !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-reloc .mono-bm-consent.is-bad { color: #c03030; box-shadow: none !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-err { margin: 14px 0 0 !important; font-size: 13.5px !important; font-weight: 600; color: #c03030 !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-done { margin: 14px 0 0 !important; padding: 12px 14px; border-radius: 12px; background: #fff4e8; font-size: 14px !important; line-height: 1.55 !important; color: #7a4100 !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-done a { color: #b35900; font-weight: 600; }
+
+/* tablets and phones: no side panel, one column */
+@media (max-width: 860px) {
+  html body .modal.mono-bm-on:not(#mono-bm) .mono-bm { grid-template-columns: 1fr; height: auto; max-height: calc(100vh - 24px); }
+  html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-aside { display: none; }
+  html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-main { padding: 28px 20px 22px; max-height: calc(100vh - 24px); }
+}
+@media (max-width: 575.98px) {
+  html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-cards, html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-grid { grid-template-columns: 1fr; }
+  html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-view h3 { font-size: 21px !important; }
+  html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-yn { flex-direction: column; align-items: flex-start; }
+}
+@media (prefers-reduced-motion: reduce) { html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-view.is-on { animation: none; } }
+/* polish */
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-reloc .mono-bm-chips { align-self: flex-start; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-reloc .mono-bm-tags input#mbr-skill,
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-reloc .mono-bm-tags input#mbr-skill:focus { border: 0 !important; background: transparent !important; box-shadow: none !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-reloc button.mono-bm-submit { margin-top: 22px !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form .booking-step > .row { margin-left: -8px !important; margin-right: -8px !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form .booking-step > .row > [class*="col-"] { padding-left: 8px !important; padding-right: 8px !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form .form-floating > label.mono-bm-req::after {
+  content: " *" !important; display: inline !important; position: static !important; inset: auto !important;
+  width: auto !important; height: auto !important; padding: 0 !important; background: none !important; color: var(--mono-accent) !important;
+}
+html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form.row > * { padding-left: 0 !important; padding-right: 0 !important; }
+/* the booking form's own validation (Bootstrap .is-invalid) stays visible over the new field styles */
+html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form .form-floating > .form-control.is-invalid,
+html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form .select2-container .select2-selection.is-invalid,
+html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form select.is-invalid + .select2-container .select2-selection {
+  border-color: #e04b4b !important; background-color: #fff !important; box-shadow: 0 0 0 4px rgba(224, 75, 75, .1) !important;
+}
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-chipped:has(> select.is-invalid) .mono-bm-chip:not(.is-on) { border-color: #f0a5a5; }
+html body .modal.mono-bm-on:not(#mono-bm) .multi-step-booking-form .form-floating:has(.is-invalid) .invalid-feedback:not(:empty) { display: block !important; margin-top: 6px; font-size: 12.5px !important; font-weight: 600; color: #c03030 !important; }

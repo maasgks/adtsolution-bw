@@ -290,6 +290,239 @@
     });
   }
 
+  /* ---------- "Book a demo" pop-up: chooser + two forms (CSS §66) ---------- */
+  // The modal becomes a dark side panel plus a white panel with three views:
+  //  - choose:     "What brings you to Dhi ADT?" — employers / individuals cards
+  //  - employer:   the site's own booking form, moved here untouched (same fields, names, ids, submit and
+  //                Calendly step); its two dropdown questions also get clickable chips that set the select
+  //  - individual: a relocation form. DESIGN ONLY for now: no endpoint stores these fields yet, so
+  //                submitting validates and then shows a notice; nothing is sent anywhere.
+  var BM_ICON = {
+    building: '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 7h1.5M13.5 7H15M9 11h1.5M13.5 11H15M9 15h1.5M13.5 15H15M10 21v-3h4v3"/>',
+    plane: '<path d="M2.5 19.5h19"/><path d="m3.6 12.9 2.9-1 3.1 2.4 4.6-2-5.2-5.2 2.3-.8 7.2 4.1 2.4-.9a1.7 1.7 0 0 1 1.3 3.1l-14.8 5.6-3.8-5.3z"/>',
+    arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+    back: '<path d="M19 12H5M11 18l-6-6 6-6"/>',
+    clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    thumb: '<path d="M7 10v11H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h3zm0 0 4-7a2.5 2.5 0 0 1 2.5 2.5V9h5.3a2 2 0 0 1 2 2.4l-1.4 7A2 2 0 0 1 17.4 20H7"/>',
+    lock: '<rect x="4" y="10.5" width="16" height="10.5" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.3"/>'
+  };
+  function bmSvg(k) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + BM_ICON[k] + '</svg>'; }
+  var BM_SHORT = {
+    'HR Solutions & Employee Onboarding': 'HR & onboarding', 'PEO & EOR Services': 'EOR & PEO', 'Payroll Management': 'Global payroll',
+    'Labor Law & Tax Advisory': 'Labour law & tax', 'Visa Sponsorship': 'Visa sponsorship', 'Google Search': 'Google',
+    'Referral (Client/Partner)': 'Referral', 'Website / Blog': 'Website / blog', 'Email Newsletter': 'Newsletter',
+    'Event / Webinar': 'Event / webinar', 'Social Media (Other)': 'Social media'
+  };
+  function bmSetSelect(sel, v) {
+    if (window.jQuery) { window.jQuery(sel).val(v).trigger('change'); }
+    else { sel.value = v; sel.dispatchEvent(new Event('change', { bubbles: true })); }
+  }
+  // chips mirror a <select>: clicking one selects that option (the site's own change handlers still run)
+  function bmChips(sel) {
+    var wrap = sel.closest('.form-floating'), col = sel.closest('[class*="col-"]');
+    if (!wrap || wrap.classList.contains('mono-bm-chipped')) return;
+    wrap.classList.add('mono-bm-chipped');
+    if (col) col.classList.add('mono-bm-full');
+    var box = d.createElement('div');
+    box.className = 'mono-bm-chips'; box.setAttribute('role', 'radiogroup');
+    [].forEach.call(sel.options, function (o) {
+      if (!o.value) return;
+      var b = d.createElement('button');
+      b.type = 'button'; b.className = 'mono-bm-chip'; b.dataset.v = o.value; b.setAttribute('role', 'radio');
+      b.textContent = BM_SHORT[o.value] || o.textContent.trim();
+      b.addEventListener('click', function () { bmSetSelect(sel, o.value); sync(); });
+      box.appendChild(b);
+    });
+    var sync = function () {
+      box.querySelectorAll('.mono-bm-chip').forEach(function (b) {
+        var on = b.dataset.v === sel.value; b.classList.toggle('is-on', on); b.setAttribute('aria-checked', on ? 'true' : 'false');
+      });
+    };
+    sel.addEventListener('change', sync);
+    if (window.jQuery) window.jQuery(sel).on('change', sync);
+    var lab = wrap.querySelector('label');
+    (lab && lab.nextSibling ? wrap.insertBefore(box, lab.nextSibling) : wrap.appendChild(box));
+    sync();
+  }
+  function bmIndividualForm() {
+    var COUNTRIES = ['Netherlands', 'Germany', 'Belgium', 'France', 'Ireland', 'Luxembourg', 'Spain', 'Portugal', 'Italy', 'Austria',
+      'Denmark', 'Sweden', 'Finland', 'Poland', 'Czech Republic', 'Other'];
+    var chips = function (name, vals) {
+      return '<div class="mono-bm-chips" role="radiogroup" data-name="' + name + '">' + vals.map(function (v) {
+        return '<button type="button" class="mono-bm-chip" role="radio" aria-checked="false" data-v="' + v + '">' + v + '</button>';
+      }).join('') + '</div>';
+    };
+    return '<form class="mono-bm-form mono-bm-reloc" novalidate>' +
+      '<div class="mono-bm-grid">' +
+        '<div class="mono-bm-f"><label for="mbr-name">Full name</label><input id="mbr-name" type="text" placeholder="Your full name" autocomplete="name" required></div>' +
+        '<div class="mono-bm-f"><label for="mbr-email">Email</label><input id="mbr-email" type="email" placeholder="you@example.com" autocomplete="email" required></div>' +
+        '<div class="mono-bm-f"><label for="mbr-phone">Mobile number</label><div class="mono-bm-phone"><select id="mbr-code" aria-label="Country calling code"></select><input id="mbr-phone" type="tel" placeholder="98765 43210" autocomplete="tel" required></div></div>' +
+        '<div class="mono-bm-f"><label for="mbr-country">Country looking for</label><div class="mono-bm-sel"><select id="mbr-country" required>' +
+          COUNTRIES.map(function (c, i) { return '<option' + (i === 0 ? ' selected' : '') + '>' + c + '</option>'; }).join('') + '</select></div></div>' +
+        '<div class="mono-bm-f"><span class="mono-bm-lab">Sector</span>' + chips('sector', ['IT', 'Non-IT']) + '</div>' +
+        '<div class="mono-bm-f"><span class="mono-bm-lab">Years of experience</span>' + chips('experience', ['5-10', '10-15', '15-20+']) + '</div>' +
+        '<div class="mono-bm-f mono-bm-wide"><span class="mono-bm-lab mono-bm-lab-row"><span>Skillset</span><em class="mono-bm-count">0/10</em></span>' +
+          '<div class="mono-bm-tags"><input id="mbr-skill" type="text" placeholder="Start typing, e.g. Java, Nursing (up to 10)" aria-label="Skillset"></div></div>' +
+        '<div class="mono-bm-f mono-bm-wide"><div class="mono-bm-yn"><span class="mono-bm-lab">Do you currently have a signed job offer in Europe?</span>' +
+          '<div class="mono-bm-toggle" role="radiogroup" data-name="offer"><button type="button" role="radio" aria-checked="false" data-v="Yes">Yes</button><button type="button" role="radio" aria-checked="false" data-v="No">No</button></div></div></div>' +
+        '<label class="mono-bm-consent mono-bm-wide"><input type="checkbox" required><span>I agree to be contacted about my relocation. GDPR / AVG compliant, unsubscribe any time. See our <a href="privacy-policy.html" target="_blank" rel="noopener">privacy policy</a>.</span></label>' +
+      '</div>' +
+      '<p class="mono-bm-err" role="alert" hidden></p>' +
+      '<button type="submit" class="mono-bm-submit">Talk to a relocation expert</button>' +
+      '<p class="mono-bm-done" role="status" hidden></p>' +
+      '<div class="mono-bm-sla"><span><b>Reply</b> within 1 business day</span></div>' +
+    '</form>';
+  }
+  function bmWireIndividual(view, empForm) {
+    var f = view.querySelector('.mono-bm-reloc');
+    // chips and the yes/no toggle: one choice per group
+    f.querySelectorAll('.mono-bm-chips, .mono-bm-toggle').forEach(function (g) {
+      g.addEventListener('click', function (e) {
+        var b = e.target.closest('button'); if (!b) return;
+        g.querySelectorAll('button').forEach(function (x) { var on = x === b; x.classList.toggle('is-on', on); x.setAttribute('aria-checked', on ? 'true' : 'false'); });
+        g.classList.remove('is-bad');
+      });
+    });
+    // calling codes: borrow the employer form's list once it has been filled in
+    var code = f.querySelector('#mbr-code');
+    var fillCodes = function () {
+      if (code.options.length > 1) return;
+      var src = empForm && empForm.querySelector('select[name="dial_code"]');
+      var opts = src ? [].filter.call(src.options, function (o) { return o.value; }) : [];
+      if (!opts.length) { ['+31', '+32', '+44', '+49', '+91', '+1'].forEach(function (v) { code.add(new Option(v, v)); }); }
+      else opts.forEach(function (o) { code.add(new Option((o.value.charAt(0) === '+' ? '' : '+') + o.value.replace(/^\+/, ''), o.value)); });
+      var india = [].find.call(code.options, function (o) { return /^\+?91$/.test(o.value); });
+      if (india) india.selected = true;
+    };
+    view.addEventListener('mono-bm-open', fillCodes);
+    // skillset tags (up to 10): Enter or comma adds, Backspace on an empty field removes the last
+    var tags = f.querySelector('.mono-bm-tags'), inp = f.querySelector('#mbr-skill'), count = f.querySelector('.mono-bm-count');
+    var list = [];
+    var draw = function () {
+      tags.querySelectorAll('.mono-bm-tag').forEach(function (t) { t.remove(); });
+      list.forEach(function (s, i) {
+        var t = d.createElement('span'); t.className = 'mono-bm-tag'; t.textContent = s;
+        var x = d.createElement('button'); x.type = 'button'; x.setAttribute('aria-label', 'Remove ' + s); x.textContent = '×';
+        x.addEventListener('click', function () { list.splice(i, 1); draw(); });
+        t.appendChild(x); tags.insertBefore(t, inp);
+      });
+      count.textContent = list.length + '/10';
+      inp.disabled = list.length >= 10; inp.placeholder = list.length ? '' : 'Start typing, e.g. Java, Nursing (up to 10)';
+    };
+    var add = function () {
+      inp.value.split(',').map(function (s) { return s.trim(); }).filter(Boolean).forEach(function (s) {
+        if (list.length < 10 && list.map(function (x) { return x.toLowerCase(); }).indexOf(s.toLowerCase()) < 0) list.push(s);
+      });
+      inp.value = ''; draw(); tags.classList.remove('is-bad');
+    };
+    inp.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ',') { e.preventDefault(); add(); }
+      else if (e.key === 'Backspace' && !inp.value && list.length) { list.pop(); draw(); }
+    });
+    inp.addEventListener('blur', function () { if (inp.value.trim()) add(); });
+    tags.addEventListener('click', function (e) { if (e.target === tags) inp.focus(); });
+    // validate, then show the notice (nothing is sent until a backend exists for these fields)
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (inp.value.trim()) add();
+      var err = f.querySelector('.mono-bm-err'), done = f.querySelector('.mono-bm-done'), bad = [];
+      f.querySelectorAll('.is-bad').forEach(function (x) { x.classList.remove('is-bad'); });
+      var need = function (el, ok) { if (!ok) { el.classList.add('is-bad'); bad.push(el); } };
+      var name = f.querySelector('#mbr-name'), email = f.querySelector('#mbr-email'), phone = f.querySelector('#mbr-phone');
+      need(name, name.value.trim().length > 1);
+      need(email, /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()));
+      need(phone.closest('.mono-bm-phone'), /^[0-9\s\-()]{6,20}$/.test(phone.value.trim()));
+      f.querySelectorAll('.mono-bm-chips, .mono-bm-toggle').forEach(function (g) { need(g, !!g.querySelector('.is-on')); });
+      need(tags, list.length > 0);
+      var consent = f.querySelector('.mono-bm-consent'); need(consent, consent.querySelector('input').checked);
+      if (bad.length) { err.textContent = 'Please complete the highlighted fields.'; err.hidden = false; done.hidden = true; return; }
+      err.hidden = true;
+      done.innerHTML = 'Thanks, ' + name.value.trim().split(/\s+/)[0].replace(/[<>&"]/g, '') + '. Relocation requests open here soon. Until then, email ' +
+        '<a href="mailto:experts@adtsolution.com">experts@adtsolution.com</a> and our mobility team will get back to you.';
+      done.hidden = false;
+    });
+  }
+  function bookModal() {
+    d.querySelectorAll('.modal').forEach(function (m) {
+      var form = m.querySelector('form.multi-step-booking-form'), body = m.querySelector('.modal-body');
+      if (!form || !body || m.classList.contains('mono-bm-on')) return;
+      var oldWrap = form.closest('.booking_right_wrapper');
+      var g2 = m.querySelector('a[href*="g2.com"]'), g2href = g2 ? g2.href : 'https://www.g2.com/products/dhi-adt/reviews';
+      var shell = d.createElement('div');
+      shell.className = 'mono-bm';
+      shell.innerHTML =
+        '<aside class="mono-bm-aside">' +
+          '<span class="mono-bm-badge">Book a demo</span>' +
+          '<h2>One partner for your global workforce</h2>' +
+          '<p>Hire, pay and relocate talent abroad with EOR, payroll, contractor and mobility support, all handled compliantly in one place.</p>' +
+          '<ul class="mono-bm-trust">' +
+            '<li><a href="' + g2href + '" target="_blank" rel="noopener"><span class="mono-bm-ico mono-bm-g2">G2</span><span class="mono-bm-stars" aria-label="Rated 5 stars on G2">★★★★★</span></a></li>' +
+            '<li><span class="mono-bm-ico">' + bmSvg('thumb') + '</span>Trusted by 100+ companies</li>' +
+            '<li><span class="mono-bm-ico">' + bmSvg('lock') + '</span>Advanced data security</li>' +
+          '</ul>' +
+        '</aside>' +
+        '<div class="mono-bm-main" data-lenis-prevent>' +
+          '<section class="mono-bm-view is-on" data-view="choose">' +
+            '<span class="mono-bm-eyebrow">Before we start</span>' +
+            '<h3>What brings you to Dhi ADT?</h3>' +
+            '<p class="mono-bm-sub">Choose one so we can connect you with the right team.</p>' +
+            '<div class="mono-bm-cards">' +
+              '<button type="button" class="mono-bm-card" data-go="employer"><span class="mono-bm-radio"></span>' +
+                '<span class="mono-bm-tile">' + bmSvg('building') + '</span><span class="mono-bm-kicker">For employers</span>' +
+                '<strong>I am hiring for my company</strong><span class="mono-bm-desc">EOR, payroll, contractors and employee mobility for your team.</span>' +
+                '<span class="mono-bm-foot">Book a demo' + bmSvg('arrow') + '</span></button>' +
+              '<button type="button" class="mono-bm-card is-warm" data-go="individual"><span class="mono-bm-radio"></span>' +
+                '<span class="mono-bm-tile">' + bmSvg('plane') + '</span><span class="mono-bm-kicker">For individuals</span>' +
+                '<strong>I am looking for a job or relocation for myself</strong><span class="mono-bm-desc">Work permits, visas and relocation support for your own move.</span>' +
+                '<span class="mono-bm-foot">Talent Mobility' + bmSvg('arrow') + '</span></button>' +
+            '</div>' +
+            '<p class="mono-bm-note">' + bmSvg('clock') + 'Takes under a minute</p>' +
+          '</section>' +
+          '<section class="mono-bm-view" data-view="employer">' +
+            '<button type="button" class="mono-bm-back" data-go="choose">' + bmSvg('back') + 'Back</button>' +
+            '<h3>Tell us your hiring plans.<br>Let’s work through the next steps.</h3>' +
+            '<p class="mono-bm-sub">Talk to our experts about global hiring, payroll, mobility, and compliance solutions.</p>' +
+          '</section>' +
+          '<section class="mono-bm-view" data-view="individual">' +
+            '<button type="button" class="mono-bm-back" data-go="choose">' + bmSvg('back') + 'Back</button>' +
+            '<h3>Tell us about your relocation plans.<br>Let’s work through the next steps.</h3>' +
+            '<p class="mono-bm-sub">Share your plans and our team will help you understand what to prepare.</p>' +
+            bmIndividualForm() +
+          '</section>' +
+        '</div>';
+      body.appendChild(shell);
+      shell.querySelector('[data-view="employer"]').appendChild(form);          // the real form, unchanged
+      if (oldWrap) oldWrap.hidden = true;
+      m.classList.add('mono-bm-on');
+      // chips for the two dropdown questions (the selects stay, hidden, and keep their values)
+      form.querySelectorAll('select[name="looking_for"], select[name="hear_about_us"]').forEach(bmChips);
+      // required markers on the employer labels
+      form.querySelectorAll('.form-floating > label').forEach(function (l) { l.classList.add('mono-bm-req'); });
+      var mainEl = shell.querySelector('.mono-bm-main');
+      var show = function (v) {
+        shell.querySelectorAll('.mono-bm-view').forEach(function (s) { s.classList.toggle('is-on', s.dataset.view === v); });
+        shell.dataset.view = v; mainEl.scrollTop = 0;
+        var cur = shell.querySelector('.mono-bm-view.is-on');
+        cur.dispatchEvent(new CustomEvent('mono-bm-open'));
+        var first = cur.querySelector('h3'); if (first) { first.setAttribute('tabindex', '-1'); first.focus({ preventScroll: true }); }
+      };
+      shell.addEventListener('click', function (e) {
+        var go = e.target.closest('[data-go]'); if (!go || !shell.contains(go)) return;
+        if (go.classList.contains('mono-bm-card')) {
+          shell.querySelectorAll('.mono-bm-card').forEach(function (c) { c.classList.toggle('is-picked', c === go); });
+          setTimeout(function () { show(go.dataset.go); }, 180);
+        } else show(go.dataset.go);
+      });
+      bmWireIndividual(shell.querySelector('[data-view="individual"]'), form);
+      shell.dataset.view = 'choose';
+      // every opening starts at the chooser, unless the booking form has moved on to its Calendly step
+      m.addEventListener('show.bs.modal', function () {
+        var calendly = form.querySelector('.booking-step[data-step="2"].active');
+        if (!calendly) { shell.querySelectorAll('.mono-bm-card').forEach(function (c) { c.classList.remove('is-picked'); }); show('choose'); }
+      });
+    });
+  }
+
   /* ---------- stat numbers count up when they scroll into view (every page) ---------- */
   // Same motion as the About page rail: 0 -> value over 1.6s, ease-out, once. A "stat" is a short block
   // (<= 14 characters) set at 20px or more whose text is one number with an optional prefix/suffix:
@@ -1501,6 +1734,7 @@
     try { footerLayout(); } catch (e) { }
     try { footerFx(); } catch (e) { }
     try { footerIris(); } catch (e) { }
+    try { bookModal(); } catch (e) { }
     try { statsCount(); } catch (e) { }
     try { inkHeadings(); } catch (e) { }
     try { preFooter(); } catch (e) { }
