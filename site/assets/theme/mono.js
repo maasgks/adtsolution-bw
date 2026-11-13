@@ -358,42 +358,51 @@
   }
 
   /* ---------- page-to-page iris transition (CSS §63) ---------- */
-  // Any button (or footer link) that takes you to another page closes the page into a circle at the middle
-  // of the screen, then navigates; the flag tells the next page (inline <head> script) to open from that
-  // point. "Button" = a known button class, or a link styled as one (filled / outlined, padded, not taller
-  // than a button). Plain text links in body copy and the header menu keep the normal page change.
+  // Kept for deliberate moments: footer links, and buttons (call-to-action links) that lead to another page,
+  // close the page into a circle at the middle of the screen, then navigate; the flag tells the next page
+  // (inline <head> script) to open from that point. Everyday navigation (header menu, text links, cards)
+  // keeps the quick built-in cross-fade. Toggles, tabs, filters, dropdowns, pop-up triggers, new-tab links,
+  // downloads, mail/phone links and in-page anchors are left alone.
   var IRIS_BTN = '.common_btn, .btn, .cm-btn, .exit-intent-btn, [class*="mono-btn"], .cta-btn, .bad-btn, .cmp-btn, .theme-btn, ' +
-    '.casebtn, [class*="-btn"], [class*="_btn"], [class*="button"], .adt-cta';
+    '.casebtn, [class*="-btn"], [class*="_btn"], [class*="button"]';
   var IRIS_SKIP = '.btn-close, .navbar-toggler, .accordion-button, [role="tab"], .dropdown-toggle, .social_links a, .klaro a, ' +
     '[aria-pressed], [aria-expanded], [aria-controls], [data-slug], [data-filter]';
+  var IRIS_NOT_HERE = '.header_marquee, .header, header, nav, .navbar, .dropdown-menu, .breadcrumb_section';
+  // a link counts as a button if it has a button class, or is styled as one: filled or outlined,
+  // padded, rounded, and no taller than a button (so cards and text links don't qualify)
   function looksLikeButton(a) {
+    if (a.closest(IRIS_NOT_HERE)) return false;
+    var r = a.getBoundingClientRect();
+    if (r.height < 28 || r.height > 80) return false;
     if (a.matches(IRIS_BTN)) return true;
-    var c = getComputedStyle(a), r = a.getBoundingClientRect();
-    if (r.height < 28 || r.height > 80 || parseFloat(c.paddingLeft) < 10) return false;
+    var c = getComputedStyle(a);
+    if (parseFloat(c.paddingLeft) < 10 || !(parseFloat(c.borderRadius) > 0)) return false;
     var bg = (c.backgroundColor.match(/[\d.]+/g) || []).map(Number);
     var filled = bg.length >= 3 && (bg.length < 4 || bg[3] > .05);
-    var outlined = parseFloat(c.borderTopWidth) > 0 && c.borderTopStyle !== 'none' && !/rgba\(.*, 0\)$/.test(c.borderTopColor);
-    return (filled || outlined) && parseFloat(c.borderRadius) > 0;
+    var outlined = parseFloat(c.borderTopWidth) > 0 && c.borderTopStyle !== 'none' && !/,\s*0\)$/.test(c.borderTopColor);
+    return filled || outlined;
   }
   function irisGo(url) {
     var html = d.documentElement;
     if (html.classList.contains('mono-iris-out')) return;
     if (url.origin === location.origin) { try { sessionStorage.setItem('mono-iris', '1'); } catch (err) { } }
     html.style.setProperty('--iris-y', (scrollY + innerHeight / 2) + 'px');
+    html.classList.remove('mono-iris-in', 'mono-iris-done');            // a page that just opened can close again at once
     html.classList.add('mono-iris-out');
-    setTimeout(function () { location.assign(url.href); }, 720);
+    setTimeout(function () { location.assign(url.href); }, 470);
   }
   function footerIris() {
     if (d.documentElement.dataset.monoIris) return;
     d.documentElement.dataset.monoIris = '1';
     var html = d.documentElement;
-    setTimeout(function () { html.classList.remove('mono-iris-in'); }, 1200);
+    // after the opening, keep the page's own fade-in from restarting (it would replay the page load)
+    if (html.classList.contains('mono-iris-in')) setTimeout(function () { html.classList.add('mono-iris-done'); html.classList.remove('mono-iris-in'); }, 800);
     d.addEventListener('click', function (e) {
       if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || reduce) return;
       var a = e.target.closest && e.target.closest('a[href]');
       if (!a || a.matches(IRIS_SKIP) || (a.target && a.target !== '_self') || a.hasAttribute('download') ||
         a.hasAttribute('data-bs-toggle') || a.hasAttribute('data-toggle') || a.getAttribute('role') === 'button') return;
-      if (!a.closest('.footer_section') && !looksLikeButton(a)) return;
+      if (!a.closest('.footer_section') && !looksLikeButton(a)) return;              // footer links + buttons only
       var url;
       try { url = new URL(a.getAttribute('href'), location.href); } catch (err) { return; }
       if (!/^(https?|file):$/.test(url.protocol)) return;                                      // mailto:, tel:, javascript:
@@ -784,13 +793,18 @@
     '.resources_column, .eor_global_column, .response_time_column, .relocation_service_column, ' +
     '.comprehensive_column, .global_presence_column, .pp-faq-item, .journey-title, .card';
   var BLOCK = 'section .row > [class*="col"], section [class*="common_title"], section > .container > h1, ' +
-    'section > .container > h2, section > .container > p, .breadcrumb_section .container > *, main .row > [class*="col"]';
+    'section > .container > h2, section > .container > p, .breadcrumb_section .container > *, main .row > [class*="col"], ' +
+    // newer page templates (pricing, product, blog, comparison pages) use their own grids and section heads
+    'section [class*="-grid"] > *, section [class*="_grid"] > *, section [class*="section-head"], ' +
+    'section > [class*="container"] > :is(h1, h2, h3, p, [class*="head"], [class*="title"], [class*="intro"], [class*="cta"])';
 
   function reveal() {
     if (reduce || !('IntersectionObserver' in window)) return;
     var picked = [];
     function ok(el) {
       if (el.closest(NO_TOUCH) || el.closest('.mono-anim')) return false;   // .mono-anim sections run their own entrance
+      // blocks a page already animates itself (its own reveal classes, WOW.js, AOS) are left to it
+      if (el.closest('.reveal, .cs-reveal, .wow, [data-aos], [class*="fade-"], [class*="animate"]')) return false;
       var cs = getComputedStyle(el);
       if (cs.position === 'fixed' || cs.position === 'sticky') return false;
       return true;
@@ -833,7 +847,11 @@
     addEventListener('scroll', function () { clearTimeout(sweepT); sweepT = setTimeout(sweep, 400); }, { passive: true });
     setTimeout(sweep, 2500);
 
+    // anything already on screen once the page has been visible for a moment stays put (hiding it now
+    // would make it blink); early on, while the content is still rising in (§64), it joins the stagger
+    var late = performance.now() > 700 && !d.documentElement.classList.contains('mono-iris-in');
     picked.forEach(function (el) {
+      if (late && el.getBoundingClientRect().top < innerHeight) return;
       var sibs = Array.prototype.filter.call(el.parentElement ? el.parentElement.children : [], function (s) { return picked.indexOf(s) !== -1; });
       var idx = Math.max(0, sibs.indexOf(el));
       el.style.setProperty('--mono-d', Math.min(idx * 0.09, 0.45) + 's');
@@ -1646,6 +1664,24 @@
   // Lenis eases mouse-wheel scrolling on every page. Touch screens keep native scrolling, and so do
   // visitors who ask for reduced motion. Dialogs, menus and dropdowns scroll natively inside, the
   // page stops behind an open modal, and in-page anchor links glide to their target below the header.
+  // Some site scripts (Blogs) declare a global `function scrollTo(element, to, duration)`, which replaces
+  // the browser's window.scrollTo: Lenis's page scrolls then do nothing and the mouse wheel stops working.
+  // Calls with an element still go to that helper; every other call scrolls the page natively again.
+  function fixScrollTo() {
+    var cur = window.scrollTo;
+    if (!cur || cur._mono || /\[native code\]/.test(Function.prototype.toString.call(cur))) return;
+    var root = d.scrollingElement || d.documentElement;
+    var fixed = function (a) {
+      if (a && a.nodeType === 1) return cur.apply(window, arguments);           // the site's own helper
+      return Element.prototype.scrollTo.apply(root, arguments);               // native page scroll
+    };
+    fixed._mono = true;
+    window.scrollTo = fixed;
+  }
+  try { fixScrollTo(); } catch (e) { }
+  d.addEventListener('DOMContentLoaded', function () { try { fixScrollTo(); } catch (e) { } });
+  addEventListener('load', function () { try { fixScrollTo(); } catch (e) { } });
+
   (function smoothScroll() {
     if (reduce || !SELF || !window.matchMedia || !matchMedia('(pointer: fine)').matches) return;
     var s = d.createElement('script');
@@ -1653,6 +1689,7 @@
     s.async = true;
     s.onload = function () {
       if (typeof window.Lenis !== 'function') return;
+      try { fixScrollTo(); } catch (e) { }
       var lenis = new window.Lenis({
         lerp: 0.1, smoothWheel: true, syncTouch: false, autoRaf: true, allowNestedScroll: true,
         anchors: { offset: -100 },
