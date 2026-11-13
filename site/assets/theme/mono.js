@@ -249,6 +249,170 @@
     io.observe(f);
   }
 
+  /* ---------- footer: interactive wordmark, cursor glow, magnetic social tiles (CSS §62) ---------- */
+  // The closing "ADT" becomes real letters (.mono-ft-mark) so each one can react on hover and a light can
+  // follow the pointer across it; a soft orange glow (.mono-ft-glow) tracks the pointer over the whole footer.
+  function footerFx() {
+    var f = d.querySelector('.footer_section');
+    if (!f || f.dataset.monoFx) return;
+    f.dataset.monoFx = '1';
+    var glow = d.createElement('div'); glow.className = 'mono-ft-glow'; glow.setAttribute('aria-hidden', 'true');
+    var mark = d.createElement('div'); mark.className = 'mono-ft-mark'; mark.setAttribute('aria-hidden', 'true');
+    mark.innerHTML = '<span style="--l:0">A</span><span style="--l:1">D</span><span style="--l:2">T</span>';
+    f.insertBefore(glow, f.firstChild); f.appendChild(mark); f.classList.add('mono-ft-fx');
+    // once the letters have risen in, hovers use their own quick timing instead of the entrance delays
+    var ready = function () { setTimeout(function () { f.classList.add('mono-ft-ready'); }, 2300); };
+    if (f.classList.contains('mono-footer-in') || !f.classList.contains('mono-footer-anim')) ready();
+    else new MutationObserver(function (_, mo) {
+      if (f.classList.contains('mono-footer-in')) { mo.disconnect(); ready(); }
+    }).observe(f, { attributes: true, attributeFilter: ['class'] });
+    if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    var raf = 0, ev = null;
+    f.addEventListener('pointermove', function (e) {
+      ev = e; if (raf) return;
+      raf = requestAnimationFrame(function () {
+        raf = 0;
+        var r = f.getBoundingClientRect(), m = mark.getBoundingClientRect();
+        f.style.setProperty('--fx', (ev.clientX - r.left) + 'px'); f.style.setProperty('--fy', (ev.clientY - r.top) + 'px');
+        mark.style.setProperty('--mx', (ev.clientX - m.left) + 'px'); mark.style.setProperty('--my', (ev.clientY - m.top) + 'px');
+      });
+    }, { passive: true });
+    f.addEventListener('pointerenter', function () { f.classList.add('mono-ft-hot'); });
+    f.addEventListener('pointerleave', function () { f.classList.remove('mono-ft-hot'); });
+    if (reduce) return;
+    f.querySelectorAll('.social_links li a').forEach(function (a) {
+      a.addEventListener('pointermove', function (e) {
+        var r = a.getBoundingClientRect();
+        a.style.setProperty('--tx', ((e.clientX - r.left) / r.width - .5) * 10 + 'px');
+        a.style.setProperty('--ty', ((e.clientY - r.top) / r.height - .5) * 10 - 3 + 'px');
+      });
+      a.addEventListener('pointerleave', function () { a.style.removeProperty('--tx'); a.style.removeProperty('--ty'); });
+    });
+  }
+
+  /* ---------- stat numbers count up when they scroll into view (every page) ---------- */
+  // Same motion as the About page rail: 0 -> value over 1.6s, ease-out, once. A "stat" is a short block
+  // (<= 14 characters) set at 20px or more whose text is one number with an optional prefix/suffix:
+  // "50+", "55", "99.9%", "50K +", "EUR 449", "1,200+". Years, "24/7", "01"-style indexes and numbers in the
+  // header, footer, forms, tables and pop-ups are left alone. Only the digits change; if another script
+  // rewrites the number meanwhile (calculators), the count stops and leaves its value.
+  var STAT_RE = /^(\s*[^\d\s]{0,3}\s?)(\d[\d,]*(?:\.\d+)?)([^\d]{0,7})$/;
+  var STAT_SKIP = 'header, nav, .footer_section, form, table, select, option, input, textarea, .modal, .klaro, ' +
+    '[class*="exit-intent"], .marquee2, .global_counters, .eor_global_column, .mono-ah, .mono-ah-stats, [contenteditable], ' +
+    'script, style, noscript, [aria-hidden="true"], .mono-sr';
+  var statSeen = typeof WeakSet === 'function' ? new WeakSet() : null, statIO = null;
+  function statBlock(el) {
+    while (el && el !== d.body && getComputedStyle(el).display.indexOf('inline') === 0) el = el.parentElement;
+    return el;
+  }
+  function statsCount() {
+    if (!statSeen || reduce || !('IntersectionObserver' in window) || !d.body) return;
+    if (!statIO) statIO = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        statIO.unobserve(e.target);
+        (e.target._monoStats || []).forEach(runStat);
+      });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    var w = d.createTreeWalker(d.body, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) { return /\d/.test(n.data) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT; }
+    });
+    var n, found = [];
+    while ((n = w.nextNode())) found.push(n);
+    found.forEach(function (t) {
+      if (statSeen.has(t)) return;
+      statSeen.add(t);
+      var p = t.parentElement;
+      if (!p || p.closest(STAT_SKIP)) return;
+      var m = STAT_RE.exec(t.data.replace(/\s+$/, ''));
+      if (!m) return;
+      var block = statBlock(p);
+      if (!block || block.closest(STAT_SKIP)) return;
+      var whole = block.textContent.replace(/\s+/g, ' ').trim();
+      if (whole.length > 14 || (whole.match(/\d[\d,.]*/g) || []).length > 1) return;             // a sentence, a range, "24/7"
+      if (/^0\d/.test(m[2]) || (/^(19|20)\d\d$/.test(m[2]) && !m[1].trim() && !m[3].trim())) return; // "01", "2015"
+      if (parseFloat(getComputedStyle(block).fontSize) < 20) return;
+      if (/(^|[-_ ])(step|badge|index|counter-no)([-_ ]|$)/i.test(block.className || '')) return;
+      (block._monoStats = block._monoStats || []).push({ node: t, pre: t.data.slice(0, t.data.indexOf(m[2])), num: m[2], post: t.data.slice(t.data.indexOf(m[2]) + m[2].length) });
+      if (!block._monoStatObserved) { block._monoStatObserved = 1; statIO.observe(block); }
+    });
+  }
+  function runStat(s) {
+    var raw = s.num.replace(/,/g, ''), end = parseFloat(raw), dec = (raw.split('.')[1] || '').length;
+    var commas = s.num.indexOf(',') > -1, t0 = 0, last = s.node.data, final = s.node.data;
+    var fmt = function (v) {
+      var x = v.toFixed(dec);
+      if (commas) { var parts = x.split('.'); parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); x = parts.join('.'); }
+      return s.pre + x + s.post;
+    };
+    var el = s.node.parentElement;
+    if (el) el.style.fontVariantNumeric = 'tabular-nums';
+    (function step(t) {
+      if (s.node.data !== last) return;                     // someone else changed it: leave it
+      if (!t0) t0 = t;
+      var p = Math.min(1, (t - t0) / 1600), e = 1 - Math.pow(1 - p, 3);
+      last = s.node.data = p < 1 ? fmt(end * e) : final;
+      if (p < 1) requestAnimationFrame(step);
+      else if (el) el.style.fontVariantNumeric = '';
+    })(performance.now());
+  }
+
+  /* ---------- page-to-page iris transition (CSS §63) ---------- */
+  // Any button (or footer link) that takes you to another page closes the page into a circle at the middle
+  // of the screen, then navigates; the flag tells the next page (inline <head> script) to open from that
+  // point. "Button" = a known button class, or a link styled as one (filled / outlined, padded, not taller
+  // than a button). Plain text links in body copy and the header menu keep the normal page change.
+  var IRIS_BTN = '.common_btn, .btn, .cm-btn, .exit-intent-btn, [class*="mono-btn"], .cta-btn, .bad-btn, .cmp-btn, .theme-btn, ' +
+    '.casebtn, [class*="-btn"], [class*="_btn"], [class*="button"], .adt-cta';
+  var IRIS_SKIP = '.btn-close, .navbar-toggler, .accordion-button, [role="tab"], .dropdown-toggle, .social_links a, .klaro a, ' +
+    '[aria-pressed], [aria-expanded], [aria-controls], [data-slug], [data-filter]';
+  function looksLikeButton(a) {
+    if (a.matches(IRIS_BTN)) return true;
+    var c = getComputedStyle(a), r = a.getBoundingClientRect();
+    if (r.height < 28 || r.height > 80 || parseFloat(c.paddingLeft) < 10) return false;
+    var bg = (c.backgroundColor.match(/[\d.]+/g) || []).map(Number);
+    var filled = bg.length >= 3 && (bg.length < 4 || bg[3] > .05);
+    var outlined = parseFloat(c.borderTopWidth) > 0 && c.borderTopStyle !== 'none' && !/rgba\(.*, 0\)$/.test(c.borderTopColor);
+    return (filled || outlined) && parseFloat(c.borderRadius) > 0;
+  }
+  function irisGo(url) {
+    var html = d.documentElement;
+    if (html.classList.contains('mono-iris-out')) return;
+    if (url.origin === location.origin) { try { sessionStorage.setItem('mono-iris', '1'); } catch (err) { } }
+    html.style.setProperty('--iris-y', (scrollY + innerHeight / 2) + 'px');
+    html.classList.add('mono-iris-out');
+    setTimeout(function () { location.assign(url.href); }, 720);
+  }
+  function footerIris() {
+    if (d.documentElement.dataset.monoIris) return;
+    d.documentElement.dataset.monoIris = '1';
+    var html = d.documentElement;
+    setTimeout(function () { html.classList.remove('mono-iris-in'); }, 1200);
+    d.addEventListener('click', function (e) {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || reduce) return;
+      var a = e.target.closest && e.target.closest('a[href]');
+      if (!a || a.matches(IRIS_SKIP) || (a.target && a.target !== '_self') || a.hasAttribute('download') ||
+        a.hasAttribute('data-bs-toggle') || a.hasAttribute('data-toggle') || a.getAttribute('role') === 'button') return;
+      if (!a.closest('.footer_section') && !looksLikeButton(a)) return;
+      var url;
+      try { url = new URL(a.getAttribute('href'), location.href); } catch (err) { return; }
+      if (!/^(https?|file):$/.test(url.protocol)) return;                                      // mailto:, tel:, javascript:
+      if (url.pathname === location.pathname && url.search === location.search) return;   // same page / in-page anchor
+      e.preventDefault();
+      irisGo(url);
+    });
+    // the old page skips the default cross-fade for this navigation
+    addEventListener('pageswap', function (e) {
+      if (html.classList.contains('mono-iris-out') && e.viewTransition) e.viewTransition.skipTransition();
+    });
+    // coming back via the back button restores this page from cache: open it again
+    addEventListener('pageshow', function (e) {
+      if (!e.persisted || !html.classList.contains('mono-iris-out')) return;
+      try { sessionStorage.removeItem('mono-iris'); } catch (err) { }
+      html.classList.remove('mono-iris-out');
+    });
+  }
+
   /* ---------- home: "Global reach" + "Built for Dynamic HR Teams" ---------- */
   // Sections that animate as a whole when they scroll into view (.mono-anim -> .mono-seen; CSS in §10).
   function homeSections() {
@@ -1317,6 +1481,9 @@
     try { officesSection(); } catch (e) { }
     try { homeSections(); } catch (e) { }
     try { footerLayout(); } catch (e) { }
+    try { footerFx(); } catch (e) { }
+    try { footerIris(); } catch (e) { }
+    try { statsCount(); } catch (e) { }
     try { inkHeadings(); } catch (e) { }
     try { preFooter(); } catch (e) { }
     buttons();
@@ -1399,28 +1566,15 @@
   d.addEventListener('animationend', function (e) {
     if (e.animationName === 'mono-spring') e.target.classList.remove('mono-springing');
   });
-  // Link buttons used to leave the page on the same frame, so the droplet was never seen. Plain
-  // same-tab navigations from a button now wait a beat for it, then the page cross-fades
-  // (view transition, mono.css §55). Other click handlers (analytics, modals) still run as before:
-  // only the browser's own navigation is deferred. New tabs, modifier keys, downloads, in-page
-  // anchors, mail/phone links and modal triggers are left alone.
-  d.addEventListener('click', function (e) {
-    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || reduceMotion.matches) return;
-    var a = e.target.closest && e.target.closest('a[href]');
-    if (!a || !a.matches(RIPPLE_BTN) || a.matches(NO_RIPPLE)) return;
-    if ((a.target && a.target !== '_self') || a.hasAttribute('download') || a.hasAttribute('data-bs-toggle')) return;
-    var url;
-    try { url = new URL(a.getAttribute('href'), location.href); } catch (err) { return; }
-    if (!/^(https?|file):$/.test(url.protocol)) return;
-    if (url.hash && url.pathname === location.pathname && url.search === location.search) return;
-    e.preventDefault();
-    setTimeout(function () { location.assign(url.href); }, 320);
-  });
+  // Link buttons that lead to another page are deferred by the iris transition (footerIris(), §63),
+  // which also gives the droplet time to be seen.
 
   addEventListener('load', function () {
     var idle = window.requestIdleCallback || function (f) { return setTimeout(f, 200); };
     try { preFooter(); } catch (e) { }
     try { headingScale(); } catch (e) { }
+    try { statsCount(); } catch (e) { }
+    setTimeout(function () { try { statsCount(); } catch (e) { } }, 2500);   // numbers filled in late
     idle(function () { buttons(); try { guardContrast(); } catch (e) { } try { wideTables(); } catch (e) { } });
     setTimeout(buttons, 2500);                                   // late site CSS / lazy blocks
     d.querySelectorAll('img').forEach(markBroken);
