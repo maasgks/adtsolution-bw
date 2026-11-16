@@ -2355,7 +2355,7 @@ html body .modal .multi-step-booking-form.multi-step-booking-form .hiring-countr
 html body .modal .multi-step-booking-form.multi-step-booking-form .booking-privacy-text { margin: 2px 0 0 !important; font-size: 12px !important; line-height: 1.5 !important; }
 html body .modal .multi-step-booking-form.multi-step-booking-form button.booking-submit-step { height: 46px !important; min-height: 46px !important; margin: 2px 0 0 !important; }
 html body .modal .multi-step-booking-form .booking-sla { margin-top: 0; padding: 5px 12px !important; font-size: 12.5px; }
-html body .modal-backdrop.show:has(~ .modal .multi-step-booking-form), html body:has(.modal.show .multi-step-booking-form) .modal-backdrop.show { opacity: 1 !important; background: rgba(10, 10, 10, .55) !important; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+html body .modal-backdrop.show:has(~ .modal .multi-step-booking-form), html body:has(.modal.show .multi-step-booking-form) .modal-backdrop.show { opacity: 1 !important; background: rgba(30, 41, 59, .4) !important; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
 html body :is(#staticBackdrop, .modal):has(.multi-step-booking-form) .modal-body { padding: 0 !important; }
 html body :is(#staticBackdrop, .modal):has(.multi-step-booking-form) .btn-close {
   position: absolute !important; top: 16px !important; right: 16px !important; z-index: 5;
@@ -4786,23 +4786,32 @@ html body .bad .bad-legal a { color: #111; }
 /* Built by mono.js bookModal(). `:not(#mono-bm)` lends ID weight so these win over §31's modal rules.
    The white panel scrolls on its own; the dark panel stays put. */
 html body .modal.mono-bm-on:not(#mono-bm) {
-  --bm-ink: #1b2559; --bm-text: #475467; --bm-muted: #7a8599; --bm-line: #e3e8f0; --bm-field: #f6f8fb;
+  --bm-ink: #172033; --bm-text: #475467; --bm-muted: #7a8599; --bm-line: #e3e8f0; --bm-field: #f6f8fb;
 }
-html body .modal.mono-bm-on:not(#mono-bm) .modal-dialog { max-width: 1000px !important; }
-html body .modal.mono-bm-on:not(#mono-bm) .modal-content { overflow: hidden !important; border-radius: 24px !important; }
+/* sized like the reference pop-up: 960px wide, 22px corners, as tall as its content (capped to the
+   screen, the white panel then scrolls) */
+html body .modal.mono-bm-on:not(#mono-bm) .modal-dialog { max-width: 960px !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .modal-content {
+  overflow: hidden !important; border-radius: 22px !important; border: 0 !important;
+  box-shadow: 0 40px 100px rgba(8, 12, 22, .36), 0 2px 10px rgba(8, 12, 22, .08) !important;
+}
 html body .modal.mono-bm-on:not(#mono-bm) .mono-bm {
-  display: grid; grid-template-columns: 336px minmax(0, 1fr); height: min(620px, calc(100vh - 32px)); text-align: left;
+  display: grid; grid-template-columns: 336px minmax(0, 1fr); height: auto; max-height: calc(100vh - 56px); text-align: left;
 }
-html body .modal.mono-bm-on:not(#mono-bm) .btn-close { top: 14px !important; right: 14px !important; background: #fff !important; box-shadow: 0 0 0 1px var(--bm-line) !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .btn-close {
+  top: 14px !important; right: 14px !important; width: 34px !important; height: 34px !important; border-radius: 12px !important;
+  background-color: #fff !important; box-shadow: 0 0 0 1px #e8edf3 !important; background-size: 11px !important; opacity: .7;
+}
+html body .modal.mono-bm-on:not(#mono-bm) .btn-close:hover { background-color: #f7f8fb !important; opacity: 1; }
 
 /* dark side panel */
 html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-aside {
-  position: relative; display: flex; flex-direction: column; justify-content: center; padding: 40px 32px; overflow: hidden;
+  position: relative; display: flex; flex-direction: column; justify-content: center; padding: 40px 34px 34px; overflow: hidden;
   color: #fff;
   background:
-    radial-gradient(120% 60% at 70% 0%, rgba(222, 121, 9, .38), rgba(222, 121, 9, 0) 55%),
-    radial-gradient(80% 50% at 0% 100%, rgba(59, 91, 170, .35), rgba(59, 91, 170, 0) 70%),
-    linear-gradient(160deg, #1d2236 0%, #111827 55%, #0c1428 100%);
+    radial-gradient(90% 45% at 95% 0%, rgba(222, 121, 9, .42), rgba(222, 121, 9, 0) 60%),
+    radial-gradient(80% 50% at 0% 100%, rgba(59, 91, 170, .3), rgba(59, 91, 170, 0) 70%),
+    linear-gradient(170deg, #1e2b4a 0%, #16213b 45%, #0f172e 100%);
 }
 html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-badge {
   align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; margin: 0 0 18px; padding: 7px 14px 7px 12px; border-radius: 999px;
@@ -4810,26 +4819,38 @@ html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-badge {
   font: 600 11.5px/1 Inter-SemiBold, Inter, sans-serif; letter-spacing: .12em; text-transform: uppercase; color: #f5a54a;
 }
 html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--mono-accent); }
-html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-aside h2 { margin: 0 0 14px !important; font: 700 27px/1.15 Inter-Bold, Inter, sans-serif !important; letter-spacing: -.025em !important; color: #fff !important; }
-html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-aside > p { margin: 0 0 22px !important; padding-bottom: 22px; border-bottom: 1px solid rgba(255, 255, 255, .12); font-size: 14px !important; line-height: 1.55 !important; color: rgba(255, 255, 255, .72) !important; }
-html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-trust { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
-html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-trust li { display: flex; align-items: center; gap: 12px; margin: 0; font: 600 14px/1.3 Inter-SemiBold, Inter, sans-serif; color: #fff; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-aside h2 { margin: 0 0 12px !important; font: 700 31px/1.12 Inter-Bold, Inter, sans-serif !important; letter-spacing: -.04em !important; color: #fff !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-aside > p { margin: 0 0 26px !important; padding-bottom: 26px; border-bottom: 1px solid rgba(255, 255, 255, .1); font-size: 14.5px !important; line-height: 1.6 !important; color: rgba(255, 255, 255, .62) !important; }
+@media (max-height: 780px) {
+  html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-aside { padding: 30px 30px 28px; }
+  html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-aside h2 { font-size: 27px !important; }
+  html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-aside > p { margin-bottom: 22px !important; padding-bottom: 20px; }
+}
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-trust { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-trust li { display: flex; align-items: center; gap: 12px; margin: 0; font: 600 13px/1.3 Inter-SemiBold, Inter, sans-serif; color: rgba(255, 255, 255, .88); }
 html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-trust a { display: flex; align-items: center; gap: 12px; color: inherit; text-decoration: none; }
 html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-ico {
-  flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 8px;
-  background: rgba(255, 255, 255, .08); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .12); color: #f5a54a;
+  flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px;
+  background: rgba(255, 255, 255, .07); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .11); color: #de7909;
 }
-html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-ico svg { width: 16px; height: 16px; }
-html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-ico.mono-bm-g2 { background: #ff492c; box-shadow: none; color: #fff; font: 800 11px/1 Inter-Bold, Inter, sans-serif; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-ico svg { width: 18px; height: 18px; }
+/* G2: the red badge sits inside the same dark tile as the other two rows */
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-ico.mono-bm-g2 { color: #fff; font: 800 11px/1 Inter-Bold, Inter, sans-serif; letter-spacing: -.03em; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-ico.mono-bm-g2::before { content: ""; position: absolute; width: 22px; height: 22px; border-radius: 6px; background: #ff492c; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-ico.mono-bm-g2 { position: relative; isolation: isolate; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-ico.mono-bm-g2::before { z-index: -1; }
 html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-stars { color: #fbbf24; letter-spacing: 2px; font-size: 14px; }
 
 /* white panel and its views */
 html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-main {
-  position: relative; overflow-y: auto; overscroll-behavior: contain; padding: 34px 36px 28px; background: #fff;
+  position: relative; overflow-y: auto; overscroll-behavior: contain; padding: 64px 38px 32px; background: #fff;
+  max-height: calc(100vh - 56px);
   scrollbar-width: thin; scrollbar-color: #cfd6e2 transparent;
 }
 html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-main::-webkit-scrollbar { display: block; width: 6px; }
 html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-main::-webkit-scrollbar-thumb { background: #cfd6e2; border-radius: 6px; }
+/* the form steps start with a Back link up in the top strip, so they don't need the chooser's tall top gap */
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-main:has(> .mono-bm-view.is-on:not([data-view="choose"])) { padding-top: 22px; }
 html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-view { display: none; }
 html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-view.is-on { display: block; animation: mono-bm-in .45s cubic-bezier(.16, 1, .3, 1) both; }
 @keyframes mono-bm-in { from { opacity: 0; translate: 14px 0; } }
@@ -4846,33 +4867,57 @@ html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-back:hover { color: var(--bm-
 html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-back:hover svg { translate: -3px 0; }
 
 /* chooser cards */
+/* Each card has its own accent: navy for employers, orange for individuals. On hover the border, icon tile,
+   radio and footer take that accent and a soft glow blooms from the corner. Colours carry !important because
+   the theme's generic button-hover rules would otherwise paint the whole card peach with orange text. */
 html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card {
+  --bmc: #1c2841; --bmc-soft: #eef2f8; --bmc-glow: rgba(28, 40, 65, .09);
   position: relative; display: flex; flex-direction: column; align-items: flex-start; padding: 22px 20px 0; margin: 0;
-  border: 1px solid var(--bm-line); border-radius: 18px; background: #fff; text-align: left; cursor: pointer; overflow: hidden;
-  transition: border-color .25s var(--mono-ease), box-shadow .3s var(--mono-ease), translate .3s var(--mono-ease-out);
+  border: 1.5px solid #e4e9f1 !important; border-radius: 18px; overflow: hidden; text-align: left; cursor: pointer;
+  background: linear-gradient(180deg, #fff 0%, #fbfcfe 100%) !important; color: var(--bm-ink) !important;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, .04); translate: none;
+  transition: border-color .25s ease, box-shadow .25s ease, transform .25s cubic-bezier(.2, .8, .2, 1);
 }
-html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card:hover,
-html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card:focus-visible { border-color: rgba(222, 121, 9, .55); box-shadow: 0 18px 40px -24px rgba(27, 37, 89, .35); translate: 0 -2px; outline: none; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card.is-warm { --bmc: #de7909; --bmc-soft: #fef3e6; --bmc-glow: rgba(222, 121, 9, .14); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card::before {
+  content: ""; position: absolute; top: -70px; right: -70px; width: 190px; height: 190px; border-radius: 50%;
+  background: radial-gradient(circle, var(--bmc-glow), rgba(255, 255, 255, 0) 70%); opacity: 0; transition: opacity .35s ease; pointer-events: none;
+}
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card > * { position: relative; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card:is(:hover, :focus-visible, .is-picked) {
+  border-color: var(--bmc) !important; transform: translateY(-3px); outline: none;
+  box-shadow: 0 22px 44px rgba(16, 24, 40, .11), 0 2px 6px rgba(16, 24, 40, .05);
+}
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card:focus-visible { box-shadow: 0 0 0 4px rgba(222, 121, 9, .2), 0 22px 44px rgba(16, 24, 40, .11); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card:active { transform: translateY(-1px) scale(.99); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card:is(:hover, :focus-visible, .is-picked)::before { opacity: 1; }
+
 html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-radio {
-  position: absolute; top: 20px; right: 20px; width: 22px; height: 22px; border-radius: 50%; border: 2px solid #c6cdd8; background: #fff;
-  transition: border-color .2s var(--mono-ease), box-shadow .2s var(--mono-ease);
+  position: absolute; top: 22px; right: 20px; width: 22px; height: 22px; border-radius: 50%; border: 2px solid #d3dae5; background: #fff;
+  transition: border-color .25s ease, background-color .25s ease, box-shadow .25s ease;
 }
-html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card:hover .mono-bm-radio { border-color: var(--mono-accent); }
-html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card.is-picked { border-color: var(--mono-accent); box-shadow: 0 0 0 3px rgba(222, 121, 9, .14); }
-html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card.is-picked .mono-bm-radio { border-color: var(--mono-accent); box-shadow: inset 0 0 0 4px #fff, inset 0 0 0 12px var(--mono-accent); }
-html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-tile { display: grid; place-items: center; width: 56px; height: 56px; margin-bottom: 18px; border-radius: 14px; background: #eef1f7; color: var(--bm-ink); }
-html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card.is-warm .mono-bm-tile { background: #fff1e3; color: var(--mono-accent); }
-html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-tile svg { width: 26px; height: 26px; }
-html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-kicker { margin-bottom: 8px; font: 600 11.5px/1 Inter-SemiBold, Inter, sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--bm-muted); }
-html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card strong { margin-bottom: 10px; font: 700 17px/1.3 Inter-Bold, Inter, sans-serif; color: var(--bm-ink); }
-html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-desc { flex: 1; margin-bottom: 20px; font-size: 14px; line-height: 1.5; color: var(--bm-muted); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card:is(:hover, :focus-visible, .is-picked) .mono-bm-radio { border-color: var(--bmc); background: var(--bmc); box-shadow: inset 0 0 0 4px #fff; }
+
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-tile {
+  display: grid; place-items: center; width: 56px; height: 56px; margin: 0; border-radius: 16px;
+  background: var(--bmc-soft) !important; color: var(--bmc) !important;
+  transition: background-color .25s ease, color .25s ease, transform .35s cubic-bezier(.16, 1, .3, 1);
+}
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card:is(:hover, :focus-visible, .is-picked) .mono-bm-tile { background: var(--bmc) !important; color: #fff !important; transform: rotate(-4deg) scale(1.04); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-tile svg { width: 28px; height: 28px; }
+
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-kicker { margin: 18px 0 7px; font: 700 11px/1.2 Inter-Bold, Inter, sans-serif; letter-spacing: .09em; text-transform: uppercase; color: #98a2b3 !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card strong { margin-bottom: 7px; font: 800 17px/1.3 Inter-Bold, Inter, sans-serif; letter-spacing: -.02em; color: var(--bm-ink) !important; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-desc { flex: 1; margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--bm-muted) !important; }
 html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-foot {
-  display: flex; align-items: center; justify-content: space-between; align-self: stretch; margin: 0 -20px; padding: 16px 20px;
-  border-top: 1px solid var(--bm-line); background: #fafbfd; font: 600 14.5px/1 Inter-SemiBold, Inter, sans-serif; color: var(--bm-ink);
+  display: flex; align-items: center; justify-content: space-between; gap: 10px; align-self: stretch; margin: 20px -20px 0; padding: 14px 20px;
+  border-top: 1px solid #edf1f6; background: transparent !important; font: 700 13.5px/1.2 Inter-Bold, Inter, sans-serif; color: var(--bm-ink) !important;
+  transition: background-color .25s ease, color .25s ease, border-color .25s ease;
 }
-html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-foot svg { width: 18px; height: 18px; transition: translate .3s var(--mono-ease-out); }
-html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card:hover .mono-bm-foot svg { translate: 4px 0; color: var(--mono-accent); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card:is(:hover, :focus-visible, .is-picked) .mono-bm-foot { background: var(--bmc-soft) !important; color: var(--bmc) !important; border-top-color: transparent; }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-foot svg { width: 16px; height: 16px; flex: none; transition: transform .3s cubic-bezier(.16, 1, .3, 1); }
+html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-card:is(:hover, :focus-visible) .mono-bm-foot svg { transform: translateX(4px); }
 html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-note { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 22px 0 0 !important; font-size: 13.5px !important; color: var(--bm-muted) !important; }
 html body .modal.mono-bm-on:not(#mono-bm) .mono-bm-note svg { width: 16px; height: 16px; }
 

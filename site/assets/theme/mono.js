@@ -290,8 +290,9 @@
   //  - individual: a relocation form. DESIGN ONLY for now: no endpoint stores these fields yet, so
   //                submitting validates and then shows a notice; nothing is sent anywhere.
   var BM_ICON = {
-    building: '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 7h1.5M13.5 7H15M9 11h1.5M13.5 11H15M9 15h1.5M13.5 15H15M10 21v-3h4v3"/>',
-    plane: '<path d="M2.5 19.5h19"/><path d="m3.6 12.9 2.9-1 3.1 2.4 4.6-2-5.2-5.2 2.3-.8 7.2 4.1 2.4-.9a1.7 1.7 0 0 1 1.3 3.1l-14.8 5.6-3.8-5.3z"/>',
+    // chooser tiles use solid glyphs (a building, a plane taking off), the rest stay outline
+    building: '<path fill="currentColor" stroke="none" d="M17 11V3H7v4H3v14h8v-4h2v4h8V11h-4zM7 19H5v-2h2v2zm0-4H5v-2h2v2zm0-4H5V9h2v2zm4 4H9v-2h2v2zm0-4H9V9h2v2zm0-4H9V5h2v2zm4 8h-2v-2h2v2zm0-4h-2V9h2v2zm0-4h-2V5h2v2zm4 12h-2v-2h2v2zm0-4h-2v-2h2v2z"/>',
+    plane: '<path fill="currentColor" stroke="none" d="M2.5 19h19v2h-19v-2zm19.57-9.36c-.21-.8-1.04-1.28-1.84-1.06L14.92 10l-6.9-6.43-1.93.51 4.14 7.17-4.97 1.33-1.97-1.54-1.45.39 2.59 4.49L21 11.49c.81-.23 1.28-1.05 1.07-1.85z"/>',
     arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
     back: '<path d="M19 12H5M11 18l-6-6 6-6"/>',
     clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
