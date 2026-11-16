@@ -93,7 +93,7 @@
     'a[class*="button"], a[class*="cta"], .banner_button a, .load_more_btn a, .load_more_btn2 a';
   var NOT_BTN = '.navbar-toggler, .btn-close, .accordion-button, .slick-arrow, .slick-dots button, [role="tab"], .nav-link, ' +
     '.nav button, .dropdown-toggle, [class*="select2"], .klaro *, #klaro *, [class*="arrow"], [class*="close"], ' +
-    '[class*="toggle"], [class*="dd-btn"], [class*="filter"], [class*="chip"], [class*="pill"], .page-link, [aria-pressed], ' +
+    '[class*="toggle"], [class*="dd-btn"], [class*="filter"], [class*="chip"], [class*="pill"], .page-link, [aria-pressed], .mono-bm-card, ' +
     '.navbar-nav *, .menu_drop_column *, [class*="tab"], [class*="slider"] button, [class*="carousel"] button, a#scroll';
   // backdrop of a button: 'light', 'dark' or 'photo' (first opaque ancestor colour / known dark band)
   function backdrop(el) {
@@ -503,7 +503,7 @@
         var go = e.target.closest('[data-go]'); if (!go || !shell.contains(go)) return;
         if (go.classList.contains('mono-bm-card')) {
           shell.querySelectorAll('.mono-bm-card').forEach(function (c) { c.classList.toggle('is-picked', c === go); });
-          setTimeout(function () { show(go.dataset.go); }, 180);
+          setTimeout(function () { show(go.dataset.go); }, 520);   // let the water-drop ripple play first
         } else show(go.dataset.go);
       });
       bmWireIndividual(shell.querySelector('[data-view="individual"]'), form);
@@ -1773,7 +1773,7 @@
   // button's own text colour (light on dark buttons, dark on light ones). The button dips on press and
   // springs back on release. One delegated listener covers every button, including ones added later.
   var RIPPLE_BTN = '.common_btn, .btn, .cm-btn, .exit-intent-btn, [class*="mono-btn"], .cta-btn, .bad-btn, .cmp-btn, ' +
-    '.theme-btn, .casebtn, .pp-btn-primary, .cn-learn-more, button[type="submit"], a#scroll, .slider_arrowss button';
+    '.theme-btn, .casebtn, .pp-btn-primary, .cn-learn-more, button[type="submit"], a#scroll, .slider_arrowss button, .mono-bm-card';
   var NO_RIPPLE = '.btn-close, .navbar-toggler, .accordion-button, [role="tab"], .nav-link, .dropdown-toggle, [aria-disabled="true"], :disabled';
   var reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
   d.addEventListener('pointerdown', function (e) {
